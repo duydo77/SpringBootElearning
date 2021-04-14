@@ -15,9 +15,17 @@ public interface UserService {
 
 	public void add(UserDto dto);
 
+	public void addTeacher(UserDto dto);
+	
 	public void delete(int id);
 
 	UserDto getProfile();
 	
+	UserDto getProfile2();
+	
 	String changePassword(PasswordDto passwordDto);
+	
+	String changePassword2(PasswordDto passwordDto);
+	
+	public void update(UserDto dto);
 }

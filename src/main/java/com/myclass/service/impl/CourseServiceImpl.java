@@ -76,11 +76,10 @@ public class CourseServiceImpl implements CourseService {
 		courseRepository.save(entity);
 	}
 
-	
-	
 	@Override
 	public void delete(int id) {
 		courseRepository.deleteById(id);
 	}
 
+	
 }

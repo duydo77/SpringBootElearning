@@ -97,6 +97,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public void addTeacher(UserDto dto) {
+		
+		if (userRepository.findByEmail(dto.getEmail()) == null) {
+
+			if (dto.getPassword().isEmpty())
+				return;
+			String hashed = BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt());
+			User entity = new User(dto.getEmail(), dto.getFullname(), hashed, dto.getAvatar(), dto.getPhone(),
+					dto.getAddress(), 2);
+			userRepository.save(entity);
+		}
+	}
+	
+	@Override
 	public void delete(int id) {
 		userRepository.deleteById(id);
 	}
@@ -109,6 +123,14 @@ public class UserServiceImpl implements UserService {
 		String email = ((UserDetails)principal).getUsername();
 		User user = userRepository.findByEmail(email);
 		return new UserDto(user.getId(), user.getEmail(), user.getFullname(), user.getRoleId());
+	}
+	
+	@Override
+	public UserDto getProfile2() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String email = ((UserDetails)principal).getUsername();
+		User user = userRepository.findByEmail(email);
+		return new UserDto(user.getId(), user.getEmail(), user.getFullname(), user.getPhone(), user.getAddress(), user.getRoleId());
 	}
 
 	@Override
@@ -126,5 +148,43 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(hased);
 		userRepository.save(user);
 		return null;
+	}
+	
+	@Override
+	public String changePassword2(PasswordDto passwordDto) {
+		if (passwordDto.getNewPassword().equals(passwordDto.getOldPassword())){
+			return "Mật khẩu mới và cũ không được trùng nhau!";
+		}
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String email = ((UserDetails)principal).getUsername();
+		User user = userRepository.findByEmail(email);
+		if (user == null) {
+			return null;
+		} else {
+
+			if (!BCrypt.checkpw(passwordDto.getOldPassword(), user.getPassword())) {
+				return "Mật khẩu cũ không đúng!";
+			}
+			String hased = BCrypt.hashpw(passwordDto.getNewPassword(), BCrypt.gensalt());
+			user.setPassword(hased);
+			userRepository.save(user);
+			return null;
+		}
+		
+	}
+
+	@Override
+	public void update(UserDto dto) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String email = ((UserDetails)principal).getUsername();
+		User entity = userRepository.findByEmail(email);
+		if (entity == null)
+			return;
+		entity.setId(dto.getId());
+		entity.setEmail(dto.getEmail());
+		entity.setFullname(dto.getFullname());
+		entity.setPhone(dto.getPhone());
+		entity.setAddress(dto.getAddress());
+		userRepository.save(entity);
 	}
 }

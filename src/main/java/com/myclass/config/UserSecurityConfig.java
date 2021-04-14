@@ -16,7 +16,7 @@ import com.myclass.filter.AuthFilter;
 
 @Configuration
 @EnableWebSecurity
-@Order(value = 2)
+@Order(value = 3)
 public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;

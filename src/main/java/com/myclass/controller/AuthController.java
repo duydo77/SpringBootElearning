@@ -37,7 +37,7 @@ public class AuthController {
 	@PostMapping("resgister")
 	public Object post(@RequestBody UserDto userDto) {
 		try {
-			userService.add(userDto);
+			userService.addTeacher(userDto);
 			return new ResponseEntity<Object>(HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();

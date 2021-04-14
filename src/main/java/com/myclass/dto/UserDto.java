@@ -70,7 +70,16 @@ public class UserDto {
 		this.roleName = roleName;
 		this.roleDesc = roleDesc;
 	}
-
+	
+	public UserDto(int id, String email, String fullname, String phone, String address, int roleId) {
+		this.id = id;
+		this.email = email;
+		this.fullname = fullname;
+		this.phone = phone;
+		this.address = address;
+		this.roleId = roleId;
+	}
+	
 	public int getId() {
 		return id;
 	}

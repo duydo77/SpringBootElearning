@@ -15,6 +15,11 @@ public class PasswordDto {
 		this.newPassword = newPassword;
 		this.oldPassword = oldPassword;
 	}
+	 // dat
+	public PasswordDto( String newPassword, String oldPassword) {
+		this.newPassword = newPassword;
+		this.oldPassword = oldPassword;
+	}
 
 	public String getEmail() {
 		return email;
