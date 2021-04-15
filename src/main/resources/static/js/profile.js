@@ -7,11 +7,12 @@ $(document).ready(function() {
 
 
 function init() {
+	console.log(token);
 	axios({
 		url: 'http://localhost:8080/api/user/profile',
 		method: 'GET',
 		headers: {
-			'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdHVkZW50QGdtYWlsLmNvbSIsImlhdCI6MTYxODQwOTEwMSwiZXhwIjoxNjE5MjczMTAxfQ.kxbie4dxXKHlqnf3qGsALGmiIDgV9PnkyoO3yID3Sk3YAcYahC9jbA1De5UEFhnxS6BeS4Kj868Z5RxKZ4avoA'
+			'Authorization': token
 		}
 	})
 		.then(function(resp) {
@@ -49,7 +50,7 @@ function saveAvatar() {
 		data: formData,
 		headers: {
 			'Content-Type': 'multipart/form-data',
-			'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdHVkZW50QGdtYWlsLmNvbSIsImlhdCI6MTYxODQwOTEwMSwiZXhwIjoxNjE5MjczMTAxfQ.kxbie4dxXKHlqnf3qGsALGmiIDgV9PnkyoO3yID3Sk3YAcYahC9jbA1De5UEFhnxS6BeS4Kj868Z5RxKZ4avoA'
+			'Authorization': token,
 		}
 	}).then(function(resp) {
 		let imageUrl = resp.data;
@@ -64,26 +65,6 @@ function saveAvatar() {
 
 }
 
-function updateProfile() {
-	let $form = $("#profile");
-	var formData = $form.serializeArray();;
-	console.log(formData);
-	$.ajax({
-		type: "PUT",
-		url: "http://localhost:8080/api/user/update",
-		data: formData,
-		headers: { "Authorization": token },
-		success: function() { },
-		dataType: "json",
-		contentType: "application/json",
-		success: function(data) {
-
-			let msg = data.data;
-			console.log(msg);
-
-		},
-	});
-}
 
 $('#profile').submit(function(e) {
 	e.preventDefault();
@@ -100,7 +81,11 @@ $('#profile').submit(function(e) {
 		contentType: 'application/json',
 		data: newdata,
 		success: function(data) {
-			console.log("DATA sPOSTED SUCCESSFULLY" + data);
+			let resp = data;
+			console.log(resp.token);
+			if (resp.token != null) token = resp.token;
+			init();
+			console.log(resp.message);
 		},
 		error: function(jqXhr, textStatus, errorThrown) {
 			console.log(errorThrown);

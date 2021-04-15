@@ -10,8 +10,6 @@ import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -20,24 +18,28 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.myclass.dto.ImageDto;
+import com.myclass.dto.LoginDto;
 import com.myclass.dto.PasswordDto;
+import com.myclass.dto.UpdateProfileReponseDto;
 import com.myclass.dto.UserDto;
 import com.myclass.entity.User;
 import com.myclass.repository.RoleRepository;
 import com.myclass.repository.UserRepository;
+import com.myclass.service.AuthService;
 import com.myclass.service.UserService;
-
-import javassist.compiler.ast.Pair;
 
 @Service
 @Scope("prototype")
 public class UserServiceImpl implements UserService {
+	
 	private UserRepository userRepository;
 	private RoleRepository roleRepository;
-
-	UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+	private AuthService authService;
+	
+	UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, AuthService authService) {
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
+		this.authService = authService;
 	}
 	
 //	@Override
@@ -73,8 +75,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String update(UserDto dto) {
-//		User entity = userRepository.findByEmail(dto.getEmail());
+	public UpdateProfileReponseDto update(UserDto dto) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String email = ((UserDetails)principal).getUsername();
 		User entity = userRepository.findByEmail(email);
@@ -89,9 +90,13 @@ public class UserServiceImpl implements UserService {
 //				entity.setRoleId(dto.getRoleId());				
 //			}
 			userRepository.save(entity);
-			return "Cập nhật thành công";
+			String token = null;
+			if (!email.equals(dto.getEmail())) {
+				token = authService.login(new LoginDto(entity.getEmail(), entity.getPassword()));
+			}
+			return new UpdateProfileReponseDto("Cập nhật thành công", token);
 		}
-		return "Tài khoản không tồn tại";
+		return new UpdateProfileReponseDto("Cập nhật thất bại", null);
 	}
 	
 	

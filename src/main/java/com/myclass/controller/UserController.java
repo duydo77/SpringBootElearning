@@ -14,7 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.myclass.dto.ImageDto;
 import com.myclass.dto.PasswordDto;
+import com.myclass.dto.UpdateProfileReponseDto;
 import com.myclass.dto.UserDto;
+import com.myclass.service.AuthService;
 import com.myclass.service.UserService;
 
 @RestController
@@ -22,9 +24,11 @@ import com.myclass.service.UserService;
 public class UserController {
 
 	private UserService userService;
-
-	UserController(UserService userSerice) {
+	private AuthService authService;
+	
+	UserController(UserService userSerice, AuthService authService) {
 		this.userService = userSerice;
+		this.authService = authService;
 	}
 
 	@GetMapping("profile")
@@ -40,10 +44,11 @@ public class UserController {
 
 	@PutMapping("update")
 	public Object put(@RequestBody UserDto userDto) {
-		// cập nhật chỉ người đang đăng nhập
+		// cập nhật chỉ người đang đăng nhập trả về message và token mới
 		try {
-			String message = userService.update(userDto);
-			return new ResponseEntity<Object>(message, HttpStatus.OK);
+			UpdateProfileReponseDto reponse = userService.update(userDto);
+			
+			return new ResponseEntity<Object>(reponse, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

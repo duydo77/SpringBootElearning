@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.myclass.dto.ImageDto;
 import com.myclass.dto.PasswordDto;
+import com.myclass.dto.UpdateProfileReponseDto;
 import com.myclass.dto.UserDto;
 
 public interface UserService {
@@ -16,7 +17,7 @@ public interface UserService {
 
 	public UserDto findById(int id);
 
-	public String update(UserDto dto);
+	public UpdateProfileReponseDto update(UserDto dto);
 	
 	public String update(int id, UserDto dto);
 
