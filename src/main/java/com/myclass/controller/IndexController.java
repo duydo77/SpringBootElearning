@@ -12,7 +12,17 @@ public class IndexController {
 	}
 	
 	@GetMapping("/profile")
-	public String get() {
+	public String profile() {
 		return "profile";
+	}
+	
+	@GetMapping("/mycourse")
+	public String mycouse() {
+		return "course";
+	}
+	
+	@GetMapping("/coursedetail")
+	public String coursedetail() {
+		return "detail";
 	}
 }

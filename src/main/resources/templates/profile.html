@@ -107,8 +107,8 @@
     <section class="course-banner">
         <div class="container">
             <div class="banner-content">
-                <h1>Nguyễn Tiến Hoàng</h1>
-                <h5>tienhoang1211@gmail.com</h5>
+                <h1 id="banner_fullname"></h1>
+                <h5 id="banner_email"></h5>
             </div>
         </div>
     </section>
@@ -168,7 +168,7 @@
                                     <small>Minimum 200x200 pixels, Maximum 6000x6000 pixels</small>
                                     <div class="picture-wapper">
                                         <div class="picture-img">
-                                            <img id="imgAvatar" class="img-fluid" src="https://i.udemycdn.com/user/200_H/anonymous_3.png" alt="">
+                                            <img id="imgAvatar" src="https://i.udemycdn.com/user/200_H/anonymous_3.png" alt="" height="200px">
                                         </div>
                                     </div>
                                     <input type="file" id="avatar" class="form-control" />
@@ -181,7 +181,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input type="text" class="form-control" readonly
+                                        <input type="text" class="form-control" readonly id='security_email'
                                             value="tienhoang1211@gmail.com" />
                                     </div>
                                     <div class="form-group">

@@ -25,7 +25,12 @@ public class VideoServiceImpl implements VideoService{
 		List<Video> entities = videoRepository.findByCourseId(courseId); 
 		List<VideoDto> dtos = new ArrayList<VideoDto>();
 		for(Video entity: entities) {
-			dtos.add(new VideoDto(entity.getId(), entity.getTitle(), entity.getUrl(), entity.getTimeCount(), entity.getCourseId()));
+			dtos.add(new VideoDto(
+							entity.getId(), 
+							entity.getTitle(), 
+							entity.getUrl(), 
+							entity.getTimeCount(), 
+							entity.getCourseId()));
 		}
 		return dtos;
 	}

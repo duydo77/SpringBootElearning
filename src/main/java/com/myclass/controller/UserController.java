@@ -40,7 +40,7 @@ public class UserController {
 
 	@PutMapping("update")
 	public Object put(@RequestBody UserDto userDto) {
-		// để cập nhật được cần có Id
+		// cập nhật chỉ người đang đăng nhập
 		try {
 			String message = userService.update(userDto);
 			return new ResponseEntity<Object>(message, HttpStatus.OK);
@@ -52,6 +52,7 @@ public class UserController {
 
 	@PostMapping("updateAvatar")
 	public Object uploadFile(@RequestBody MultipartFile file) {
+		// Cập nhật avatar
 		try {
 			String message = userService.updateAvatar(file);
 			return new ResponseEntity<Object>(message, HttpStatus.OK);
@@ -63,6 +64,7 @@ public class UserController {
 	
 	@GetMapping("getAvatar/{imageName}")
     public Object getImage(@PathVariable String imageName) {
+		// Trả về ảnh avatar
 		try {
 			ImageDto imageDto = userService.getAvatar(imageName);
     		return ResponseEntity.ok()
@@ -77,6 +79,7 @@ public class UserController {
 
 	@PutMapping("password")
 	public Object put(@RequestBody PasswordDto passwordDto) {
+		// Cập nhật password
 		try {
 			String message = userService.changePassword(passwordDto);
 			if (message != null) {

@@ -1,6 +1,12 @@
 token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdHVkZW50QGdtYWlsLmNvbSIsImlhdCI6MTYxODQwOTEwMSwiZXhwIjoxNjE5MjczMTAxfQ.kxbie4dxXKHlqnf3qGsALGmiIDgV9PnkyoO3yID3Sk3YAcYahC9jbA1De5UEFhnxS6BeS4Kj868Z5RxKZ4avoA';
 $(document).ready(function() {
 
+	init();
+
+});
+
+
+function init() {
 	axios({
 		url: 'http://localhost:8080/api/user/profile',
 		method: 'GET',
@@ -15,12 +21,14 @@ $(document).ready(function() {
 			document.getElementById('phone').setAttribute("value", profile.phone);
 			document.getElementById('address').setAttribute("value", profile.address);
 			document.getElementById('imgAvatar').setAttribute("src", profile.avatar);
+			document.getElementById('security_email').setAttribute("value", profile.email);
+			document.getElementById('banner_email').innerHTML = profile.email;
+			document.getElementById('banner_fullname').innerHTML = profile.fullname;
 		})
 		.catch(function(err) {
 			console.log(err)
 		})
-
-});
+}
 
 function saveAvatar() {
 
@@ -108,13 +116,13 @@ function getFormData(data) {
 	$.map(unindexed_array, function(n, i) {
 		indexed_array[n['name']] = n['value'];
 	});
-	
-	indexed_array.avatar=null;
-	indexed_array.id=null;
-	indexed_array.password=null;
-	indexed_array.roleId=0;
-	indexed_array.roleDesc=null;
-	indexed_array.roleName=null;
+
+	indexed_array.avatar = null;
+	indexed_array.id = null;
+	indexed_array.password = null;
+	indexed_array.roleId = 0;
+	indexed_array.roleDesc = null;
+	indexed_array.roleName = null;
 
 	return indexed_array;
 }
