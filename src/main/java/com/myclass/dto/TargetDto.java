@@ -9,6 +9,11 @@ public class TargetDto {
 	public TargetDto() {
 	}
 
+	public TargetDto(String title, int courseId) {
+		this.title = title;
+		this.courseId = courseId;
+	}
+	
 	public TargetDto(int id, String title, int courseId) {
 		this.id = id;
 		this.title = title;

@@ -42,8 +42,9 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable()
 		.antMatcher("/api/**") // link gui len phai bat dau voi /api thi moi duoc chap nhan
 		.authorizeRequests()
-		.antMatchers("/api/user/profile", "/api/user/password")
-		.authenticated();
+		.antMatchers("/api/user/profile", "/api/user/password", "/api/user/updateAvatar")
+		.authenticated()
+		;
 
 		http.addFilter(new AuthFilter(authenticationManager(), userDetailsService));
 

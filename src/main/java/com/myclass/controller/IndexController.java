@@ -11,4 +11,8 @@ public class IndexController {
 		return "index";
 	}
 	
+	@GetMapping("/profile")
+	public String get() {
+		return "profile";
+	}
 }

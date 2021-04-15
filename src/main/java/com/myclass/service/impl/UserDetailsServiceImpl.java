@@ -21,8 +21,11 @@ import com.myclass.repository.UserRepository;
 @Transactional(rollbackOn = Exception.class )
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	@Autowired
 	private UserRepository userRepository;
+	
+	UserDetailsServiceImpl(UserRepository userRepository){
+		this.userRepository = userRepository;
+	}
 	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

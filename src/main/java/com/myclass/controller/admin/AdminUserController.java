@@ -28,6 +28,7 @@ public class AdminUserController {
 	
 	@GetMapping("")
 	public Object get() {
+		// lấy danh sách người dùng có cả tên quyền
 		try {
 			List<UserDto> dtos = userService.findAll();
 			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
