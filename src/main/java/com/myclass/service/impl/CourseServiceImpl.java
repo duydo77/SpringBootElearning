@@ -5,9 +5,12 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.myclass.dto.CourseDto;
+import com.myclass.dto.UserDetailsDto;
 import com.myclass.entity.Course;
 import com.myclass.repository.CourseRepository;
 import com.myclass.service.CourseService;
@@ -81,5 +84,15 @@ public class CourseServiceImpl implements CourseService {
 		courseRepository.deleteById(id);
 	}
 
+	@Override
+	public void test() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String email = ((UserDetailsDto)principal).getUsername();
+		int id = ((UserDetailsDto)principal).getId();
+		int roleId = ((UserDetailsDto)principal).getRoleId();
+		System.out.println(email);
+		System.out.println(id);
+		System.out.println(roleId);
+	}
 	
 }
