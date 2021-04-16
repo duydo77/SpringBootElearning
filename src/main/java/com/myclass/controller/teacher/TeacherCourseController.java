@@ -3,11 +3,9 @@ package com.myclass.controller.teacher;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myclass.dto.CourseDto;
-import com.myclass.dto.RoleDto;
 import com.myclass.service.CourseService;
 import com.myclass.service.TargetService;
-import com.myclass.service.UserCourseService;
 import com.myclass.service.VideoService;
 
 @RestController
@@ -28,13 +24,13 @@ public class TeacherCourseController {
 	private CourseService courseService;
 	private TargetService targetService;
 	private VideoService videoService;
-	private UserCourseService userCourseService;
+//	private UserCourseService userCourseService;
 	
-	TeacherCourseController(CourseService courseService, TargetService targetService, VideoService videoService, UserCourseService userCourseService){
+	TeacherCourseController(CourseService courseService, TargetService targetService, VideoService videoService){
 		this.courseService = courseService;
 		this.targetService = targetService;
 		this.videoService = videoService;
-		this.userCourseService = userCourseService;
+//		this.userCourseService = userCourseService;
 	}
 	
 	@GetMapping
