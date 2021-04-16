@@ -35,7 +35,7 @@ public class AuthFilter extends BasicAuthenticationFilter {
 		String authorizationHeader = request.getHeader("Authorization");
 		
 		if(authorizationHeader != null && !authorizationHeader.isEmpty()) {
-			String token = authorizationHeader.replace("Bearer", "");
+			String token = authorizationHeader.replace("Bearer ", "");
 			// Giải mã token lấy eamil
 			String email = Jwts.parser()
 					.setSigningKey("dotruongduy")
@@ -43,13 +43,12 @@ public class AuthFilter extends BasicAuthenticationFilter {
 					.getBody()
 					.getSubject();
 			// Dùng email truy vấn DB lấy thông tin user
+			System.out.println("authfilter " + email);
 			UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 			Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
 				userDetails.getAuthorities());
-
 			// set thông tin user vào security context
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-
 		}
 	chain.doFilter(request, response);
 	}

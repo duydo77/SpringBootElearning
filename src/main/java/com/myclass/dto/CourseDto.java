@@ -15,27 +15,81 @@ public class CourseDto {
 	private int hourCount;
 
 	private int viewCount;
-	
+
 	private double price;
-	
+
 	private int discount;
-	
+
 	private double promotionPrice;
-	
+
 	private String desc;
-	
+
 	private String content;
-	
+
 	private int cateId;
-	
+
 	private Date lastUpdate;
 
 	private String cateName;
-	
+
 	private String icon;
 
+	private int teacherId;
+
+	private String teacherName;
+
 	public CourseDto() {
-		
+
+	}
+
+	// CourseDto(c.id, c.title, c.image, c.lectureCount, c.hourCount, c.viewCount,
+	// c.price, c.discount,"
+	// + " c.promotionPrice, c.desc, c.content, c.cateId, c.lastUpdate, ca.name,"
+	// + " ca.icon, u.id, u.fullname) "
+
+	public CourseDto(int id, String title, String image, int lectureCount, int hourCount, int viewCount, double price,
+			int discount, double promotionPrice, String desc, String content, int cateId, Date lastUpdate,
+			String cateName, String icon, int teacherId, String teacherName) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.image = image;
+		this.lectureCount = lectureCount;
+		this.hourCount = hourCount;
+		this.viewCount = viewCount;
+		this.price = price;
+		this.discount = discount;
+		this.promotionPrice = promotionPrice;
+		this.desc = desc;
+		this.content = content;
+		this.cateId = cateId;
+		this.lastUpdate = lastUpdate;
+		this.cateName = cateName;
+		this.icon = icon;
+		this.teacherId = teacherId;
+		this.teacherName = teacherName;
+	}
+	
+	public CourseDto(int id, String title, String image, int lectureCount, int hourCount, int viewCount, double price,
+			int discount, double promotionPrice, String desc, String content, int cateId, Date lastUpdate,
+			String cateName, String icon, int teacherId) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.image = image;
+		this.lectureCount = lectureCount;
+		this.hourCount = hourCount;
+		this.viewCount = viewCount;
+		this.price = price;
+		this.discount = discount;
+		this.promotionPrice = promotionPrice;
+		this.desc = desc;
+		this.content = content;
+		this.cateId = cateId;
+		this.lastUpdate = lastUpdate;
+		this.cateName = cateName;
+		this.icon = icon;
+		this.teacherId = teacherId;
 	}
 
 	public CourseDto(int id, String title, String image, int lectureCount, int hourCount, int viewCount, double price,
@@ -217,6 +271,22 @@ public class CourseDto {
 
 	public void setIcon(String icon) {
 		this.icon = icon;
+	}
+
+	public String getTeacherName() {
+		return teacherName;
+	}
+
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
+
+	public int getTeacherId() {
+		return teacherId;
+	}
+
+	public void setTeacherId(int teacherId) {
+		this.teacherId = teacherId;
 	}
 
 }

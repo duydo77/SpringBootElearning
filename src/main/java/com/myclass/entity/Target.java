@@ -30,6 +30,15 @@ public class Target {
 	public Target() {
 	}
 
+	
+	public Target(String title, int courseId) {
+		super();
+		this.title = title;
+		this.courseId = courseId;
+	}
+
+
+
 	public Target(int id, String title, int courseId, Course course) {
 		this.id = id;
 		this.title = title;

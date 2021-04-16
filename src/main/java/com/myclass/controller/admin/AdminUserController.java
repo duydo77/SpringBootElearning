@@ -28,6 +28,7 @@ public class AdminUserController {
 	
 	@GetMapping("")
 	public Object get() {
+		// lấy full danh sách người dùng có cả tên quyền
 		try {
 			List<UserDto> dtos = userService.findAll();
 			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
@@ -39,6 +40,7 @@ public class AdminUserController {
 	
 	@PostMapping("")
 	public Object post(@RequestBody UserDto body) {
+		// them moiw nguoi dung
 		try {
 			userService.add(body);
 			return new ResponseEntity<Object>(HttpStatus.OK);
@@ -50,6 +52,7 @@ public class AdminUserController {
 	
 	@GetMapping("/{id}")
 	public Object get(@PathVariable("id") int id) {
+		// tim nguoi dung voi id, tra ve userdto
 		try {
 			UserDto dto = userService.findById(id);
 			return new ResponseEntity<Object>(dto, HttpStatus.OK);
@@ -61,6 +64,7 @@ public class AdminUserController {
 	
 	@PutMapping("/{id}")
 	public Object put(@PathVariable("id") int id, @RequestBody UserDto dto) {
+		// Cap nhat nguoi dung voi id (chi co admin moi co quyen cap nhat user qua id)
 		try {
 			userService.update(id, dto);
 			return new ResponseEntity<Object>(HttpStatus.OK);
@@ -72,6 +76,7 @@ public class AdminUserController {
 	
 	@DeleteMapping("/{id}")
 	public Object delete(@PathVariable("id") int id) {
+		// xoa nguoi dung
 		try {
 			userService.delete(id);
 			return new ResponseEntity<Object>(HttpStatus.OK);

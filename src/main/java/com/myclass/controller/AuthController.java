@@ -26,6 +26,7 @@ public class AuthController {
 	@PostMapping("login")
 	public Object post(@RequestBody LoginDto loginDto) {
 		try {
+			System.out.println(loginDto.getEmail());
 			String token = authServive.login(loginDto);
 			return new ResponseEntity<Object>(token, HttpStatus.OK);
 		} catch (Exception e) {
@@ -36,15 +37,14 @@ public class AuthController {
 	
 	@PostMapping("resgister")
 	public Object post(@RequestBody UserDto userDto) {
+		String message = "Tạo mới thất bại";
 		try {
-			userService.add(userDto);
-			return new ResponseEntity<Object>(HttpStatus.CREATED);
+			message = userService.add(userDto);
+			return new ResponseEntity<Object>(message, HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-		
+		return new ResponseEntity<Object>(message, HttpStatus.BAD_REQUEST);	
 	}
 
-	
 }

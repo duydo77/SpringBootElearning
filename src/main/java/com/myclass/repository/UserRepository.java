@@ -17,8 +17,13 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 			"u.roleId, r.name, r.desc) FROM User u JOIN Role r ON u.roleId = r.id")
 	public List<UserDto> findAllWithDesc();
 	
+//	@Query("SELECT new com.myclass.dto.UserDto(u.id, u.email, u.fullname, u.password,u.avatar, u.phone, u.address, " + 
+//			"u.roleId, r.name, r.desc) FROM User u JOIN Role r ON u.roleId = r.id WHERE u.id = :id")
+//	public List<UserDto> findAllWithDesc(@Param("id") int id);
+//	public UserDto findById();
+//	
 	@Query("SELECT u FROM User u WHERE u.email = :email")
-	User findByEmail(@Param("email") String email);
+	public User findByEmail(@Param("email") String email);
 	
 	/*Hoặc đơn giản
 	 * public User findByEmail(String email);
