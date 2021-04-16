@@ -5,12 +5,17 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.myclass.dto.CourseDto;
+import com.myclass.dto.UserDetailsDto;
 import com.myclass.entity.Course;
 import com.myclass.entity.User;
+import com.myclass.entity.UserCourse;
 import com.myclass.repository.CourseRepository;
+import com.myclass.repository.UserCourseRepository;
 import com.myclass.service.CourseService;
 
 @Service
@@ -19,9 +24,11 @@ import com.myclass.service.CourseService;
 public class CourseServiceImpl implements CourseService {
 
 	private CourseRepository courseRepository;
+	private UserCourseRepository userCourseRepository;
 
-	CourseServiceImpl(CourseRepository courseRepository) {
+	CourseServiceImpl(CourseRepository courseRepository, UserCourseRepository userCourseRepository) {
 		this.courseRepository = courseRepository;
+		this.userCourseRepository = userCourseRepository;
 	}
 
 	@Override
@@ -52,7 +59,10 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	public void update(int id, CourseDto dto) {
-		if (courseRepository.existsById(id)) {
+		if (courseRepository.existsById(id)) { 
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (principal == null)
+				return;
 			Course entity = courseRepository.getOne(dto.getId());
 			if (entity == null)
 				return;
@@ -70,12 +80,15 @@ public class CourseServiceImpl implements CourseService {
 			entity.setLastUpdate(dto.getLastUpdate());
 			courseRepository.save(entity);
 		}
-
 	}
 
 	@Override
 	public void add(CourseDto dto) {
-
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String email = ((UserDetailsDto)principal).getUsername();
+		int userId = ((UserDetailsDto)principal).getId();
+		int roleId = ((UserDetailsDto)principal).getRoleId();
+		
 		Course entity = new Course(dto.getId(), 
 				dto.getTitle(), 
 				dto.getImage(), 
@@ -86,15 +99,25 @@ public class CourseServiceImpl implements CourseService {
 				dto.getPromotionPrice(), dto.getDesc(), 
 				dto.getContent(), dto.getCateId(), 
 				dto.getLastUpdate());
-		
-		courseRepository.save(entity);
+		int id = courseRepository.saveAndFlush(entity).getId();
+//		UserCourse userCourse = new UserCourse(0, userId, id, roleId);
+//		userCourseRepository.save();
 	}
 
-	
-	
 	@Override
 	public void delete(int id) {
 		courseRepository.deleteById(id);
 	}
 
+	@Override
+	public void test() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String email = ((UserDetailsDto)principal).getUsername();
+		int id = ((UserDetailsDto)principal).getId();
+		int roleId = ((UserDetailsDto)principal).getRoleId();
+		System.out.println(email);
+		System.out.println(id);
+		System.out.println(roleId);
+	}
+	
 }

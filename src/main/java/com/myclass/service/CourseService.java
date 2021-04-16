@@ -15,4 +15,6 @@ public interface CourseService {
 	public void add(CourseDto dto);
 
 	public void delete(int id);
+	
+	public void test();
 }

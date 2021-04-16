@@ -24,9 +24,13 @@ public interface UserService {
 
 	public String add(UserDto dto);
 
+	public void addTeacher(UserDto dto);
+	
 	public void delete(int id);
 
 	UserDto getProfile();
+	
+	UserDto getProfile2();
 	
 	String changePassword(PasswordDto passwordDto);
 	
@@ -34,4 +38,7 @@ public interface UserService {
 	
 	ImageDto getAvatar(String imageName) throws IOException;
 	
+	String changePassword2(PasswordDto passwordDto);
+	
+	public void update(UserDto dto);
 }
