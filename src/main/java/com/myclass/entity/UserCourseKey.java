@@ -40,6 +40,4 @@ public class UserCourseKey implements Serializable {
 		this.courseId = courseId;
 	}
 	
-	
-	
 }

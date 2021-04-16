@@ -9,8 +9,16 @@ public class VideoDto {
 	private int courseId;
 
 	public VideoDto() {
+
 	}
 
+	public VideoDto(String title, String url, int timeCount, int courseId) {
+		this.title = title;
+		this.url = url;
+		this.timeCount = timeCount;
+		this.courseId = courseId;
+	}
+	
 	public VideoDto(int id, String title, String url, int timeCount, int courseId) {
 		this.id = id;
 		this.title = title;

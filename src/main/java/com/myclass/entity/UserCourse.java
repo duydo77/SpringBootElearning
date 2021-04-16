@@ -25,16 +25,16 @@ public class UserCourse {
 	@JoinColumn(name = "course_id", insertable = false, updatable = false)
 	private Course course;
 
-	private int role_id;
+	private int roleId;
 
 	public UserCourse() {
 
 	}
 
-	public UserCourse(UserCourseKey id, User user, Course course, int role_id) {
+	public UserCourse(UserCourseKey id, User user, Course course, int roleId) {
 		super();
 		this.id = id;
-		this.role_id = role_id;
+		this.roleId = roleId;
 	}
 
 	public UserCourseKey getId() {
@@ -61,12 +61,12 @@ public class UserCourse {
 		this.course = course;
 	}
 
-	public int getRole_id() {
-		return role_id;
+	public int getRoleId() {
+		return roleId;
 	}
 
-	public void setRole_id(int role_id) {
-		this.role_id = role_id;
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
 	}
 
 }

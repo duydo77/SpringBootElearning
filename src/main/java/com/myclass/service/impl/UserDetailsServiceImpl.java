@@ -36,7 +36,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		String roleName = user.getRole().getName();
 		List<GrantedAuthority> authotiries = new ArrayList<GrantedAuthority>();
 		authotiries.add(new SimpleGrantedAuthority(roleName));
-		UserDetails userDetails = (UserDetails) new UserDetailsDto(user.getEmail(), user.getPassword(), authotiries);
+		UserDetails userDetails = new UserDetailsDto( user.getId(), 
+														user.getRoleId(), 
+														user.getEmail(),
+														user.getPassword(), 
+														authotiries);
 		return userDetails;
 	}
 

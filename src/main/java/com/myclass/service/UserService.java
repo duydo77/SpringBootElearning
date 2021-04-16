@@ -22,7 +22,7 @@ public interface UserService {
 	
 	public String update(int id, UserDto dto);
 
-	public void add(UserDto dto);
+	public String add(UserDto dto);
 
 	public void delete(int id);
 

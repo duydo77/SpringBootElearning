@@ -37,15 +37,14 @@ public class AuthController {
 	
 	@PostMapping("resgister")
 	public Object post(@RequestBody UserDto userDto) {
+		String message = "Tạo mới thất bại";
 		try {
-			userService.add(userDto);
-			return new ResponseEntity<Object>(HttpStatus.CREATED);
+			message = userService.add(userDto);
+			return new ResponseEntity<Object>(message, HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-		
+		return new ResponseEntity<Object>(message, HttpStatus.BAD_REQUEST);	
 	}
 
-	
 }

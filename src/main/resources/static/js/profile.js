@@ -102,12 +102,12 @@ function getFormData(data) {
 		indexed_array[n['name']] = n['value'];
 	});
 
-	indexed_array.avatar = null;
+	/*indexed_array.avatar = null;
 	indexed_array.id = null;
 	indexed_array.password = null;
 	indexed_array.roleId = 0;
 	indexed_array.roleDesc = null;
-	indexed_array.roleName = null;
+	indexed_array.roleName = null;*/
 
 	return indexed_array;
 }

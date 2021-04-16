@@ -115,17 +115,33 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void add(UserDto dto) {
+	public String add(UserDto dto) {
 
 		if (userRepository.findByEmail(dto.getEmail()) == null) {
-
+			
 			if (dto.getPassword().isEmpty())
-				return;
+				return "Mật khẩu không hợp lệ";
 			String hashed = BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt());
-			User entity = new User(dto.getEmail(), dto.getFullname(), hashed, "default_avatar.png", dto.getPhone(),
-					dto.getAddress(), dto.getRoleId());
+			
+			User entity = new User(dto.getEmail(), 
+									dto.getFullname(), 
+									hashed, 
+									"default_avatar.png", 
+									dto.getPhone(),
+									dto.getAddress(), 
+									roleRepository.findByName("ROLE_STUDENT").getId());
+		
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			String role = ((UserDetails) principal).getAuthorities().toArray()[0].toString();
+			if (role.equals("ROLE_ADMIN")) {
+				entity.setRoleId(dto.getRoleId());
+			}
+
 			userRepository.save(entity);
+			return "Tạo tài khoản mới thành công";
 		}
+		
+		return "Tài khoản đã tồn tại";
 	}
 
 	@Override
