@@ -22,6 +22,7 @@ import com.myclass.dto.LoginDto;
 import com.myclass.dto.PasswordDto;
 import com.myclass.dto.UpdateProfileReponseDto;
 import com.myclass.dto.UserDto;
+import com.myclass.dto.UserUpdateDto;
 import com.myclass.entity.User;
 import com.myclass.repository.RoleRepository;
 import com.myclass.repository.UserRepository;
@@ -31,17 +32,17 @@ import com.myclass.service.UserService;
 @Service
 @Scope("prototype")
 public class UserServiceImpl implements UserService {
-	
+
 	private UserRepository userRepository;
 	private RoleRepository roleRepository;
 	private AuthService authService;
-	
+
 	UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, AuthService authService) {
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.authService = authService;
 	}
-	
+
 //	@Override
 //	public List<UserDto> findAll() {
 //		List<User> entities = userRepository.findAll();
@@ -54,7 +55,7 @@ public class UserServiceImpl implements UserService {
 //
 //		return dtos;
 //	}
-	
+
 	@Override
 	public List<UserDto> findAll() {
 		return userRepository.findAllWithDesc();
@@ -63,32 +64,25 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto findById(int id) {
 		User entity = userRepository.getOne(id);
-		return new UserDto(
-				entity.getId(), 
-				entity.getEmail(), 
-				entity.getFullname(), 
-				entity.getPassword(),
-				entity.getAvatar(), 
-				entity.getPhone(), 
-				entity.getAddress(), 
-				entity.getRoleId() );
+		return new UserDto(entity.getId(), entity.getEmail(), entity.getFullname(), entity.getPassword(),
+				entity.getAvatar(), entity.getPhone(), entity.getAddress(), entity.getRoleId());
 	}
 
 	@Override
-	public UpdateProfileReponseDto update(UserDto dto) {
+	public UpdateProfileReponseDto update(UserUpdateDto dto) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String email = ((UserDetails)principal).getUsername();
+		String email = ((UserDetails) principal).getUsername();
 		User entity = userRepository.findByEmail(email);
 		if (entity != null) {
-			//if (!dto.getPassword().isEmpty())
-			//	entity.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()));
+			// if (!dto.getPassword().isEmpty())
+			// entity.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()));
 			entity.setEmail(dto.getEmail());
 			entity.setFullname(dto.getFullname());
 			entity.setPhone(dto.getPhone());
 			entity.setAddress(dto.getAddress());
-//			if((roleRepository.getOne(id).getDesc()).equals("ROLE_ADMIN")) {
-//				entity.setRoleId(dto.getRoleId());				
-//			}
+			// if((roleRepository.getOne(id).getDesc()).equals("ROLE_ADMIN")) {
+			// entity.setRoleId(dto.getRoleId());
+			// }
 			userRepository.save(entity);
 			String token = null;
 			if (!email.equals(dto.getEmail())) {
@@ -98,12 +92,28 @@ public class UserServiceImpl implements UserService {
 		}
 		return new UpdateProfileReponseDto("Cập nhật thất bại", null);
 	}
-	
-	
+
+	@Override
 	public String update(int id, UserDto dto) {
-		return null;
+		UserDto admin = this.getProfile();
+		if (admin.getRoleDesc() != "ROLE_ADMIN") {
+			User entity = userRepository.getOne(id);
+
+			if (!dto.getPassword().isEmpty())
+				entity.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()));
+
+			entity.setEmail(dto.getEmail());
+			entity.setFullname(dto.getFullname());
+			entity.setPhone(dto.getPhone());
+			entity.setAddress(dto.getAddress());
+			entity.setRoleId(dto.getRoleId());
+			userRepository.save(entity);
+
+			return "Cập nhật thành công";
+		}
+		return "Cập nhật thất bại";
 	}
-	
+
 	@Override
 	public void add(UserDto dto) {
 
@@ -128,61 +138,52 @@ public class UserServiceImpl implements UserService {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		// UserDetails userDetails = (UserDetails)principal;
 		// String email = userDetails.getUsername();
-		String email = ((UserDetails)principal).getUsername();
+		String email = ((UserDetails) principal).getUsername();
 		User user = userRepository.findByEmail(email);
-		String avatar = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("api/user/getAvatar/")
-                .path(user.getAvatar())
-                .toUriString();
-		return new UserDto(
-					user.getId(), 
-					user.getEmail(), 
-					user.getFullname(), 
-					avatar, 
-					user.getPhone(), 
-					user.getAddress(), 
-					user.getRoleId());
+		String avatar = ServletUriComponentsBuilder.fromCurrentContextPath().path("api/user/getAvatar/")
+				.path(user.getAvatar()).toUriString();
+		return new UserDto(user.getId(), user.getEmail(), user.getFullname(), avatar, user.getPhone(),
+				user.getAddress(), user.getRoleId());
 	}
 
 	@Override
 	public String changePassword(PasswordDto passwordDto) {
-		if (passwordDto.getNewPassword().equals(passwordDto.getOldPassword())){
+		if (passwordDto.getNewPassword().equals(passwordDto.getOldPassword())) {
 			return "Mật khẩu mới và cũ không được trùng nhau!";
 		}
-		
+
 		User user = userRepository.findByEmail(passwordDto.getEmail());
 		if (!BCrypt.checkpw(passwordDto.getOldPassword(), user.getPassword())) {
 			return "Mật khẩu cũ không đúng!";
 		}
-		
+
 		String hased = BCrypt.hashpw(passwordDto.getNewPassword(), BCrypt.gensalt());
 		user.setPassword(hased);
 		userRepository.save(user);
 		return null;
 	}
-	
+
 	@Override
 	public String updateAvatar(MultipartFile file) throws IOException {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String email = ((UserDetails)principal).getUsername();
+		String email = ((UserDetails) principal).getUsername();
 		User user = userRepository.findByEmail(email);
-		String ext =  StringUtils.getFilenameExtension(file.getOriginalFilename());
+		String ext = StringUtils.getFilenameExtension(file.getOriginalFilename());
 		String imageName = String.valueOf(user.getId()) + "_avatar." + ext;
 		Path targetLocation = Paths.get("src/main/resources/static/avatar");
 		targetLocation = targetLocation.resolve(imageName);
 		Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("api/user/getAvatar/")
-                .path(imageName)
-                .toUriString();
+		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("api/user/getAvatar/")
+				.path(imageName).toUriString();
 		user.setAvatar(imageName);
 		userRepository.save(user);
 		return fileDownloadUri;
 	}
-	
+
 	@Override
 	public ImageDto getAvatar(String imageName) throws IOException {
-		// Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		// Object principal =
+		// SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		// System.out.println(((UserDetails)principal).getUsername());
 		// String email = ((UserDetails)principal).getUsername();
 		// String avatar = userRepository.findByEmail(email).getAvatar();

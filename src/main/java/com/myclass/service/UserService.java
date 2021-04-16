@@ -10,6 +10,7 @@ import com.myclass.dto.ImageDto;
 import com.myclass.dto.PasswordDto;
 import com.myclass.dto.UpdateProfileReponseDto;
 import com.myclass.dto.UserDto;
+import com.myclass.dto.UserUpdateDto;
 
 public interface UserService {
 
@@ -17,7 +18,7 @@ public interface UserService {
 
 	public UserDto findById(int id);
 
-	public UpdateProfileReponseDto update(UserDto dto);
+	public UpdateProfileReponseDto update(UserUpdateDto dto);
 	
 	public String update(int id, UserDto dto);
 
@@ -32,4 +33,5 @@ public interface UserService {
 	String updateAvatar(MultipartFile file) throws IOException;
 	
 	ImageDto getAvatar(String imageName) throws IOException;
+	
 }

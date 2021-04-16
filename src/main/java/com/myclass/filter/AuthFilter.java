@@ -47,10 +47,8 @@ public class AuthFilter extends BasicAuthenticationFilter {
 			UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 			Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
 				userDetails.getAuthorities());
-			System.out.println("authfilter " + userDetails.getUsername());
 			// set thông tin user vào security context
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-
 		}
 	chain.doFilter(request, response);
 	}

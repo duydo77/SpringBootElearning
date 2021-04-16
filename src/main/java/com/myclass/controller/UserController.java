@@ -16,6 +16,7 @@ import com.myclass.dto.ImageDto;
 import com.myclass.dto.PasswordDto;
 import com.myclass.dto.UpdateProfileReponseDto;
 import com.myclass.dto.UserDto;
+import com.myclass.dto.UserUpdateDto;
 import com.myclass.service.AuthService;
 import com.myclass.service.UserService;
 
@@ -43,10 +44,10 @@ public class UserController {
 	}
 
 	@PutMapping("update")
-	public Object put(@RequestBody UserDto userDto) {
+	public Object put(@RequestBody UserUpdateDto userUpdateDto) {
 		// cập nhật chỉ người đang đăng nhập trả về message và token mới
 		try {
-			UpdateProfileReponseDto reponse = userService.update(userDto);
+			UpdateProfileReponseDto reponse = userService.update(userUpdateDto);
 			
 			return new ResponseEntity<Object>(reponse, HttpStatus.OK);
 		} catch (Exception e) {
