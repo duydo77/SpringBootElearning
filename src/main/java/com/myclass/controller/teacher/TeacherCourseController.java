@@ -23,9 +23,7 @@ import com.myclass.service.UserCourseService;
 import com.myclass.service.VideoService;
 
 @RestController
-@RequestMapping(value = "api/teacher/course", 
-	consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_XML_VALUE},
-	produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "api/teacher/course")
 public class TeacherCourseController {
 	private CourseService courseService;
 	private TargetService targetService;
