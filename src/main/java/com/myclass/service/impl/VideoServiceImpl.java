@@ -35,30 +35,7 @@ public class VideoServiceImpl implements VideoService{
 		return dtos;
 	}
 
-	@Override
-	public void add(VideoDto dto) {
-		Video entity = new Video(dto.getTitle(), dto.getUrl(), dto.getTimeCount(), dto.getCourseId());
-		videoRepository.save(entity);
-	}
 
-	@Override
-	public void update(VideoDto dto) {
-		Video entity = new Video(dto.getId() ,dto.getTitle(), dto.getUrl(), dto.getTimeCount(), dto.getCourseId());
-		videoRepository.save(entity);
-	}
-
-	@Override
-	public VideoDto findById(int id) {
-		Video entity = videoRepository.getOne(id);
-		return new VideoDto(entity.getId(), entity.getTitle(), entity.getUrl(), entity.getTimeCount(), entity.getCourseId());
-	}
-
-	@Override
-	public void delete(int id) {
-		Video entity = videoRepository.getOne(id);
-		videoRepository.delete(entity);
-	}
-	
 	@Override
 	public List<VideoDto> findAll() {
 		List<Video> entities = videoRepository.findAll();

@@ -38,13 +38,7 @@ public class UserCourse implements Serializable{
 
 	}
 
-	public UserCourse(UserCourseKey id, int role_id) {
-		this.id = id;
-		this.role_id = role_id;
-	}
-	
-	public UserCourse(UserCourseKey id, User user, Course course, int role_id) {
-		super();
+	public UserCourse(UserCourseKey id, int roleId) {
 		this.id = id;
 		this.roleId = roleId;
 	}
