@@ -11,4 +11,18 @@ public class IndexController {
 		return "index";
 	}
 	
+	@GetMapping("/profile")
+	public String profile() {
+		return "profile";
+	}
+	
+	@GetMapping("/mycourse")
+	public String mycouse() {
+		return "course";
+	}
+	
+	@GetMapping("/coursedetail")
+	public String coursedetail() {
+		return "detail";
+	}
 }

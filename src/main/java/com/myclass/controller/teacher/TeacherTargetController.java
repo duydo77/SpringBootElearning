@@ -67,7 +67,7 @@ public class TeacherTargetController {
 	public Object put(@RequestBody TargetDto dto) {
 		try {
 			
-			targerService.update(dto);
+			targerService.update(dto.getId(), dto);
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		
 		} catch (Exception e) {

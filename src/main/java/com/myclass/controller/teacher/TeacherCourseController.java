@@ -17,7 +17,6 @@ import com.myclass.dto.CourseDto;
 import com.myclass.entity.Course;
 import com.myclass.service.CourseService;
 import com.myclass.service.TargetService;
-import com.myclass.service.UserCourseService;
 import com.myclass.service.VideoService;
 
 @RestController
@@ -26,13 +25,13 @@ public class TeacherCourseController {
 	private CourseService courseService;
 	private TargetService targetService;
 	private VideoService videoService;
-	private UserCourseService userCourseService;
+//	private UserCourseService userCourseService;
 	
-	TeacherCourseController(CourseService courseService, TargetService targetService, VideoService videoService, UserCourseService userCourseService){
+	TeacherCourseController(CourseService courseService, TargetService targetService, VideoService videoService){
 		this.courseService = courseService;
 		this.targetService = targetService;
 		this.videoService = videoService;
-		this.userCourseService = userCourseService;
+//		this.userCourseService = userCourseService;
 	}
 	
 	@GetMapping

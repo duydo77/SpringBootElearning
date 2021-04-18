@@ -6,7 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class UserDetailsDto extends User implements UserDetails{
+public class UserDetailsDto extends User implements UserDetails {
+
 	private static final long serialVersionUID = 1L;
 
 	private int id;
@@ -38,4 +39,5 @@ public class UserDetailsDto extends User implements UserDetails{
 	public void setRoleId(int roleId) {
 		this.roleId = roleId;
 	}
+
 }

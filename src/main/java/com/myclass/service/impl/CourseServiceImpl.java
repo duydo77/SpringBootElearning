@@ -13,6 +13,7 @@ import com.myclass.dto.UserDetailsDto;
 import com.myclass.entity.Course;
 import com.myclass.entity.UserCourse;
 import com.myclass.entity.UserCourseKey;
+import com.myclass.entity.User;
 import com.myclass.repository.CourseRepository;
 import com.myclass.repository.UserCourseRepository;
 import com.myclass.service.CourseService;
@@ -32,15 +33,28 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	public List<CourseDto> findAll() {
-		return courseRepository.findAllWithCate();
+		List<CourseDto> courseDtos = courseRepository.findAllWithCate();
+		for (CourseDto courseDto: courseDtos) {
+			System.out.println(courseDto.getId());
+			User teacher = courseRepository.findTeacher(courseDto.getId());
+			courseDto.setTeacherId(teacher.getId());
+			courseDto.setTeacherName(teacher.getFullname());
+		}
+		return courseDtos;
 	}
 
 	@Override
 	public CourseDto findById(int id) {
-		Course entity = courseRepository.getOne(id);
-		return new CourseDto(entity.getId(), entity.getTitle(), entity.getImage(), entity.getHourCount(),
-				entity.getViewCount(), entity.getPrice(), entity.getDiscount(), entity.getPromotionPrice(),
-				entity.getDesc(), entity.getContent(), entity.getCateId(), entity.getLastUpdate());
+//		Course entity = courseRepository.getOne(id);
+//		return new CourseDto(entity.getId(), entity.getTitle(), entity.getImage(), entity.getHourCount(),
+//				entity.getViewCount(), entity.getPrice(), entity.getDiscount(), entity.getPromotionPrice(),
+//				entity.getDesc(), entity.getContent(), entity.getCateId(), entity.getLastUpdate(), teacher.getId(), teacher.getFullname());
+		
+		CourseDto courseDto = courseRepository.findById(id);
+		User teacher = courseRepository.findTeacher(courseDto.getId());
+		courseDto.setTeacherId(teacher.getId());
+		courseDto.setTeacherName(teacher.getFullname());
+		return courseDto;
 	}
 
 	@Override

@@ -1,0 +1,33 @@
+#side-bar{
+    width: 250px;
+    min-height: 100vh;
+    background: #446084;
+}
+
+#side-bar .logo{
+    font-weight: bold;
+    color: #fff;
+    font-size: 21px;
+    padding: 12px 15px;
+}
+#side-bar ul li a{
+    background: transparent;
+    padding: 7px 15px;
+    color: #fff;
+    display: block;
+    text-decoration: none;
+}
+#side-bar ul li:hover{
+    background: #ccc;
+}
+#side-bar ul li.dashboard{
+    font-weight: bold;
+    text-transform: uppercase;
+    background: #9368d8;
+    padding: 10px 15px;
+    color: #f2f2f2;
+}
+
+#admin-wrapper{
+    width: calc(100% - 250px);
+}

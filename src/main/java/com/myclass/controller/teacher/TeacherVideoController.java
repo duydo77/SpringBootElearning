@@ -69,7 +69,7 @@ public class TeacherVideoController {
 	public Object put(@RequestBody VideoDto dto) {
 		try {
 			
-			videoService.update(dto);
+			videoService.update(dto.getId(), dto);
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		
 		} catch (Exception e) {

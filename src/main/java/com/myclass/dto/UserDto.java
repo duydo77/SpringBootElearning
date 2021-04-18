@@ -25,10 +25,13 @@ public class UserDto {
 	public UserDto() {
 	}
 
-	public UserDto(int id, String email, String fullname, int roleId) {
+	public UserDto(int id, String email, String fullname,String avatar, String phone, String address, int roleId) {
 		this.id = id;
 		this.email = email;
 		this.fullname = fullname;
+		this.avatar = avatar;
+		this.phone = phone;
+		this.address = address;
 		this.roleId = roleId;
 	}
 

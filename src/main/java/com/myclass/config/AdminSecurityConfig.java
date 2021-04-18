@@ -22,9 +22,12 @@ import com.myclass.filter.AuthFilter;
 @Order(value = 1)
 public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
 	private UserDetailsService userDetailsService;
 
+	AdminSecurityConfig(UserDetailsService userDetailsService){
+		this.userDetailsService = userDetailsService;
+	}
+	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
