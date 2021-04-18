@@ -13,31 +13,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.myclass.dto.CourseDto;
-import com.myclass.entity.Course;
-import com.myclass.service.CourseService;
+import com.myclass.dto.TargetDto;
 import com.myclass.service.TargetService;
-import com.myclass.service.VideoService;
 
 @RestController
-@RequestMapping(value = "api/teacher/course")
-public class TeacherCourseController {
-	private CourseService courseService;
-	private TargetService targetService;
-	private VideoService videoService;
-//	private UserCourseService userCourseService;
+@RequestMapping(value = "api/teacher/target")
+public class TeacherTargetController {
+
+	private TargetService targerService;
 	
-	TeacherCourseController(CourseService courseService, TargetService targetService, VideoService videoService){
-		this.courseService = courseService;
-		this.targetService = targetService;
-		this.videoService = videoService;
-//		this.userCourseService = userCourseService;
+	public TeacherTargetController(TargetService targerService) {
+		this.targerService = targerService;
 	}
 	
-	@GetMapping
-	public Object get() {
+	@GetMapping("/{courseid")
+	public Object getAllByCourseId(@PathVariable("courseid") int courseId) {
 		try {
-			List<CourseDto> dtos = courseService.findAll();
+			List<TargetDto> dtos = targerService.findByCourseId(courseId);
 			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
 		
 		} catch (Exception e) {
@@ -46,11 +38,11 @@ public class TeacherCourseController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@GetMapping("/ofteacher")
-	public Object getOfTeacher() {
+	@GetMapping("/{id}")
+	public Object findById(@PathVariable("id") int id) {
 		try {
-			List<CourseDto> dtos = courseService.findAllOfTeacher();
-			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
+			TargetDto dto = targerService.findById(id);
+			return new ResponseEntity<Object>(dto, HttpStatus.OK);
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,10 +51,12 @@ public class TeacherCourseController {
 	}
 	
 	@PostMapping
-	public Object post(@RequestBody CourseDto body) {
+	public Object post(@RequestBody TargetDto dto) {
 		try {
-			courseService.add(body);
+			
+			targerService.add(dto);
 			return new ResponseEntity<Object>(HttpStatus.OK);
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -70,11 +64,12 @@ public class TeacherCourseController {
 	}
 	
 	@PutMapping
-	public Object put(@RequestBody CourseDto body) {
+	public Object put(@RequestBody TargetDto dto) {
 		try {
-			courseService.update(body);
-			return new ResponseEntity<Object>(HttpStatus.OK);
 			
+			targerService.update(dto.getId(), dto);
+			return new ResponseEntity<Object>(HttpStatus.OK);
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -84,21 +79,9 @@ public class TeacherCourseController {
 	@DeleteMapping("/{id}")
 	public Object delete(@PathVariable("id") int id) {
 		try {
-			courseService.delete(id);
-			return new ResponseEntity<Object>(HttpStatus.OK);
 			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-	}
-	
-	//test
-	@GetMapping("/test/{id}")
-	public Object getDetail(@PathVariable("id") int id) {
-		try {
-			Course entity = courseService.test(id);
-			return new ResponseEntity<Object>(entity, HttpStatus.OK);
+			targerService.delete(id);
+			return new ResponseEntity<Object>(HttpStatus.OK);
 		
 		} catch (Exception e) {
 			e.printStackTrace();

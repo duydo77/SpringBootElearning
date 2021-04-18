@@ -28,6 +28,31 @@ public class UserCourseKey implements Serializable {
 		return userId;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + courseId;
+		result = prime * result + userId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserCourseKey other = (UserCourseKey) obj;
+		if (courseId != other.courseId)
+			return false;
+		if (userId != other.userId)
+			return false;
+		return true;
+	}
+
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}

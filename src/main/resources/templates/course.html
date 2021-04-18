@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>Title</title>
@@ -8,11 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="./lib/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="./lib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/lib/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/lib/font-awesome/css/font-awesome.min.css}">
     <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/profile.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
 </head>
 
 <body>
@@ -258,9 +258,9 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="./lib/jquery/jquery.slim.min.js"></script>
-    <script src="./lib/popper.js/popper.min.js"></script>
-    <script src="./lib/bootstrap/bootstrap.min.js"></script>
+    <script src="webjars/jquery/2.2.4/jquery.min.js"></script>
+    <script th:src="@{/lib/popper.js/popper.min.js}"></script>
+    <script th:src="@{/lib/bootstrap/bootstrap.min.js}"></script>
 </body>
 
 </html>
