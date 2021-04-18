@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.myclass.dto.CourseDto;
@@ -16,4 +17,23 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 			+ " c.promotionPrice, c.desc, c.content, c.cateId, c.lastUpdate, ca.name,"
 			+ " ca.icon) FROM Course c JOIN Category ca ON c.cateId = ca.id")
 	public List<CourseDto> findAllWithCate();
+	
+	@Query("SELECT new com.myclass.dto.CourseDto(c.id, c.title, c.image, c.hourCount, c.viewCount, c.price, c.discount,"
+			+ " c.promotionPrice, c.desc, c.content, c.cateId, c.lastUpdate, ca.name, ca.icon) "
+			+ "FROM Course 		c "
+			+ "JOIN Category 	ca ON c.cateId = ca.id "
+			+ "JOIN UserCourse 	uc ON uc.id.courseId = c.id "
+			+ "JOIN User 		u ON uc.id.userId = u.id "
+			+ "AND 	u.id = :userid1")
+	public List<CourseDto> findAllOfTeacher(@Param("userid1") Integer userId);
+	
+	// test
+	@Query("SELECT c "
+			+ "FROM Course 		c "
+			+ "JOIN Category 	ca ON c.cateId = ca.id "
+			+ "JOIN UserCourse 	uc ON uc.id.courseId = c.id "
+			+ "JOIN User 		u ON uc.id.userId = u.id "
+			+ "AND 	u.id = :userid "
+			+ "AND 	c.id = :courseid")
+	public Course test(@Param("userid") Integer userId, @Param("courseid") Integer courseId);
 }

@@ -36,7 +36,14 @@ public class Video {
 	public Video() {
 	}
 
-	public Video(int id, String title, String url, int timeCount, int courseId, Course courseVideo) {
+	public Video(String title, String url, int timeCount, int courseId) {
+		this.title = title;
+		this.url = url;
+		this.timeCount = timeCount;
+		this.courseId = courseId;
+	}
+	
+	public Video(int id, String title, String url, int timeCount, int courseId) {
 		this.id = id;
 		this.title = title;
 		this.url = url;

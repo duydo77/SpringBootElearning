@@ -34,4 +34,27 @@ public class TargetServiceImpl implements TargetService {
 		return dtos;
 	}
 
+	@Override
+	public void add(TargetDto dto) {
+		Target entity = new Target(dto.getTitle(), dto.getCourseId());
+		targetRepository.save(entity);
+	}
+	
+	@Override
+	public void update(TargetDto dto) {
+		Target entity = new Target(dto.getId(), dto.getTitle(), dto.getCourseId());
+		targetRepository.save(entity);
+	}
+	
+	@Override
+	public TargetDto findById(int id) {
+		Target entity = targetRepository.getOne(id);
+		return new TargetDto(entity.getId(), entity.getTitle(), entity.getCourseId());
+	}
+	
+	@Override
+	public void delete(int id) {
+		Target entity = targetRepository.getOne(id);
+		targetRepository.delete(entity);
+	}
 }

@@ -1,6 +1,8 @@
 
 package com.myclass.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -10,18 +12,23 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user_courses")
-public class UserCourse {
+public class UserCourse implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
 	private UserCourseKey id;
 
 	@ManyToOne
-	@MapsId("userId")
+//	@MapsId("userId")
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
 	private User user;
 
 	@ManyToOne
-	@MapsId("courseId")
+//	@MapsId("courseId")
 	@JoinColumn(name = "course_id", insertable = false, updatable = false)
 	private Course course;
 
@@ -31,12 +38,17 @@ public class UserCourse {
 
 	}
 
+	public UserCourse(UserCourseKey id, int role_id) {
+		this.id = id;
+		this.role_id = role_id;
+	}
+	
 	public UserCourse(UserCourseKey id, User user, Course course, int role_id) {
 		super();
 		this.id = id;
 		this.role_id = role_id;
 	}
-
+	
 	public UserCourseKey getId() {
 		return id;
 	}

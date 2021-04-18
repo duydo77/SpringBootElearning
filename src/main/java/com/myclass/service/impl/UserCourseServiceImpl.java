@@ -1,8 +1,14 @@
 package com.myclass.service.impl;
 
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
 import com.myclass.dto.UserCourseDto;
 import com.myclass.service.UserCourseService;
 
+@Service
+@Transactional(rollbackOn = Exception.class )
 public class UserCourseServiceImpl implements UserCourseService{
 
 	@Override
