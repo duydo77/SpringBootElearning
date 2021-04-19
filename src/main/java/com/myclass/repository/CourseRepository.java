@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.myclass.dto.CourseDto;
 import com.myclass.entity.Course;
 import com.myclass.entity.User;
-
+ 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Integer> {
 
@@ -35,13 +35,14 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 	
 	// test
 	@Query("SELECT c "
-			+ "FROM Course 		c "
-			+ "JOIN Category 	ca ON c.cateId = ca.id "
-			+ "JOIN UserCourse 	uc ON uc.id.courseId = c.id "
-			+ "JOIN User 		u ON uc.id.userId = u.id "
+			+ "FROM Course c "
+			+ "INNER JOIN FETCH c.targets t "
+			+ "INNER JOIN UserCourse uc ON uc.id.courseId = c.id "
+			+ "INNER JOIN User u ON uc.id.userId = u.id "
 			+ "AND 	u.id = :userid "
 			+ "AND 	c.id = :courseid")
 	public Course test(@Param("userid") Integer userId, @Param("courseid") Integer courseId);
+	
 	@Query("SELECT u FROM UserCourse uc JOIN User u ON uc.id.courseId=:courseId AND uc.id.userId=u.id AND uc.roleId=2")
 	public User findTeacher(@Param("courseId") int courseId);
 	
