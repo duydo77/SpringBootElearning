@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "targets")
 public class Target {
@@ -25,6 +27,7 @@ public class Target {
 
 	@ManyToOne
 	@JoinColumn(name = "course_id", insertable = false, updatable = false)
+	@JsonBackReference
 	private Course course;
 
 	public Target() {

@@ -94,12 +94,24 @@ public class TeacherCourseController {
 	}
 	
 	//test
-	@GetMapping("/test/{id}")
-	public Object getDetail(@PathVariable("id") int id) {
+	@GetMapping(value = "/{idc}")
+	public Object get(@PathVariable("idc") int idc) {
 		try {
-			Course entity = courseService.test(id);
+			Course entity = courseService.test(idc);
 			return new ResponseEntity<Object>(entity, HttpStatus.OK);
-		
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@GetMapping(value = "test/{idc}")
+	public Object get1(@PathVariable("idc") int idc) {
+		try {
+			Course entity = courseService.test(idc);
+			return new ResponseEntity<Object>(entity, HttpStatus.OK);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

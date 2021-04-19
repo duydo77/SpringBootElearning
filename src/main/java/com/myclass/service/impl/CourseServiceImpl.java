@@ -35,12 +35,12 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public List<CourseDto> findAll() {
 		List<CourseDto> courseDtos = courseRepository.findAllWithCate();
-		for (CourseDto courseDto: courseDtos) {
-			System.out.println(courseDto.getId());
-			User teacher = courseRepository.findTeacher(courseDto.getId());
-			courseDto.setTeacherId(teacher.getId());
-			courseDto.setTeacherName(teacher.getFullname());
-		}
+//		for (CourseDto courseDto: courseDtos) {
+//			System.out.println(courseDto.getId());
+//			User teacher = courseRepository.findTeacher(courseDto.getId());
+//			courseDto.setTeacherId(teacher.getId());
+//			courseDto.setTeacherName(teacher.getFullname());
+//		}
 		return courseDtos;
 	}
 
