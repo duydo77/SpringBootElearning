@@ -12,6 +12,7 @@
     <link rel="stylesheet" th:href="@{/lib/bootstrap/bootstrap.min.css}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" th:href="@{/css/admin-style.css}">
+    <link rel="stylesheet" th:href="@{/lib/toastr/toastr.min.css}">
 </head>
 
 <body>
@@ -34,12 +35,7 @@
                 </li>
                 <li>
                     <a href="#">
-                        <i class="fa fa-cogs mr-2"></i> Cấu hình hệ thống
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-slack mr-2"></i> Thông tin khác
+                        <i class="fa fa-cogs mr-2"></i> Cấu hình khoá học
                     </a>
                 </li>
             </ul>
@@ -73,7 +69,7 @@
                 <h3 class="mb-3">Danh sách quyền</h3>
                 <div class="row">
                     <div class="col-md-8">
-						<button class="btn btn-outline-secondary" data-toggle="modal" data-target="#addModal">Thêm mới</button>
+						<button class="btn btn-outline-secondary" onclick="addTogleModal()">Thêm mới</button>
 					</div>
                     <div class="col-md-4">
                         <div class="input-group">
@@ -84,101 +80,78 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-bordered table-hover mt-3">
+                <table class="table table-bordered table-hover mt-3" id="role-table">
                     <thead>
                         <tr>
-                            <th>STT</th>
+                            <th>Id</th>
                             <th>Tên Quyền</th>
                             <th>Mô Tả</th>
                             <th>#</th>
                         </tr>
                     </thead>
-                    <tbody>
+                   <!--  <tbody>
                         <tr>
                             <td>1</td>
                             <td>ROLE_ADMIN</td>
                             <td>Quản trị hệ thống</td>
                             <td>
-                                <a href="role-edit.html" class="btn btn-sm btn-info">
-                                    <i class="fa fa-pencil-square-o"></i>
-                                </a>
+                                <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil-square-o"></i></button>
                                 <a href="#" class="btn btn-sm btn-danger">
                                     <i class="fa fa-trash-o"></i>
                                 </a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>ROLE_TEACHER</td>
-                            <td>Giảng viên</td>
-                            <td>
-                                <a href="role-edit.html" class="btn btn-sm btn-info">
-                                    <i class="fa fa-pencil-square-o"></i>
-                                </a>
-                                <a href="#" class="btn btn-sm btn-danger">
-                                    <i class="fa fa-trash-o"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>ROLE_STUDENT</td>
-                            <td>Học viên viên</td>
-                            <td>
-                                <a href="role-edit.html" class="btn btn-sm btn-info">
-                                    <i class="fa fa-pencil-square-o"></i>
-                                </a>
-                                <a href="#" class="btn btn-sm btn-danger">
-                                    <i class="fa fa-trash-o"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
+                    </tbody> -->
                 </table>
             </section>
         </div>
     </div>
     
-    <!-- SIGN IN MODAL -->
-    <div class="modal" id="addModal">
+    <!-- NEW MODAL -->
+    <div class="modal" id="roleModal">
         <div class="modal-dialog">
             <div class="modal-content">
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Đăng nhập</h4>
+                    <h4 class="modal-title">Thêm mới quyền</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form>
+                    <form id="role-form">
                         <div class="form-group">
-                            <label for="emailgEmaill">Email</label>
-                            <input type="email" class="form-control" id="lgEmail">
+                            <label for="rolename">Tên quyền</label>
+                            <input name='name' type="rolename" class="form-control" id="role-name">
                         </div>
                         <div class="form-group">
-                            <label for="lgPassword">Password</label>
-                            <input type="password" class="form-control" id="lgPassword">
+                            <label for="description">Mô tả</label>
+                            <input name='desc' type="roledescription" class="form-control" id="role-description">
                         </div>
                     </form>
                 </div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Đăng nhập</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Thoát</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="save-btn">Save</button>
                 </div>
 
             </div>
         </div>
     </div>
 
-    <!-- SIGN UP MODAL -->
+    <!-- END NEW MODAL -->
     
-    <script src="webjars/jquery/2.2.4/jquery.min.js"></script>
+    <input id="toastr-sucess">
+    <input id="toasrt-fail">
+    
+    <script th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
     <script th:src="@{/lib/popper.js/popper.min.js}"></script>
     <script th:src="@{/lib/bootstrap/bootstrap.min.js}"></script>
+    <script th:src="@{/js/admin/role.js}"></script>
+    <script th:src="@{/lib/toastr/toastr.min.js}"></script>
+    <script th:src="@{/js/custom.js}"></script>
 </body>
 
 </html>

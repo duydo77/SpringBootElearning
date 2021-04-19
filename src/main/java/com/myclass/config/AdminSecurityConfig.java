@@ -1,6 +1,5 @@
 package com.myclass.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -53,9 +52,10 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/api/admin/login")
 		.permitAll()
 		.antMatchers("/api/admin/**")
-		.hasAnyRole("ADMIN")
+		.hasRole("ADMIN")
 		.anyRequest()
-		.authenticated();
+		.authenticated()
+		.and().formLogin().loginPage("/admin/page/login");
 		
 		http.addFilter(new AuthFilter(authenticationManager(), userDetailsService));
 		
