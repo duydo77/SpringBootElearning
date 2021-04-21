@@ -2,6 +2,7 @@ package com.myclass.service;
 
 import java.util.List;
 
+import com.myclass.dto.CourseDetailsDto;
 import com.myclass.dto.CourseDto;
 import com.myclass.entity.Course;
 
@@ -19,7 +20,9 @@ public interface CourseService {
 	
 	public void delete(int id);
 	
-	public CourseDto findDetailsCourseById(int id);
+//	public CourseDto findDetailById(int id);
+	
+	public CourseDetailsDto findDetailById(int id);
 	
 	public List<CourseDto> findAllOfTeacher();
 	

@@ -25,6 +25,12 @@ public class UserDto {
 	public UserDto() {
 	}
 
+	public UserDto(int id, String fullname) {
+		this.id = id;
+		this.fullname = fullname;
+	}
+
+	
 	public UserDto(int id, String email, String fullname,String avatar, String phone, String address, int roleId) {
 		this.id = id;
 		this.email = email;

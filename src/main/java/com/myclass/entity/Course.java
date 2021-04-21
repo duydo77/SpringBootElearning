@@ -219,5 +219,13 @@ public class Course {
 	public void setVideos(List<Video> videos) {
 		this.videos = videos;
 	}
+
+	public List<UserCourse> getUserCourses() {
+		return userCourses;
+	}
+
+	public void setUserCourses(List<UserCourse> userCourses) {
+		this.userCourses = userCourses;
+	}
 	
 }

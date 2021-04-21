@@ -1,5 +1,6 @@
 package com.myclass.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -8,12 +9,19 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.myclass.dto.CategoryDto;
+import com.myclass.dto.CourseDetailsDto;
 import com.myclass.dto.CourseDto;
+import com.myclass.dto.TargetDto;
 import com.myclass.dto.UserDetailsDto;
+import com.myclass.dto.UserDto;
+import com.myclass.dto.VideoDto;
 import com.myclass.entity.Course;
+import com.myclass.entity.Target;
 import com.myclass.entity.User;
 import com.myclass.entity.UserCourse;
 import com.myclass.entity.UserCourseKey;
+import com.myclass.entity.Video;
 import com.myclass.entity.User;
 import com.myclass.repository.CourseRepository;
 import com.myclass.repository.UserCourseRepository;
@@ -116,9 +124,9 @@ public class CourseServiceImpl implements CourseService {
 				dto.getPromotionPrice(), dto.getDesc(), 
 				dto.getContent(), dto.getCateId(), 
 				dto.getLastUpdate());
-		
+		System.out.println("asdsada");
 		int id = courseRepository.saveAndFlush(entity).getId();
-		System.out.println("Before nn table");
+		System.out.println("Before nn table edeita");
 		UserCourseKey userCourseKey = new UserCourseKey(userId, id);
 		UserCourse userCourse = new UserCourse(userCourseKey, roleId);
 		userCourseRepository.save(userCourse);
@@ -131,10 +139,62 @@ public class CourseServiceImpl implements CourseService {
 		userCourseRepository.deleteById(id);
 	}
 	
+//	@Override
+//	public CourseDto findDetailById(int id) {
+//		CourseDto dto = courseRepository.findDetailById(id);
+//		return dto;
+//	}
+	
 	@Override
-	public CourseDto findDetailsCourseById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public CourseDetailsDto findDetailById(int courseId) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int userId = ((UserDetailsDto)principal).getId();
+		
+		Course entity = courseRepository.findDetailById(userId, courseId);
+			
+		List<VideoDto> listVideo = new ArrayList<VideoDto>();
+		for (Video video : entity.getVideos()) {
+			VideoDto dto = new VideoDto(
+					video.getId(),
+					video.getTitle(), 
+					video.getUrl(), 
+					video.getTimeCount());
+			listVideo.add(dto);
+		}
+		
+		List<TargetDto> listTarget = new ArrayList<TargetDto>();
+		for (Target target : entity.getTargets()) {
+			TargetDto dto = new TargetDto(
+					target.getId(),
+					target.getTitle());
+			listTarget.add(dto);
+		}
+		
+		
+		CourseDetailsDto dto = new CourseDetailsDto(
+				new CourseDto(entity.getId(),
+						entity.getTitle(),
+						entity.getImage(),
+						entity.getLectureCount(),
+						entity.getHourCount(),
+						entity.getViewCount(),
+						entity.getPrice(),
+						entity.getDiscount(),
+						entity.getPromotionPrice(),
+						entity.getDesc(),
+						entity.getContent(),
+						entity.getLastUpdate()),
+
+				listVideo,
+				listTarget,
+				new UserDto(
+						entity.getUserCourses().get(0).getUser().getId(), 
+						entity.getUserCourses().get(0).getUser().getFullname()),
+				new CategoryDto(entity.getCategory().getId(), 
+						entity.getCategory().getName(), 
+						entity.getCategory().getIcon())
+				);
+		return dto;
 	}
 
 	@Override
