@@ -28,6 +28,7 @@ import com.myclass.repository.RoleRepository;
 import com.myclass.repository.UserRepository;
 import com.myclass.service.AuthService;
 import com.myclass.service.UserService;
+import com.myclass.utils.UpdateErrorCode;
 
 @Service
 @Scope("prototype")
@@ -52,7 +53,6 @@ public class UserServiceImpl implements UserService {
 //			dtos.add(new UserDto(entity.getId(), entity.getEmail(), entity.getFullname(), entity.getPassword(),
 //					entity.getAvatar(), entity.getPhone(), entity.getAddress(), entity.getRoleId()));
 //		}
-//
 //		return dtos;
 //	}
 
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
 		if (admin.getRoleDesc() != "ROLE_ADMIN") {
 			User entity = userRepository.getOne(id);
 
-			if (!dto.getPassword().isEmpty())
+			if (!dto.getPassword().isBlank())
 				entity.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()));
 
 			entity.setEmail(dto.getEmail());
@@ -109,28 +109,25 @@ public class UserServiceImpl implements UserService {
 			entity.setRoleId(dto.getRoleId());
 			userRepository.save(entity);
 
-			return "Cập nhật thành công";
+			return "SUCCESSED";
 		}
-		return "Cập nhật thất bại";
+		return "PERMISSION_DINIED";
 	}
 
 	@Override
 	public String add(UserDto dto) {
 
 		if (userRepository.findByEmail(dto.getEmail()) == null) {
-			
-			if (dto.getPassword().isEmpty())
-				return "Mật khẩu không hợp lệ";
+
+			if (dto.getPassword().isBlank() || dto.getEmail().isBlank()) {
+				return "Email hoặc mật khẩu chưa nhập";
+			}
+
 			String hashed = BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt());
-			
-			User entity = new User(dto.getEmail(), 
-									dto.getFullname(), 
-									hashed, 
-									"default_avatar.png", 
-									dto.getPhone(),
-									dto.getAddress(), 
-									roleRepository.findByName("ROLE_STUDENT").getId());
-		
+
+			User entity = new User(dto.getEmail(), dto.getFullname(), hashed, "default_avatar.png", dto.getPhone(),
+					dto.getAddress(), roleRepository.findByName("ROLE_STUDENT").getId());
+
 			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			String role = ((UserDetails) principal).getAuthorities().toArray()[0].toString();
 			if (role.equals("ROLE_ADMIN")) {
@@ -138,15 +135,15 @@ public class UserServiceImpl implements UserService {
 			}
 
 			userRepository.save(entity);
-			return "Tạo tài khoản mới thành công";
+			return "SUCCESSED";
 		}
-		
+
 		return "Tài khoản đã tồn tại";
 	}
 
 	@Override
 	public void addTeacher(UserDto dto) {
-		
+
 		if (userRepository.findByEmail(dto.getEmail()) == null) {
 
 			if (dto.getPassword().isEmpty())
@@ -157,7 +154,7 @@ public class UserServiceImpl implements UserService {
 			userRepository.save(entity);
 		}
 	}
-	
+
 	@Override
 	public void delete(int id) {
 		userRepository.deleteById(id);
@@ -175,13 +172,14 @@ public class UserServiceImpl implements UserService {
 		return new UserDto(user.getId(), user.getEmail(), user.getFullname(), avatar, user.getPhone(),
 				user.getAddress(), user.getRoleId());
 	}
-	
+
 	@Override
 	public UserDto getProfile2() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String email = ((UserDetails)principal).getUsername();
+		String email = ((UserDetails) principal).getUsername();
 		User user = userRepository.findByEmail(email);
-		return new UserDto(user.getId(), user.getEmail(), user.getFullname(), user.getPhone(), user.getAddress(), user.getRoleId());
+		return new UserDto(user.getId(), user.getEmail(), user.getFullname(), user.getPhone(), user.getAddress(),
+				user.getRoleId());
 	}
 
 	@Override
@@ -233,14 +231,13 @@ public class UserServiceImpl implements UserService {
 		return dto;
 	}
 
-	
 	@Override
 	public String changePassword2(PasswordDto passwordDto) {
-		if (passwordDto.getNewPassword().equals(passwordDto.getOldPassword())){
+		if (passwordDto.getNewPassword().equals(passwordDto.getOldPassword())) {
 			return "Mật khẩu mới và cũ không được trùng nhau!";
 		}
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String email = ((UserDetails)principal).getUsername();
+		String email = ((UserDetails) principal).getUsername();
 		User user = userRepository.findByEmail(email);
 		if (user == null) {
 			return null;
@@ -254,13 +251,13 @@ public class UserServiceImpl implements UserService {
 			userRepository.save(user);
 			return null;
 		}
-		
+
 	}
 
 	@Override
 	public void update(UserDto dto) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String email = ((UserDetails)principal).getUsername();
+		String email = ((UserDetails) principal).getUsername();
 		User entity = userRepository.findByEmail(email);
 		if (entity == null)
 			return;

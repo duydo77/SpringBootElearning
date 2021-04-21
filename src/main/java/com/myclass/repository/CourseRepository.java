@@ -50,4 +50,14 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 			+ " c.promotionPrice, c.desc, c.content, c.cateId, c.lastUpdate, ca.name,"
 			+ " ca.icon) FROM Course c JOIN Category ca ON c.id=:id AND c.cateId = ca.id")
 	public CourseDto findById(@Param("id") int id);
+	
+	@Query("SELECT new com.myclass.dto.CourseDto(c.id, c.title, c.image, c.hourCount, c.viewCount, c.price, c.discount,"
+			+ " c.promotionPrice, c.desc, c.content, c.cateId, c.lastUpdate, ca.name,"
+			+ " ca.icon) FROM Course c JOIN Category ca ON c.discount != 0 AND c.cateId = ca.id order by c.discount DESC")
+	public List<CourseDto> findPromotion();
+	
+	@Query("SELECT new com.myclass.dto.CourseDto(c.id, c.title, c.image, c.hourCount, c.viewCount, c.price, c.discount,"
+			+ " c.promotionPrice, c.desc, c.content, c.cateId, c.lastUpdate, ca.name,"
+			+ " ca.icon) FROM Course c JOIN Category ca ON c.discount = 0 AND c.cateId = ca.id")
+	public List<CourseDto> findNormal();
 }

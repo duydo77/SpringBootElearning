@@ -24,4 +24,7 @@ public interface CourseService {
 	public List<CourseDto> findAllOfTeacher();
 	
 	Course test(int id);
+	
+	public List<CourseDto> findPromotion();
+	public List<CourseDto> findPopular();
 }

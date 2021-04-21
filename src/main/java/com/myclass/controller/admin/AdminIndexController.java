@@ -1,6 +1,5 @@
 package com.myclass.controller.admin;
 
-import org.springframework.core.type.filter.AbstractClassTestingTypeFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,5 +16,20 @@ public class AdminIndexController {
 	@GetMapping("login")
 	public String login() {
 		return "admin/login";
+	}
+	
+	@GetMapping("category")
+	public String category() {
+		return "admin/category";
+	}
+	
+	@GetMapping("user")
+	public String user() {
+		return "admin/user";
+	}
+	
+	@GetMapping("")
+	public String home() {
+		return "admin/index";
 	}
 }

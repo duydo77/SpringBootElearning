@@ -1,6 +1,7 @@
 token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdHVkZW50QGdtYWlsLmNvbSIsImlhdCI6MTYxODQwOTEwMSwiZXhwIjoxNjE5MjczMTAxfQ.kxbie4dxXKHlqnf3qGsALGmiIDgV9PnkyoO3yID3Sk3YAcYahC9jbA1De5UEFhnxS6BeS4Kj868Z5RxKZ4avoA';
 admin_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2MTg4MDA4ODQsImV4cCI6MTYxOTY2NDg4NH0.e2CoqDPWHCI24szPwJfWt3y4PVZM-Emvo3bf7QCrERmdjCRH5nMP_W_47iqtfoIjzW_Lu4ZxmNjhj1Pa1M1Fsw';
 
+
 function login() {
 	let form = $('#login-form');
 	let data = getFormData(form.serializeArray());
@@ -18,7 +19,7 @@ function login() {
 			} else {
 				console.log(data);
 				localStorage.setItem("elearning-token", data);
-				localStorage.removeItem("elerning-token");
+				location.replace("http://localhost:8080/admin/page");	
 			}
 			console.log(localStorage.getItem("elearning-token"));
 		},

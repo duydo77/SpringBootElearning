@@ -72,3 +72,8 @@
     font-weight: bold;
 }
 /* END MY COURSE */
+
+.dropdown-menu-right {
+    right: 0;
+    left: auto;
+}

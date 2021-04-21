@@ -43,6 +43,28 @@ public class CourseController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 	
+	@GetMapping("promotion")
+	public Object getPromotion() {
+		try {
+			List<CourseDto> dtos = courseService.findPromotion();
+			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@GetMapping("popular")
+	public Object getNormal() {
+		try {
+			List<CourseDto> dtos = courseService.findPopular();
+			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+	}
+	
 	@GetMapping("{id}")
 	public Object get(@PathVariable int id) {
 		try {

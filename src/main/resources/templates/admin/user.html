@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Danh sách quyền</title>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<script type="text/javascript" th:src="@{/js/admin/auth.js}"></script>
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" th:href="@{/lib/bootstrap/bootstrap.min.css}">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" th:href="@{/css/admin-style.css}">
+<link rel="stylesheet" th:href="@{/lib/toastr/toastr.min.css}">
+</head>
+
+<body>
+
+	<div class="d-flex justify-content-between">
+		<!-- SIDE BAR -->
+		<div id="side-bar">
+			<div class="logo">ADMIN PAGE</div>
+			<ul class="list-group rounded-0">
+				<li class="dashboard">DASHBOARD</li>
+				<li><a th:href="@{/admin/page/user}"> <i
+						class="fa fa-user mr-2"></i> Quản lý thành viên
+				</a></li>
+				<li><a th:href="@{/admin/page/role}"> <i
+						class="fa fa-book mr-2"></i> Quản lý quyền
+				</a></li>
+				<li><a th:href="@{/admin/page/category}"> <i
+						class="fa fa-book mr-2"></i> Quản lý thể loại
+				</a></li>
+				<li><a href="http://localhost:8080/admin/page/course"> <i
+						class="fa fa-cogs mr-2"></i> Quản lý khoá học
+				</a></li>
+			</ul>
+		</div>
+
+		<div id="admin-wrapper">
+			<!-- HEADER -->
+			<nav class="navbar navbar-expand-sm navbar-light bg-light w-100">
+				<a class="navbar-brand" href="#"><i class="fa fa-align-justify"></i></a>
+				<button class="navbar-toggler d-lg-none" type="button"
+					data-toggle="collapse" data-target="#collapsibleNavId"
+					aria-controls="collapsibleNavId" aria-expanded="false"
+					aria-label="Toggle navigation"></button>
+				<div class="collapse navbar-collapse" id="collapsibleNavId">
+					<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+						<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle" href="#" id="dropdownId"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Cybersoft </a>
+							<div class="dropdown-menu dropdown-menu-right"
+								aria-labelledby="dropdownId">
+								<a class="dropdown-item" href="">Thông tin cá nhân</a> <a
+									class="dropdown-item" href="#">Cài đặt</a> <a
+									class="dropdown-item" onclick="logout()">Thoát</a>
+							</div></li>
+					</ul>
+				</div>
+			</nav>
+
+			<!-- CONTENT -->
+			<section id="admin-content" class="p-3">
+				<h3 class="mb-3">Danh sách người dùng</h3>
+				<div class="row">
+					<div class="col-md-8">
+						<button class="btn btn-outline-secondary"
+							onclick="addTogleModal()">Thêm mới</button>
+					</div>
+					<div class="col-md-4">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Tìm kiếm...">
+							<div class="input-group-append">
+								<span class="input-group-text" id="basic-addon2"><i
+									class="fa fa-search"></i></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<table class="table table-bordered table-hover mt-3" id="user-table">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Email</th>
+							<th>Fullname</th>
+							<th>Phone</th>
+							<th>Address</th>
+							<th>Role</th>
+							<th>#</th>
+						</tr>
+					</thead>
+				</table>
+			</section>
+		</div>
+	</div>
+
+	<!-- NEW MODAL -->
+	<div class="modal" id="userModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title" id="modal-name">Thêm mới người dùng</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<form id="user-form">
+						<p class="text-center text-danger" id="message"></p>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="rolename">Email</label> <input name='email'
+										type="email" class="form-control" id="user-email"
+										placeholder="emal@gmai.com">
+								</div>
+								<div class="form-group">
+									<label for="description">Fullname</label> <input
+										name='fullname' type="text" class="form-control"
+										id="user-fullname" placeholder="fullname">
+								</div>
+								<div class="form-group">
+									<label for="description">Password</label> <input
+										name='password' type="password" class="form-control"
+										id="user-password" placeholder="password">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="description">Phone</label> <input name='phone'
+										type="text" class="form-control" id="user-phone"
+										placeholder="phone number">
+								</div>
+								<div class="form-group">
+									<label for="description">Address</label> <input name='address'
+										type="text" class="form-control" id="user-address"
+										placeholder="address">
+								</div>
+								<div class="form-group">
+									<label for="description">Role</label> <select name='roleId'
+										class="form-control" id="select-role">
+									</select>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="save-btn">Save</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- END NEW MODAL -->
+
+	<script th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
+	<script th:src="@{/lib/popper.js/popper.min.js}"></script>
+	<script th:src="@{/lib/bootstrap/bootstrap.min.js}"></script>
+	<script th:src="@{/js/admin/user.js}"></script>
+	<script th:src="@{/lib/toastr/toastr.min.js}"></script>
+	<script th:src="@{/js/custom.js}"></script>
+</body>
+
+</html>

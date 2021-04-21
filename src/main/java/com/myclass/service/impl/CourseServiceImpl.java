@@ -35,12 +35,12 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public List<CourseDto> findAll() {
 		List<CourseDto> courseDtos = courseRepository.findAllWithCate();
-//		for (CourseDto courseDto: courseDtos) {
-//			System.out.println(courseDto.getId());
-//			User teacher = courseRepository.findTeacher(courseDto.getId());
-//			courseDto.setTeacherId(teacher.getId());
-//			courseDto.setTeacherName(teacher.getFullname());
-//		}
+		for (CourseDto courseDto: courseDtos) {
+			System.out.println(courseDto.getId());
+			User teacher = courseRepository.findTeacher(courseDto.getId());
+			courseDto.setTeacherId(teacher.getId());
+			courseDto.setTeacherName(teacher.getFullname());
+		}
 		return courseDtos;
 	}
 
@@ -149,6 +149,28 @@ public class CourseServiceImpl implements CourseService {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int id = ((UserDetailsDto)principal).getId();
 		return courseRepository.test(id, courseId);
+	}
+
+	@Override
+	public List<CourseDto> findPromotion() {
+		List<CourseDto> courseDtos = courseRepository.findPromotion();
+		for (CourseDto courseDto: courseDtos) {
+			User teacher = courseRepository.findTeacher(courseDto.getId());
+			courseDto.setTeacherId(teacher.getId());
+			courseDto.setTeacherName(teacher.getFullname());
+		}
+		return courseDtos;
+	}
+
+	@Override
+	public List<CourseDto> findPopular() {
+		List<CourseDto> courseDtos = courseRepository.findNormal();
+		for (CourseDto courseDto: courseDtos) {
+			User teacher = courseRepository.findTeacher(courseDto.getId());
+			courseDto.setTeacherId(teacher.getId());
+			courseDto.setTeacherName(teacher.getFullname());
+		}
+		return courseDtos;
 	}
 	
 }

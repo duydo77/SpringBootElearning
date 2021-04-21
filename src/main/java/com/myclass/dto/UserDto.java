@@ -1,13 +1,17 @@
 package com.myclass.dto;
 
+import javax.validation.constraints.NotEmpty;
+
 public class UserDto {
 
 	private int id;
-
+	
+	@NotEmpty(message = "Chưa nhập email")
 	private String email;
 
 	private String fullname;
 
+	@NotEmpty(message = "Chưa nhập password")
 	private String password;
 
 	private String avatar;

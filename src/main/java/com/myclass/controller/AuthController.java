@@ -26,7 +26,6 @@ public class AuthController {
 	@PostMapping("login")
 	public Object post(@RequestBody LoginDto loginDto) {
 		try {
-			System.out.println(loginDto.getEmail());
 			String token = authServive.login(loginDto);
 			return new ResponseEntity<Object>(token, HttpStatus.OK);
 		} catch (Exception e) {

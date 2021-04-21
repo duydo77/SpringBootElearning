@@ -2,6 +2,8 @@ package com.myclass.controller.admin;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.myclass.dto.UserDto;
 import com.myclass.service.UserService;
+import com.myclass.utils.UpdateErrorCode;
 
 @RestController
 @Scope("prototype")
@@ -39,11 +42,11 @@ public class AdminUserController {
 	}
 	
 	@PostMapping("")
-	public Object post(@RequestBody UserDto body) {
-		// them moiw nguoi dung
+	public Object post(@Valid @RequestBody UserDto body) {
+		// them moi nguoi dung
 		try {
-			userService.add(body);
-			return new ResponseEntity<Object>(HttpStatus.OK);
+			String message = userService.add(body);
+			return new ResponseEntity<Object>(message, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -66,8 +69,8 @@ public class AdminUserController {
 	public Object put(@PathVariable("id") int id, @RequestBody UserDto dto) {
 		// Cap nhat nguoi dung voi id (chi co admin moi co quyen cap nhat user qua id)
 		try {
-			userService.update(id, dto);
-			return new ResponseEntity<Object>(HttpStatus.OK);
+			String message = userService.update(id, dto);
+			return new ResponseEntity<Object>(message, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

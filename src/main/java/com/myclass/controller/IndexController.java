@@ -25,4 +25,9 @@ public class IndexController {
 	public String coursedetail() {
 		return "detail";
 	}
+	
+	@GetMapping("/405")
+	public String e405() {
+		return "error/405";
+	}
 }

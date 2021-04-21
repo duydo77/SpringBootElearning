@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+
+import com.sun.istack.NotNull;
 
 @Entity
 @Table(name = "users")
@@ -21,12 +24,14 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	@NotBlank
 	@Column(name = "email")
 	private String email;
 
 	@Column(name = "fullname", length = 100)
 	private String fullname;
 
+	@NotNull
 	@Column(name = "password", length = 100)
 	private String password;
 	
