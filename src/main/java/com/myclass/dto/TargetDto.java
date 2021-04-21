@@ -14,6 +14,11 @@ public class TargetDto {
 		this.courseId = courseId;
 	}
 	
+	public TargetDto(int id, String title) {
+		this.id = id;
+		this.title = title;
+	}
+	
 	public TargetDto(int id, String title, int courseId) {
 		this.id = id;
 		this.title = title;

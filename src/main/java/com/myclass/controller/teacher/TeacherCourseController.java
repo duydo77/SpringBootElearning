@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.myclass.dto.CourseDetailsDto;
 import com.myclass.dto.CourseDto;
 import com.myclass.entity.Course;
 import com.myclass.service.CourseService;
@@ -61,6 +62,8 @@ public class TeacherCourseController {
 	@PostMapping
 	public Object post(@RequestBody CourseDto body) {
 		try {
+			System.out.println("body here");
+			System.out.println("body" + body.toString());
 			courseService.add(body);
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -106,11 +109,23 @@ public class TeacherCourseController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@GetMapping(value = "test/{idc}")
-	public Object get1(@PathVariable("idc") int idc) {
+//	@GetMapping(value = "test/{idc}")
+//	public Object get1(@PathVariable("idc") int idc) {
+//		try {
+//			CourseDto dto = courseService.findDetailById(idc);
+//			return new ResponseEntity<Object>(dto, HttpStatus.OK);
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+//	}
+	
+	@GetMapping(value = "detail/{idc}")
+	public Object getDetail(@PathVariable("idc") int idc) {
 		try {
-			Course entity = courseService.test(idc);
-			return new ResponseEntity<Object>(entity, HttpStatus.OK);
+			CourseDetailsDto dto = courseService.findDetailById(idc);
+			return new ResponseEntity<Object>(dto, HttpStatus.OK);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

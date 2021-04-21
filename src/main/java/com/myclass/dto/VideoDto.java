@@ -11,6 +11,13 @@ public class VideoDto {
 	public VideoDto() {
 
 	}
+	
+	public VideoDto(int id, String title, String url, int timeCount) {
+		this.id = id;
+		this.title = title;
+		this.url = url;
+		this.timeCount = timeCount;
+	}
 
 	public VideoDto(String title, String url, int timeCount, int courseId) {
 		this.title = title;

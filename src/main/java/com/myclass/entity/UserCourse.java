@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "user_courses")
 public class UserCourse implements Serializable{
@@ -23,11 +25,13 @@ public class UserCourse implements Serializable{
 	private UserCourseKey id;
 
 	@ManyToOne
+//	@JsonBackReference
 //	@MapsId("userId")
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
 	private User user;
 
 	@ManyToOne
+	@JsonBackReference
 //	@MapsId("courseId")
 	@JoinColumn(name = "course_id", insertable = false, updatable = false)
 	private Course course;

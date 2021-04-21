@@ -3,6 +3,7 @@ package com.myclass.controller.teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,8 +28,8 @@ public class TeacherLoginController {
 	@Autowired
 	private AuthService authService;
 	
-	@PostMapping("login")
-	public Object post(LoginDto loginDto) {
+	@PostMapping(value = "login", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Object post(@RequestBody LoginDto loginDto) {
 		try {
 			String token = authService.login(loginDto);
 
