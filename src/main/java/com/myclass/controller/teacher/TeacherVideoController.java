@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myclass.dto.TargetDto;
+import com.myclass.dto.UploadVideoDto;
 import com.myclass.dto.VideoDto;
 import com.myclass.service.TargetService;
 import com.myclass.service.VideoService;
@@ -56,6 +57,20 @@ public class TeacherVideoController {
 	public Object post(@RequestBody VideoDto dto) {
 		try {
 			
+			videoService.add(dto);
+			return new ResponseEntity<Object>(HttpStatus.OK);
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@PostMapping("/base64")
+	public Object post(@RequestBody UploadVideoDto dto) {
+		try {
+			System.out.println("controller" + dto.getTitle());
+			System.out.println("controller" + dto.getVideoAsBase64());
 			videoService.add(dto);
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		

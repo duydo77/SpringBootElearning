@@ -1,4 +1,4 @@
-token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdHVkZW50QGdtYWlsLmNvbSIsImlhdCI6MTYxODQwOTEwMSwiZXhwIjoxNjE5MjczMTAxfQ.kxbie4dxXKHlqnf3qGsALGmiIDgV9PnkyoO3yID3Sk3YAcYahC9jbA1De5UEFhnxS6BeS4Kj868Z5RxKZ4avoA';
+token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdHVkZW50MUBnbWFpbC5jb20iLCJpYXQiOjE2MTkwOTY0OTYsImV4cCI6MTYxOTk2MDQ5Nn0.wdfOpbio49t7LhzDKCbZ_1SzSHE7azleq5doRIbypy0deigJZd6b1XG8szoRWzHcS3jAIWCKcezHE_U-4Uu7wA';
 $(document).ready(function() {
 
 	init();

@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.myclass.dto.UploadVideoDto;
 import com.myclass.dto.VideoDto;
 import com.myclass.dto.VideoDto;
 import com.myclass.entity.Video;
@@ -89,6 +90,13 @@ public class VideoServiceImpl implements VideoService{
 	@Override
 	public void delete(int id) {
 		videoRepository.deleteById(id);
+	}
+	
+	@Override
+	public void add(UploadVideoDto dto) {
+		
+		System.out.println("title " + dto.getTitle());
+		System.out.println("base64 video " + dto.getVideoAsBase64());
 	}
 
 }
