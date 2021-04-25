@@ -1,5 +1,4 @@
-let token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZWFjaGVyMUBnbWFpbC5jb20iLCJpYXQiOjE2MTg5MjI4ODgsImV4cCI6MTYxOTc4Njg4OH0.bPfxDCvJmwi0zxalbg0aFkeWJbdIHfJdbOK1vTMkgtAILOEwp86AhXoRlQUUbxG-f3MJhl3Mf0Ui7oXAXcKjTg';
-
+let token = localStorage.getItem("elearning-token");
 // $(document).ready(() => {
     $("#btn-login").click(function() {
         // const txtEmail = $("#lgEmail").val();

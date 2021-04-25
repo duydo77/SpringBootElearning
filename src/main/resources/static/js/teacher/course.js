@@ -1,5 +1,7 @@
 console.log(localStorage.token);
+let token = localStorage.getItem("elearning-token");
 $(document).ready(() => {
+	
     $("section.course-content").hide();
     $("section.course-banner").show();
     $("section.mt-5").show();
@@ -20,7 +22,7 @@ $("#btn-save-course").click(() => {
     $.ajax({
 		url: "http://localhost:8080/api/teacher/course",
 		type: 'POST',
-		headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
+		headers: { "Authorization": 'Bearer ' + token },
 		contentType: 'application/json',
 		data: newData,
 		success: () => {
@@ -39,7 +41,7 @@ $("#btn-save-course").click(() => {
 //         type: 'GET',
 //         url: 'http://localhost:8080/api/teacher/course/detail/' + courseId,
 //         headers: {
-//             'Authorization': 'Bearer ' + localStorage.getItem('token'),
+//             'Authorization': 'Bearer ' + token,
 //             'Content-Type': 'application/json',
 //         },
 //         dataType: 'text',
@@ -91,7 +93,7 @@ function detail(courseId) {
         type: 'GET',
         url: 'http://localhost:8080/api/teacher/course/detail/' + courseId,
         headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json',
         },
         dataType: 'text',
@@ -142,7 +144,7 @@ function init() {
         type: 'GET',
         url: 'http://localhost:8080/api/teacher/course/ofteacher',
         headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json',
         },
         dataType: 'text',

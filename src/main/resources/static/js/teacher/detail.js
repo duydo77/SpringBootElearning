@@ -2,6 +2,7 @@ const urlParams = window.location.href;
 console.log(urlParams.substring((urlParams.lastIndexOf('/') + 1), urlParams.length));
 const id = urlParams.substring((urlParams.lastIndexOf('/') + 1), urlParams.length); 
 
+let token = localStorage("elearning-token");
 
 // let base64File = '';
 let file;
@@ -47,7 +48,7 @@ $('#btn-save-video').click(() => {
         type: 'POST',
         dataType: 'json',
         data: data,
-        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') },
+        headers: { 'Authorization': 'Bearer ' + token },
         contentType: 'application/json',
         success: (videoId) => {
             console.log(videoId);
@@ -61,7 +62,7 @@ $('#btn-save-video').click(() => {
                 method: 'POST',
                 data: formData,
                 headers: { 
-                    'Authorization': 'Bearer ' + localStorage.getItem('token') ,
+                    'Authorization': 'Bearer ' + token ,
                     'Content-Type': 'multipart/form-data'
                 }
             })
@@ -84,7 +85,7 @@ function detail(courseId) {
         type: 'GET',
         url: 'http://localhost:8080/api/teacher/course/detail/' + courseId,
         headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json',
         },
         dataType: 'text',
@@ -148,7 +149,7 @@ function openEditTargetModal(targetId) {
 		url: 'http://localhost:8080/api/teacher/target/' + targetId,
 		type: 'GET',
 		dataType: 'json',
-		headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') },
+		headers: { 'Authorization': 'Bearer ' + token },
 		contentType: 'application/json',
 		success: (data) => {
 			$("#target-title").val(data.title);
@@ -166,7 +167,7 @@ function deleteTarget(targetId) {
 		url: 'http://localhost:8080/api/teacher/target/' + targetId,
 		type: 'DELETE',
 		dataType: 'json',
-		headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') },
+		headers: { 'Authorization': 'Bearer ' + token },
 		contentType: 'application/json',
 		success: () => {
 
@@ -197,7 +198,7 @@ $("#btnAddTarget").click(() => {
             url: 'http://localhost:8080/api/teacher/target',
             data: json,
             headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                'Authorization': 'Bearer ' + token,
                 'Content-Type': 'application/json',
             },
             dataType: 'json',
@@ -213,7 +214,7 @@ $("#btnAddTarget").click(() => {
             url: 'http://localhost:8080/api/teacher/target',
             data: json,
             headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                'Authorization': 'Bearer ' + token,
                 'Content-Type': 'application/json',
             },
             dataType: 'json',
@@ -240,7 +241,7 @@ function watchVideo(videoName) {
     //     url: 'http://localhost:8080/api/teacher/video/video/'+ videoName,
     //     method: 'GET',
     //     headers: { 
-    //         'Authorization': 'Bearer ' + localStorage.getItem('token') ,
+    //         'Authorization': 'Bearer ' + token ,
     //     }
     // })
     // .then((data) => {
