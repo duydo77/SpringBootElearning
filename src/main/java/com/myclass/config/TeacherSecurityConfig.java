@@ -36,6 +36,8 @@ public class TeacherSecurityConfig extends WebSecurityConfigurerAdapter{
 		.authorizeRequests()
 		.antMatchers("/api/teacher/login")
 		.permitAll()
+		.antMatchers("/api/teacher/target")
+		.permitAll()
 		.antMatchers("/teacher/index")
 		.permitAll()
 		.antMatchers("/teacher/**")

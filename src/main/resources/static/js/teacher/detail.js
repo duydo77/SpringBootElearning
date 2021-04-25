@@ -2,7 +2,7 @@ const urlParams = window.location.href;
 console.log(urlParams.substring((urlParams.lastIndexOf('/') + 1), urlParams.length));
 const id = urlParams.substring((urlParams.lastIndexOf('/') + 1), urlParams.length); 
 
-let token = localStorage("elearning-token");
+let token = localStorage.getItem("elearning-token");
 
 // let base64File = '';
 let file;
@@ -78,7 +78,6 @@ $('#btn-save-video').click(() => {
     });
 });
 
-
 function detail(courseId) {
     $.ajax({
     	crossDomain: true,
@@ -134,7 +133,6 @@ function detail(courseId) {
                         '</span>' +
                         '<span>'+v.timeCount+'</span>' +                
                     '</a>' +
-                    '<span><button onclick="('+v.url+')">Delete</button></span>' +
                 '</li>');
             });
         },
@@ -182,55 +180,6 @@ $("#btnOpenAddTargetModal").click(() => {
     $("#addTargetModal").modal();
 });
 
-$("#btnAddTarget").click(() => {
-    let formData = new FormData(document.getElementById("formAddTarget"));
-    let object = {};
-    formData.append('courseId', id);
-    formData.forEach((value, key) => object[key] = value);
-    let json = JSON.stringify(object);
-    console.log(json);
-    console.log(JSON.parse(json));
-    console.log(JSON.parse(json).id);
-    if(JSON.parse(json).id == undefined || JSON.parse(json).id == null | JSON.parse(json).id == "") {
-        $.ajax({
-            crossDomain: true,
-            type: 'POST',
-            url: 'http://localhost:8080/api/teacher/target',
-            data: json,
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/json',
-            },
-            dataType: 'json',
-            success : () => {
-            },
-            error: () => {
-            }
-        });
-    } else {
-        $.ajax({
-            crossDomain: true,
-            type: 'PUT',
-            url: 'http://localhost:8080/api/teacher/target',
-            data: json,
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/json',
-            },
-            dataType: 'json',
-            success : () => {
-            },
-            error: () => {
-                console.log('fail');
-            }
-        });
-    }
-    window.location.href = ('http://localhost:8080/teacher/detail/' + id);
-});
-
-$("#openAddVideoModal").click(() => {
-    $("#addVideoModal").modal();
-});
 
 function watchVideo(videoName) {
     console.log(videoName);
@@ -252,6 +201,9 @@ function watchVideo(videoName) {
     // .catch((jqXhr, textStatus, errorThrown) => {
     //     console.log(errorThrown);
     // });
+    // window.location.href = ('http://localhost:8080/teacher/detail/' + id);
 }
 
-
+$("#openAddVideoModal").click(() => {
+    $("#addVideoModal").modal();
+});

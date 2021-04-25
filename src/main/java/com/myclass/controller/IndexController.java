@@ -26,9 +26,7 @@ public class IndexController {
 	}
 	
 	@GetMapping("/coursedetail/{courseId}")
-	public String coursedetail(@PathVariable int courseId, Model model) {
-		System.out.println("index controller " + courseId);
-		model.addAttribute("courseId", courseId);
+	public String coursedetail(@PathVariable int courseId) {
 		return "details";
 	}
 	
