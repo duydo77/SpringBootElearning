@@ -2,7 +2,10 @@ package com.myclass.controller.teacher;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,18 +14,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.myclass.dto.ImageDto;
 import com.myclass.dto.TargetDto;
 import com.myclass.dto.UploadVideoDto;
+import com.myclass.dto.UploadVideoFileDto;
 import com.myclass.dto.VideoDto;
+import com.myclass.dto.VideoFileDto;
 import com.myclass.service.TargetService;
 import com.myclass.service.VideoService;
 
 @RestController
 @RequestMapping(value = "api/teacher/video")
 public class TeacherVideoController {
-
+	
 	private VideoService videoService;
 	
 	public TeacherVideoController(VideoService videoService) {
@@ -57,8 +65,8 @@ public class TeacherVideoController {
 	public Object post(@RequestBody VideoDto dto) {
 		try {
 			
-			videoService.add(dto);
-			return new ResponseEntity<Object>(HttpStatus.OK);
+			int videoId = videoService.addAndReturnId(dto);
+			return new ResponseEntity<Object>(videoId, HttpStatus.OK);
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -66,24 +74,23 @@ public class TeacherVideoController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@PostMapping("/base64")
-	public Object post(@RequestBody UploadVideoDto dto) {
-		try {
-			System.out.println("controller" + dto.getTitle());
-			System.out.println("controller" + dto.getVideoAsBase64());
-			videoService.add(dto);
-			return new ResponseEntity<Object>(HttpStatus.OK);
-		
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-	}
-	
+//	@PostMapping("/base64")
+//	public Object post(@RequestBody UploadVideoDto dto) {
+//		try {
+//			System.out.println("controller" + dto.getTitle());
+//			System.out.println("controller" + dto.getVideoAsBase64());
+//			videoService.add(dto);
+//			return new ResponseEntity<Object>(HttpStatus.OK);
+//		
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+//	}
+//	
 	@PutMapping
 	public Object put(@RequestBody VideoDto dto) {
 		try {
-			
 			videoService.update(dto.getId(), dto);
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		
@@ -105,5 +112,46 @@ public class TeacherVideoController {
 		}
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
+	
+//	@PostMapping(value = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//	public Object post(@RequestBody UploadVideoFileDto dto, HttpServletRequest req) {
+//		try {
+//			videoService.add(dto, req);
+//			return new ResponseEntity<Object>(HttpStatus.OK);
+//		
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+//	}
+	
+	// test
+	@PostMapping(value = "/file/{id}")
+	public Object post(@PathVariable("id") int id, @RequestBody MultipartFile file) {
+		try {
+			System.out.println(file);
+			videoService.update(id, file);
+			return new ResponseEntity<Object>(HttpStatus.OK);
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@GetMapping("video/{videoName}")
+    public Object getImage(@PathVariable String videoName) {
+		// Trả về ảnh avatar
+		try {
+			VideoFileDto dto = videoService.getVideoFile(videoName);
+    		return ResponseEntity.ok()
+    				.contentLength(dto.getLength())
+    				.contentType(MediaType.parseMediaType("video/mp4"))
+    				.body(dto.getByteArrayResource());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+    }
 }
 

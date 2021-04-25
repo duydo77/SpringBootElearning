@@ -1,49 +1,82 @@
 const urlParams = window.location.href;
 console.log(urlParams.substring((urlParams.lastIndexOf('/') + 1), urlParams.length));
 const id = urlParams.substring((urlParams.lastIndexOf('/') + 1), urlParams.length); 
-$(document).ready(() => {
-    const inputFile = document.getElementById("video-file");
-    let base64File = '';
 
-    detail(id);
 
-    inputFile.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        console.log('file: ' + file);
-        
-        if(file != undefined) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                base64File = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+// let base64File = '';
+let file;
 
-    $('#btn-save-video').click(() => {
-        let uploadVideoData = {
-            title : $("#video-title").val(),
-            videoAsBase64: base64File
-        }
-        console.log(uploadVideoData);
-        let data = JSON.stringify(uploadVideoData);
-        console.log(data)
-        $.ajax({
-        	url: 'http://localhost:8080/api/teacher/video/base64',
-        	type: 'POST',
-        	dataType: 'json',
-            data: data,
-        	headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') },
-        	contentType: 'application/json',
-        	success: (data) => {
-                
-            },
-        	error: () => {
-        	}
-        });
-    });
-    
+detail(id);
+// let element = convertHtmlToJQueryObject($("#addVideoModal").html());
+// console.log(element);
+
+// $("footer").append(element);
+
+$("#video-file").change(() => {
+    let inputFile = document.getElementById("video-file");
+    if(inputFile.files && inputFile.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            e.target.result;
+        };
+        reader.readAsDataURL(inputFile.files[0]);
+    }
 });
+
+// function convertHtmlToJQueryObject(html){
+//     var htmlDOMObject = new DOMParser().parseFromString(html, "text/html");
+//     return $(htmlDOMObject.documentElement);
+// }
+
+$('#btn-save-video').click(() => {
+    let inputFile = document.getElementById("video-file");
+
+    if (inputFile.files.length === 0) {
+        alert("Vui lòng chọn file!");
+        return;
+    };
+    let data = {
+        courseId: id,
+        title: $("#video-title").val()
+    };
+
+    data = JSON.stringify(data);
+
+    $.ajax({
+        url: 'http://localhost:8080/api/teacher/video',
+        type: 'POST',
+        dataType: 'json',
+        data: data,
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') },
+        contentType: 'application/json',
+        success: (videoId) => {
+            console.log(videoId);
+            let formData = new FormData();
+
+            formData.append('file', inputFile.files[0]);
+            console.log(formData);
+            console.log(formData.get('file'))
+            axios({
+                url: 'http://localhost:8080/api/teacher/video/file/'+ videoId,
+                method: 'POST',
+                data: formData,
+                headers: { 
+                    'Authorization': 'Bearer ' + localStorage.getItem('token') ,
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(() => {})
+            .catch((jqXhr, textStatus, errorThrown) => {
+                console.log(errorThrown);
+            });
+            window.location.href = ('http://localhost:8080/teacher/detail/' + id);
+        },
+        error: (jqXhr, textStatus, errorThrown) => {
+            console.log(errorThrown);
+        }
+    });
+});
+
 
 function detail(courseId) {
     $.ajax({
@@ -56,9 +89,6 @@ function detail(courseId) {
         },
         dataType: 'text',
         success : (dataa) => {
-            // $("section.course-banner").hide();
-            // $("section.mt-5").hide();
-            // $("section.course-content").show();
             var data = JSON.parse(dataa);
             $(".banner-content").append('<h1>'+data.course.title+'</h1>' +
                                         '<h5>' +
@@ -97,12 +127,13 @@ function detail(courseId) {
             data.videos.map((v) => {
                 $("#list-content").append(
                     '<li>' +
-                    '<a href="'+v.url+'" class="btn-video" data-video-id="6xB-uXqbOqo">' +
+                    '<a href="#" onclick="watchVideo('+"'"+v.url+"'"+')" class="btn-video" >' +
                         '<span> <i class="fa fa-play-circle mr-1"></i>' +
                             v.title +
                         '</span>' +
-                        '<span>'+v.timeCount+'</span>' +
+                        '<span>'+v.timeCount+'</span>' +                
                     '</a>' +
+                    '<span><button onclick="('+v.url+')">Delete</button></span>' +
                 '</li>');
             });
         },
@@ -200,5 +231,26 @@ $("#openAddVideoModal").click(() => {
     $("#addVideoModal").modal();
 });
 
+function watchVideo(videoName) {
+    console.log(videoName);
+    $("#videoModal").modal();
+    let video = document.getElementById("video-iframe");
+    video.setAttribute("src", "http://localhost:8080/videos/" + videoName + ".mp4");
+    // axios({
+    //     url: 'http://localhost:8080/api/teacher/video/video/'+ videoName,
+    //     method: 'GET',
+    //     headers: { 
+    //         'Authorization': 'Bearer ' + localStorage.getItem('token') ,
+    //     }
+    // })
+    // .then((data) => {
+    //     let video = document.getElementById("watch-video-modal");
+    //     video.setAttribute('src', data);
+    //     // $("#watch-video-modal").(data);
+    // })
+    // .catch((jqXhr, textStatus, errorThrown) => {
+    //     console.log(errorThrown);
+    // });
+}
 
 

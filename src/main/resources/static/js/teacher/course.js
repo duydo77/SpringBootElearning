@@ -15,7 +15,6 @@ $("#btn-save-course").click(() => {
     let addForm = $("#add-course-form");
     let data = getFormData(addForm.serializeArray());
     console.log(data);
-    data.id = 0
     let newData = JSON.stringify(data)
     console.log(newData);
     $.ajax({
@@ -25,11 +24,11 @@ $("#btn-save-course").click(() => {
 		contentType: 'application/json',
 		data: newData,
 		success: () => {
-            notification("success", "Thêm thành công");
+            $('section.mt-5 .container .row').html('');
 			init();
 		},
 		error: () => {
-            notification("success", "Thêm thất bại");
+            alert("Thêm thất bại");
 		}
 	});
 });
@@ -122,7 +121,7 @@ function detail(courseId) {
             data.videos.map((v) => {
                 $("#list-content").append(
                     '<li>' +
-                    '<a href="'+v.url+'" class="btn-video" data-video-id="6xB-uXqbOqo">' +
+                    '<a onclick=("'+v.url+'") class="btn-video" data-video-id="6xB-uXqbOqo">' +
                         '<span> <i class="fa fa-play-circle mr-1"></i>' +
                             v.title +
                         '</span>' +
@@ -151,7 +150,7 @@ function init() {
             var data2 = JSON.parse(data1);
             data2.map((d) => {
                 $('section.mt-5 .container .row').append('<div class="col-md-3">' +
-                '<a href="#" class="my-course-item" onclick="detail('+d.id+')">' +
+                '<a href="http://localhost:8080/teacher/detail/'+d.id+'" class="my-course-item" >' +
                     '<img src="../img/html-css.jpg" alt="">' +
                     '<h6 class="my-course-title">'+d.title+'</h6>' +
                     '<div class="my-course-desc">' +

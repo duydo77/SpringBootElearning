@@ -179,14 +179,14 @@
                                 <span>40:28:55</span>
                             </a>
                             <ul id="list-content" class="collapse show">
-                                <li>
+                                <!-- <li>
                                     <a href="#" class="btn-video" data-video-id="6xB-uXqbOqo">
                                         <span> <i class="fa fa-play-circle mr-1"></i>
                                             Course Introduction
                                         </span>
                                         <span>5:32</span>
                                     </a>
-                                </li>
+                                </li> -->
                                 
                             </ul>
                         </div>
@@ -373,7 +373,7 @@
                     <h4 class="modal-title">Add Video</h4>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="add-video-form">
                         <div class="form-group">
                             <label for="title">Title</label>
                             <input type="text" name="title" class="form-control" id="video-title">
@@ -392,6 +392,23 @@
         </div>
     </div>
 
+    <div class="modal" id="videoModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <!-- <video style="height: fit-content; width: fit-content;" id="watch-video-modal" src="http://localhost:8080/videos/64video.mp4" controls></video> -->
+                    <iframe id="video-iframe" style="height: 300px; width: 100%;" class="embed-responsive-item" ></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer class="py-4 mt-4 text-center border-top">
         <span>Copyright © 2019 Cybersoft, Inc.</span>
     </footer>
@@ -402,10 +419,12 @@
     <script th:src="@{/lib/popper.js/popper.min.js}"></script>
     <script th:src="@{/lib/bootstrap/bootstrap.min.js}"></script>
     <script th:src="@{/lib/modal-video/js/jquery-modal-video.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script th:src="@{/js/teacher/detail.js}"></script>
-    <script>
+    
+    <!-- <script>
         $(".btn-video").modalVideo({ channel: 'youtube' });
-    </script>
+    </script> -->
 </body>
 
 </html>
