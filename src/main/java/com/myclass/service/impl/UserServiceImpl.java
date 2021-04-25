@@ -223,6 +223,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String updateAvatar(MultipartFile file) throws IOException {
+		System.out.println(file);
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String email = ((UserDetails) principal).getUsername();
 		User user = userRepository.findByEmail(email);

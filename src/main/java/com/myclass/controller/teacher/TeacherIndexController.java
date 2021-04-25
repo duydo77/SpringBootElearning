@@ -18,7 +18,7 @@ public class TeacherIndexController {
 		return "teacher/index";
 	}
 	
-	@GetMapping("detail")
+	@GetMapping("detail/{id}")
 	public String detail() {
 		return "teacher/details";
 	}

@@ -26,8 +26,8 @@ public class TeacherTargetController {
 		this.targerService = targerService;
 	}
 	
-	@GetMapping("/{courseid")
-	public Object getAllByCourseId(@PathVariable("courseid") int courseId) {
+	@GetMapping("/course/{id}")
+	public Object getAllByCourseId(@PathVariable("id") int courseId) {
 		try {
 			List<TargetDto> dtos = targerService.findByCourseId(courseId);
 			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
