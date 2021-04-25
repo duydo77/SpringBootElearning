@@ -31,7 +31,7 @@ public class UserController {
 		this.userService = userSerice;
 		this.authService = authService;
 	}
-
+	
 	@GetMapping("profile")
 	public Object get() {
 		try {
@@ -87,15 +87,11 @@ public class UserController {
 	public Object put(@RequestBody PasswordDto passwordDto) {
 		// Cập nhật password
 		try {
-			String message = userService.changePassword(passwordDto);
-			if (message != null) {
-				return new ResponseEntity<Object>(message, HttpStatus.BAD_REQUEST);
-			}
+			UpdateProfileReponseDto message = userService.changePassword(passwordDto);
 			return new ResponseEntity<Object>(message, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
-
 }

@@ -30,4 +30,6 @@ public interface CourseService {
 	
 	public List<CourseDto> findPromotion();
 	public List<CourseDto> findPopular();
+
+	List<CourseDto> findAllOfUser();
 }

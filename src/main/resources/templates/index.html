@@ -1,7 +1,7 @@
 ﻿<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Title</title>
+<title>Elearning | Free Online Courses, Learning Anything, On Your Schedule</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
@@ -230,8 +230,7 @@
 
 				<!-- Modal footer -->
 				<div class="modal-footer">
-					<button type="button" id="btn-login" class="btn btn-primary"
-						onclick="login()">Đăng nhập</button>
+					<button type="button" id="btn-login" class="btn btn-primary" onclick="login()">Đăng nhập</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Thoát</button>
 				</div>
 
@@ -252,30 +251,30 @@
 
 				<!-- Modal body -->
 				<div class="modal-body">
+					<p class="text-center text-danger" id="rg-message"></p>
 					<form>
 						<div class="form-group">
 							<label for="rgName">Name</label> <input type="text"
-								class="form-control" id="rgName">
+								class="form-control" id="rg-fullname">
 						</div>
 						<div class="form-group">
 							<label for="rgEmail">Email</label> <input type="email"
-								class="form-control" id="rgEmail">
+								class="form-control" id="rg-email">
 						</div>
 						<div class="form-group">
 							<label for="rgPassword">Password</label> <input type="password"
-								class="form-control" id="rgPassword">
+								class="form-control" id="rg-password">
 						</div>
 						<div class="form-group">
 							<label for="rgConfirm">Confirm</label> <input type="password"
-								class="form-control" id="rgConfirm">
+								class="form-control" id="rg-confirm">
 						</div>
 					</form>
 				</div>
-
+				
 				<!-- Modal footer -->
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal">Đăng
-						ký</button>
+					<button type="button" class="btn btn-primary" onclick="register()">Đăng ký</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Thoát</button>
 				</div>
 

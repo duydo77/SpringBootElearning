@@ -1,11 +1,15 @@
 package com.myclass.controller;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class IndexController {
-
+	
 	@GetMapping("/")
 	public String index() {
 		return "index";
@@ -21,9 +25,11 @@ public class IndexController {
 		return "course";
 	}
 	
-	@GetMapping("/coursedetail")
-	public String coursedetail() {
-		return "detail";
+	@GetMapping("/coursedetail/{courseId}")
+	public String coursedetail(@PathVariable int courseId, Model model) {
+		System.out.println("index controller " + courseId);
+		model.addAttribute("courseId", courseId);
+		return "details";
 	}
 	
 	@GetMapping("/405")

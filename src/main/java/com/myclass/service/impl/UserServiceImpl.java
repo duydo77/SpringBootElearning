@@ -28,7 +28,6 @@ import com.myclass.repository.RoleRepository;
 import com.myclass.repository.UserRepository;
 import com.myclass.service.AuthService;
 import com.myclass.service.UserService;
-import com.myclass.utils.UpdateErrorCode;
 
 @Service
 @Scope("prototype")
@@ -115,30 +114,41 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String add(UserDto dto) {
-
+	public UpdateProfileReponseDto add(UserDto dto) {
+		/*
+		 * 0 thêm mới thành công
+		 * 1 email hoặc mật khẩu chưa nhập
+		 * 2 tài khoản đã tồn tại
+		 */
 		if (userRepository.findByEmail(dto.getEmail()) == null) {
 
 			if (dto.getPassword().isBlank() || dto.getEmail().isBlank()) {
-				return "Email hoặc mật khẩu chưa nhập";
+				return new UpdateProfileReponseDto("1", "");
 			}
 
 			String hashed = BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt());
 
-			User entity = new User(dto.getEmail(), dto.getFullname(), hashed, "default_avatar.png", dto.getPhone(),
-					dto.getAddress(), roleRepository.findByName("ROLE_STUDENT").getId());
+			User entity = new User(
+					dto.getEmail(), 
+					dto.getFullname(), 
+					hashed, "default_avatar.png", 
+					dto.getPhone(),
+					dto.getAddress(), 
+					roleRepository.findByName("ROLE_STUDENT").getId());
 
 			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			String role = ((UserDetails) principal).getAuthorities().toArray()[0].toString();
-			if (role.equals("ROLE_ADMIN")) {
-				entity.setRoleId(dto.getRoleId());
-			}
-
+			if (!(principal == "anonymousUser")) {
+				String role = ((UserDetails) principal).getAuthorities().toArray()[0].toString();
+				if (role.equals("ROLE_ADMIN")) {
+					entity.setRoleId(dto.getRoleId());
+				}
+			};
+			
 			userRepository.save(entity);
-			return "SUCCESSED";
+			return new UpdateProfileReponseDto("0", "");
 		}
 
-		return "Tài khoản đã tồn tại";
+		return new UpdateProfileReponseDto("2", "");
 	}
 
 	@Override
@@ -183,20 +193,32 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String changePassword(PasswordDto passwordDto) {
+	public UpdateProfileReponseDto changePassword(PasswordDto passwordDto) {
+		/*
+		 * 0 thay đổi thành công
+		 * 1 mật khẩu cũ khôgn đúng
+		 * 2 tài khoản khôgn tồn tại
+		 * 3 mật khẩu mới và cũ trùng nhau
+		 */
+		
 		if (passwordDto.getNewPassword().equals(passwordDto.getOldPassword())) {
-			return "Mật khẩu mới và cũ không được trùng nhau!";
+			return new UpdateProfileReponseDto("3", ""); // Mật khẩu mới và mật khẩu cũ không được trùng nhau
 		}
 
 		User user = userRepository.findByEmail(passwordDto.getEmail());
+		if (user == null)
+			return new UpdateProfileReponseDto("2", ""); // Tài khoản không tồn tại
 		if (!BCrypt.checkpw(passwordDto.getOldPassword(), user.getPassword())) {
-			return "Mật khẩu cũ không đúng!";
+			System.out.println("userservice");
+			return new UpdateProfileReponseDto("1", ""); // Mật khẩu không đúng
 		}
 
 		String hased = BCrypt.hashpw(passwordDto.getNewPassword(), BCrypt.gensalt());
 		user.setPassword(hased);
 		userRepository.save(user);
-		return null;
+		System.out.println("thanh cong");
+		return new UpdateProfileReponseDto("0",
+				authService.login(new LoginDto(user.getEmail(), passwordDto.getNewPassword())));
 	}
 
 	@Override
@@ -248,7 +270,8 @@ public class UserServiceImpl implements UserService {
 			}
 			String hased = BCrypt.hashpw(passwordDto.getNewPassword(), BCrypt.gensalt());
 			user.setPassword(hased);
-			userRepository.save(user);
+			User a = userRepository.save(user);
+			System.out.println(a.toString());
 			return null;
 		}
 
@@ -267,5 +290,10 @@ public class UserServiceImpl implements UserService {
 		entity.setPhone(dto.getPhone());
 		entity.setAddress(dto.getAddress());
 		userRepository.save(entity);
+	}
+	
+	public String getRoleByEmail(String email) {
+		User user = userRepository.findByEmail(email);
+		return user.getRole().getName();
 	}
 }

@@ -46,7 +46,7 @@ public class Course {
 	@Column(name = "promotion_price", precision = 10, scale = 0)
 	private double promotionPrice;
 	
-	@Column(name = "description", length = 255)
+	@Column(name = "description", length = 100)
 	private String desc;
 	
 	@Column(name = "content")

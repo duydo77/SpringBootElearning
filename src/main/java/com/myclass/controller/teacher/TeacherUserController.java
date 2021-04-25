@@ -50,7 +50,7 @@ public class TeacherUserController {
 	@PutMapping("password")
 	public Object put(@RequestBody PasswordDto passwordDto) {
 		try {
-			String message = userService.changePassword(passwordDto);
+			String message = userService.changePassword2(passwordDto);
 			if (message != null) {
 				return new ResponseEntity<Object>(message, HttpStatus.BAD_REQUEST);
 			}

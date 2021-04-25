@@ -46,7 +46,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="#">
+					<a href="http://localhost:8080/admin/page/course">
 						<i class="fa fa-cogs mr-2"></i>
 						Quản lý khoá học
 					</a>
@@ -78,47 +78,99 @@
 			</nav>
 
 			<!-- CONTENT -->
-			<section id="admin-content" class="p-3">
-				<h3 class="mb-3">Danh sách quyền</h3>
-				<div class="row">
-					<div class="col-md-8">
-						<button class="btn btn-outline-secondary"
-							onclick="addTogleModal()">Thêm mới</button>
-					</div>
-					<div class="col-md-4">
-						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Tìm kiếm...">
-							<div class="input-group-append">
-								<span class="input-group-text" id="basic-addon2"><i
-									class="fa fa-search"></i></span>
+			<section class="mt-4">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs nav-tabs__custom">
+						<li class="nav-item"><a class="nav-link active"
+							data-toggle="tab" href="#profile">Elearning profile</a></li>
+						<li class="nav-item"><a class="nav-link" data-toggle="tab"
+							href="#picture">Profile picture</a></li>
+						<li class="nav-item"><a class="nav-link" data-toggle="tab"
+							href="#security">Security</a></li>
+					</ul>
+
+					<!-- Tab panes -->
+					<div class="tab-content tab-content__custom">
+						<form class="tab-pane container-fluid active" id="profile">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Email</label> <input type="text" class="form-control"
+											name="email" id="email" />
+									</div>
+									<div class="form-group">
+										<label>FullName</label> <input type="text"
+											class="form-control" name="fullname" id="fullname" />
+									</div>
+									<div class="form-group">
+										<label>Address</label> 
+										<input type="text" class="form-control" name="address" id="address" placeholder="Chưa cập nhật"/>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Phone</label> <input type="text" class="form-control"
+											name="phone" id="phone" placeholder="Chưa cập nhật"/>
+									</div>
+								</div>
+
+								<div class="col-md-12">
+									<button type="submit" id='update_btn'
+										class="btn btn-outline-secondary">Save</button>
+								</div>
+							</div>
+						</form>
+						<div class="tab-pane container-fluid fade picture" id="picture">
+							<div class="row">
+								<div class="col-md-6">
+									<h6>Image preview</h6>
+									<small>Minimum 200x200 pixels, Maximum 6000x6000 pixels</small>
+									<div class="picture-wapper">
+										<div class="picture-img">
+											<img id="imgAvatar"
+												src="https://i.udemycdn.com/user/200_H/anonymous_3.png"
+												alt="" height="200px">
+										</div>
+									</div>
+									<input type="file" id="avatar" class="form-control" />
+									<button onclick="saveAvatar()"
+										class="btn btn-outline-secondary mt-3">Save</button>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane container-fluid fade" id="security">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Email</label> <input type="text" class="form-control"
+											readonly id='security_email' value="tienhoang1211@gmail.com" />
+									</div>
+									<div class="form-group">
+										<label>Old Password</label> 
+										<input type="password" class="form-control"  id="old-password"/>
+									</div>
+									<div class="form-group">
+										<label>New Password</label> 
+										<input type="password" class="form-control"  id="new-password"/>
+									</div>
+									<div class="form-group">
+										<label>Confirm password</label> 
+										<input type="password" class="form-control" id="confirm-password"/>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<button class="btn btn-outline-secondary" onclick="changePassword()">Save</button>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<table class="table table-bordered table-hover mt-3" id="role-table">
-					<thead>
-						<tr>
-							<th>Id</th>
-							<th>Tên Quyền</th>
-							<th>Mô Tả</th>
-							<th>#</th>
-						</tr>
-					</thead>
-					<!--  <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>ROLE_ADMIN</td>
-                            <td>Quản trị hệ thống</td>
-                            <td>
-                                <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil-square-o"></i></button>
-                                <a href="#" class="btn btn-sm btn-danger">
-                                    <i class="fa fa-trash-o"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody> -->
-				</table>
-			</section>
+			</div>
+		</div>
+	</section>
 		</div>
 	</div>
 
@@ -169,6 +221,9 @@
 	<script th:src="@{/js/admin/role.js}"></script>
 	<script th:src="@{/lib/toastr/toastr.min.js}"></script>
 	<script th:src="@{/js/custom.js}"></script>
+	<script th:src="@{/js/admin/profile.js}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script th:src="@{/lib/toastr/toastr.min.js}"></script>
 </body>
 
 </html>

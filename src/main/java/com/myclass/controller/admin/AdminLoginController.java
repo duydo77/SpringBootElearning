@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.myclass.dto.LoginDto;
 import com.myclass.service.AuthService;
+import com.myclass.service.UserService;
 
 @RestController
 @Scope("prototype")
@@ -22,14 +23,19 @@ public class AdminLoginController {
 	@Autowired
 	private AuthService authService;
 	
+	@Autowired
+	private UserService userService;
+
 	@PostMapping("")
 	public Object post(@RequestBody LoginDto loginDto) {
-		try {
-			String token = authService.login(loginDto);
-
-			return new ResponseEntity<Object>(token, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (userService.getRoleByEmail(loginDto.getEmail()).equals("ROLE_ADMIN")) {
+			try {
+				String token = authService.login(loginDto);
+				System.out.println("haha");
+				return new ResponseEntity<Object>(token, HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}

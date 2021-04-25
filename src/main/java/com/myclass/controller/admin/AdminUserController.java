@@ -29,6 +29,17 @@ public class AdminUserController {
 	@Autowired
 	private UserService userService;
 	
+	@GetMapping("profile")
+	public Object getProfile() {
+		try {
+			UserDto userDto = userService.getProfile();
+			return new ResponseEntity<Object>(userDto, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST); // email, fullname, avatar, phone, address
+	}
+	
 	@GetMapping("")
 	public Object get() {
 		// lấy full danh sách người dùng có cả tên quyền
@@ -45,7 +56,7 @@ public class AdminUserController {
 	public Object post(@Valid @RequestBody UserDto body) {
 		// them moi nguoi dung
 		try {
-			String message = userService.add(body);
+			String message = userService.add(body).getMessage();
 			return new ResponseEntity<Object>(message, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();

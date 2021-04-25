@@ -1,12 +1,10 @@
-token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdHVkZW50QGdtYWlsLmNvbSIsImlhdCI6MTYxODQwOTEwMSwiZXhwIjoxNjE5MjczMTAxfQ.kxbie4dxXKHlqnf3qGsALGmiIDgV9PnkyoO3yID3Sk3YAcYahC9jbA1De5UEFhnxS6BeS4Kj868Z5RxKZ4avoA';
-admin_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2MTg4MDA4ODQsImV4cCI6MTYxOTY2NDg4NH0.e2CoqDPWHCI24szPwJfWt3y4PVZM-Emvo3bf7QCrERmdjCRH5nMP_W_47iqtfoIjzW_Lu4ZxmNjhj1Pa1M1Fsw';
 elearning_token="";
 
 $(document).ready(function() {
 	
 	elearning_token = localStorage.getItem("elearning-token");
 
-	if (elearning_token === null){
+	if (elearning_token === null || elearning_token === ""){
 		location.replace("http://localhost:8080/admin/page/login");
 	}
 	
@@ -16,7 +14,7 @@ $(document).ready(function() {
 		type: 'GET',
 		headers: { "Authorization": elearning_token },
 		contentType: 'text/html',
-		success: function(data, textStatus, jqXhr) {
+		success: function(data) {
 			let selector = "#select-role";
 
 			for (var i = 0; i < data.length; i++) {
@@ -38,6 +36,21 @@ $(document).ready(function() {
 
 function init() {
 	$("#user-table > tbody").remove();
+	$.ajax({
+		url: "http://localhost:8080/api/admin/user/profile",
+		dataType: 'json',
+		type: 'GET',
+		headers: { "Authorization": elearning_token },
+		contentType: 'text/html',
+		success: function(data) {
+			$("#dropdownId").text(data.fullname);
+		},
+		error: function(jqXhr, textStatus, errorThrown) {
+			if (jqXhr.status === 403) {
+				location.replace("http://localhost:8080/405");
+			}
+		}
+	});
 	$.ajax({
 		url: "http://localhost:8080/api/admin/user",
 		dataType: 'json',
@@ -165,7 +178,7 @@ function add() {
 		data: newdata,
 		success: function(data) {
 			console.log(data);
-			if (data === "SUCCESSED") {
+			if (data === "0") {
 				$("#userModal").modal('toggle');
 				notification("success", "Thêm mới thành công");
 				init();
@@ -212,4 +225,9 @@ function getFormData(data) {
 function logout(){
 	localStorage.removeItem("elearning-token");
 	location.reload();
+}
+
+window.onunload = () => {
+   // Clear the local storage
+   window.MyStorage.clear()
 }

@@ -1,15 +1,26 @@
 package com.myclass.dto;
 
-public class LoginDto {
+public class RegisterDto {
+
+	private String fullname;
 	private String email;
 	private String password;
 
-	public LoginDto() {
+	public RegisterDto() {
 	}
 
-	public LoginDto(String email, String password) {
+	public RegisterDto(String fullname, String email, String password) {
+		this.fullname = fullname;
 		this.email = email;
 		this.password = password;
+	}
+
+	public String getFullname() {
+		return fullname;
+	}
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
 	}
 
 	public String getEmail() {

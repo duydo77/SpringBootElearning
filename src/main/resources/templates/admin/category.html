@@ -23,29 +23,41 @@
 
 	<div class="d-flex justify-content-between">
 		<!-- SIDE BAR -->
-		<div id="side-bar">
+		<div id="side-bar" class="bg-dark">
 			<div class="logo">ADMIN PAGE</div>
 			<ul class="list-group rounded-0">
 				<li class="dashboard">DASHBOARD</li>
-				<li><a th:href="@{/admin/page/user}"> <i
-						class="fa fa-user mr-2"></i> Quản lý thành viên
-				</a></li>
-				<li><a th:href="@{/admin/page/role}"> <i
-						class="fa fa-book mr-2"></i> Quản lý quyền
-				</a></li>
-				<li><a th:href="@{/admin/page/category}"> <i
-						class="fa fa-book mr-2"></i> Quản lý thể loại
-				</a></li>
-				<li><a href="http://localhost:8080/admin/page/course"> <i
-						class="fa fa-cogs mr-2"></i> Quản lý khoá học
-				</a></li>
+				<li>
+					<a th:href="@{/admin/page/user}">
+						<i class="fa fa-user mr-2"></i>
+						Quản lý thành viên
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/admin/page/role}">
+						<i class="fa fa-book mr-2"></i>
+						Quản lý quyền
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/admin/page/category}">
+						<i class="fa fa-book mr-2"></i>
+						Quản lý thể loại
+					</a>
+				</li>
+				<li>
+					<a href="http://localhost:8080/admin/page/course">
+						<i class="fa fa-cogs mr-2"></i>
+						Quản lý khoá học
+					</a>
+				</li>
 			</ul>
 		</div>
 
 		<div id="admin-wrapper">
 			<!-- HEADER -->
 			<nav class="navbar navbar-expand-sm navbar-light bg-light w-100">
-				<a class="navbar-brand" href="#"><i class="fa fa-align-justify"></i></a>
+				<div style="font-size: 22px;"><strong>ELEARNING APP</strong></div>
 				<button class="navbar-toggler d-lg-none" type="button"
 					data-toggle="collapse" data-target="#collapsibleNavId"
 					aria-controls="collapsibleNavId" aria-expanded="false"
@@ -68,7 +80,7 @@
 
 			<!-- CONTENT -->
 			<section id="admin-content" class="p-3">
-				<h3 class="mb-3">Danh sách quyền</h3>
+				<h3 class="mb-3">Danh sách thể loại</h3>
 				<div class="row">
 					<div class="col-md-8">
 						<button class="btn btn-outline-secondary"

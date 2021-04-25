@@ -32,4 +32,9 @@ public class AdminIndexController {
 	public String home() {
 		return "admin/index";
 	}
+	
+	@GetMapping("profile")
+	public String profile() {
+		return "admin/profile";
+	}
 }

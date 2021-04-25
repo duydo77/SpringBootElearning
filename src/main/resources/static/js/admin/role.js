@@ -1,18 +1,37 @@
-token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdHVkZW50QGdtYWlsLmNvbSIsImlhdCI6MTYxODQwOTEwMSwiZXhwIjoxNjE5MjczMTAxfQ.kxbie4dxXKHlqnf3qGsALGmiIDgV9PnkyoO3yID3Sk3YAcYahC9jbA1De5UEFhnxS6BeS4Kj868Z5RxKZ4avoA';
-admin_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjFAZ21haWwuY29tIiwiaWF0IjoxNjE4OTk3NzIzLCJleHAiOjE2MTk4NjE3MjN9.I3x0_ycnC34mo_m5eaD7gVYvcaIYUSsM0Nok0mKBnHNWWyoFV7vYB38pv6eMAyULdtXlNvFtYL0JvD1hErNg4A';
+elearning_token = ""
 $(document).ready(function() {
+	
+	elearning_token = localStorage.getItem("elearning-token");
 
+	if (elearning_token === null){
+		location.replace("http://localhost:8080/admin/page/login");
+	}
 	init();
 
 });
 
 function init() {
+	$.ajax({
+		url: "http://localhost:8080/api/admin/user/profile",
+		dataType: 'json',
+		type: 'GET',
+		headers: { "Authorization": elearning_token },
+		contentType: 'text/html',
+		success: function(data) {
+			$("#dropdownId").text(data.fullname);
+		},
+		error: function(jqXhr, textStatus, errorThrown) {
+			if (jqXhr.status === 403) {
+				location.replace("http://localhost:8080/405");
+			}
+		}
+	});
 	$("#role-table > tbody").remove();
 	$.ajax({
 		url: "http://localhost:8080/api/admin/role",
 		dataType: 'json',
 		type: 'GET',
-		headers: { "Authorization": admin_token},
+		headers: { "Authorization": elearning_token},
 		contentType: 'text/html',
 		success: function(data, textStatus, jqXhr) {
 			let selector = "#role-table";
@@ -45,7 +64,7 @@ function editTogleModal(id) {
 		url: "http://localhost:8080/api/admin/role/" + id,
 		type: 'GET',
 		dataType: 'json',
-		headers: { "Authorization": admin_token },
+		headers: { "Authorization": elearning_token },
 		contentType: 'application/json',
 		success: function(data) {
 			$('#role-name').val(data.name);
@@ -75,7 +94,7 @@ function editRole(id) {
 	$.ajax({
 		url: "http://localhost:8080/api/admin/role/" + id,
 		type: 'PUT',
-		headers: { "Authorization": admin_token },
+		headers: { "Authorization": elearning_token },
 		contentType: 'application/json',
 		data: newdata,
 		success: function(data) {
@@ -97,7 +116,7 @@ function addRole() {
 	$.ajax({
 		url: "http://localhost:8080/api/admin/role",
 		type: 'POST',
-		headers: { "Authorization": admin_token },
+		headers: { "Authorization": elearning_token },
 		contentType: 'application/json',
 		data: newdata,
 		success: function(data) {
@@ -116,7 +135,7 @@ function deleteRole(id) {
 	$.ajax({
 		url: "http://localhost:8080/api/admin/role/" + id,
 		type: 'DELETE',
-		headers: { "Authorization": admin_token },
+		headers: { "Authorization": elearning_token },
 		contentType: 'application/json',
 		success: function(data) {
 			init();

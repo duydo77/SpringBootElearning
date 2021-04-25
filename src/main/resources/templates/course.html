@@ -31,40 +31,8 @@
                                     <i class="fa fa-th"></i>
                                     <span class="ml-2">Categories</span>
                                 </a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-laptop mr-1"></i>
-                                        <span>Development</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-camera-retro mr-1"></i>
-                                        <span>Photography</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-bar-chart mr-1"></i>
-                                        <span>Business</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-desktop mr-1"></i>
-                                        <span>IT & Software</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-handshake-o mr-1"></i>
-                                        <span>Marketing</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-music mr-1"></i>
-                                        <span>Music</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-pencil-square-o mr-1"></i>
-                                        <span>Design</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-cutlery mr-1"></i>
-                                        <span>Cooking</span>
-                                    </a>
-                                </div>
+                                <div class="dropdown-menu" id="list-category">
+								</div>
                             </div>
                         </li>
                         <li class="nav-item w-100">
@@ -81,18 +49,22 @@
                     <i class="fa fa-shopping-basket"></i>
                 </div>
                 <div class="col-md-5 d-flex justify-content-end">
-                    <div class="dropdown">
-                        <div class="dropdown-toggle font-weight-bold text-dark" data-toggle="dropdown">
-                            Cybersoft
-                        </div>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="profile.html">Thông tin cá nhân</a>
-                            <a class="dropdown-item" href="course.html">Khóa học của tôi</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Đăng xuất</a>
-                        </div>
-                    </div>
-                </div>
+					<div class="dropdown">
+						<div class="dropdown-toggle font-weight-bold text-dark" data-toggle="dropdown" id="avatar-icon">
+							<div></div>
+							<img style='border: 3px outset #ddd;' alt='#' width='35'
+								height='35' class='avatar-title rounded-circle bg-warning'
+								src='#' >
+						</div>
+						<div class="dropdown-menu dropdown-menu-right">
+							<a class="dropdown-item" href="http://localhost:8080/profile">Thông
+								tin cá nhân</a> <a class="dropdown-item"
+								href="http://localhost:8080/mycourse">Khóa học của tôi</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" onclick="logout()">Đăng xuất</a>
+						</div>
+					</div>
+				</div>
             </div>
         </nav>
     </header>
@@ -109,16 +81,15 @@
         <div class="container">
             <div class="banner-content">
                 <h1>My course</h1>
-                <h5>tienhoang1211@gmail.com</h5>
             </div>
         </div>
     </section>
     <!-- BEGIN BANNER -->
     <!-- BEGIN CONTENT -->
     <section class="mt-5">
-        <div class="container">
+        <div class="container" id="list-course">
             <div class="row">
-                <div class="col-md-3">
+                <!-- <div class="col-md-3">
                     <a href="#" class="my-course-item">
                         <img src="./img/html-css.jpg" alt="">
                         <h6 class="my-course-title">React - The Complete Guide (incl Hooks, React Router, Redux) </h6>
@@ -133,121 +104,8 @@
                             </h6>
                         </div>
                     </a>
-                </div>
-                <div class="col-md-3">
-                    <a href="#" class="my-course-item">
-                        <img src="./img/html-css.jpg" alt="">
-                        <h6 class="my-course-title">React - The Complete Guide (incl Hooks, React Router, Redux) </h6>
-                        <div class="my-course-desc">
-                            Java Python Android and C# Expert Developer - 467K+ students The Complete Guide (incl Hooks,
-                            React Router, Redux)
-                        </div>
-                        <div class="my-course-author">
-                            <h6>
-                                <small>Lê Quang Song</small>
-                                <small>Start course</small>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <a href="#" class="my-course-item">
-                        <img src="./img/html-css.jpg" alt="">
-                        <h6 class="my-course-title">React - The Complete Guide (incl Hooks, React Router, Redux) </h6>
-                        <div class="my-course-desc">
-                            Java Python Android and C# Expert Developer - 467K+ students The Complete Guide (incl Hooks,
-                            React Router, Redux)
-                        </div>
-                        <div class="my-course-author">
-                            <h6>
-                                <small>Lê Quang Song</small>
-                                <small>Start course</small>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <a href="#" class="my-course-item">
-                        <img src="./img/html-css.jpg" alt="">
-                        <h6 class="my-course-title">React - The Complete Guide (incl Hooks, React Router, Redux) </h6>
-                        <div class="my-course-desc">
-                            Java Python Android and C# Expert Developer - 467K+ students The Complete Guide (incl Hooks,
-                            React Router, Redux)
-                        </div>
-                        <div class="my-course-author">
-                            <h6>
-                                <small>Lê Quang Song</small>
-                                <small>Start course</small>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <a href="#" class="my-course-item">
-                        <img src="./img/nodejs.jpg" alt="">
-                        <h6 class="my-course-title">React - The Complete Guide (incl Hooks, React Router, Redux) </h6>
-                        <div class="my-course-desc">
-                            Java Python Android and C# Expert Developer - 467K+ students The Complete Guide (incl Hooks,
-                            React Router, Redux)
-                        </div>
-                        <div class="my-course-author">
-                            <h6>
-                                <small>Lê Quang Song</small>
-                                <small>Start course</small>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <a href="#" class="my-course-item">
-                        <img src="./img/nodejs.jpg" alt="">
-                        <h6 class="my-course-title">React - The Complete Guide (incl Hooks, React Router, Redux) </h6>
-                        <div class="my-course-desc">
-                            Java Python Android and C# Expert Developer - 467K+ students The Complete Guide (incl Hooks,
-                            React Router, Redux)
-                        </div>
-                        <div class="my-course-author">
-                            <h6>
-                                <small>Lê Quang Song</small>
-                                <small>Start course</small>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <a href="#" class="my-course-item">
-                        <img src="./img/nodejs.jpg" alt="">
-                        <h6 class="my-course-title">React - The Complete Guide (incl Hooks, React Router, Redux) </h6>
-                        <div class="my-course-desc">
-                            Java Python Android and C# Expert Developer - 467K+ students The Complete Guide (inclHooks,
-                            React Router, Redux)
-                        </div>
-                        <div class="my-course-author">
-                            <h6>
-                                <small>Lê Quang Song</small>
-                                <small>Start course</small>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <a href="#" class="my-course-item">
-                        <img src="./img/nodejs.jpg" alt="">
-                        <h6 class="my-course-title">React - The Complete Guide (incl Hooks, React Router,
-                            Redux) </h6>
-                        <div class="my-course-desc">
-                            Java Python Android and C# Expert Developer - 467K+ students The Complete Guide
-                            (incl Hooks,
-                            React Router, Redux)
-                        </div>
-                        <div class="my-course-author">
-                            <h6>
-                                <small>Lê Quang Song</small>
-                                <small>Start course</small>
-                            </h6>
-                        </div>
-                    </a>
-                </div>
+                </div> -->
+                
             </div>
         </div>
     </section>
@@ -260,7 +118,8 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="./lib/jquery/jquery.slim.min.js"></script>
     <script src="./lib/popper.js/popper.min.js"></script>
-    <script src="./lib/bootstrap/bootstrap.min.js"></script>
+    <script th:src="@{lib/bootstrap/bootstrap.min.js}"></script>
+    <script th:src="@{/js/course.js}"></script>
 </body>
 
 </html>

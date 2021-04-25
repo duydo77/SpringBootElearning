@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myclass.dto.LoginDto;
+import com.myclass.dto.UpdateProfileReponseDto;
 import com.myclass.dto.UserDto;
 import com.myclass.service.AuthService;
 import com.myclass.service.UserService;
@@ -25,25 +26,33 @@ public class AuthController {
 	
 	@PostMapping("login")
 	public Object post(@RequestBody LoginDto loginDto) {
-		try {
-			String token = authServive.login(loginDto);
-			return new ResponseEntity<Object>(token, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (userService.getRoleByEmail(loginDto.getEmail()).equals("ROLE_STUDENT")) {
+			try {
+				String token = authServive.login(loginDto);
+				return new ResponseEntity<Object>(token, HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@PostMapping("resgister")
+	@PostMapping("register")
 	public Object post(@RequestBody UserDto userDto) {
-		String message = "Tạo mới thất bại";
+		userDto.setAddress("");
+		userDto.setPhone("");
 		try {
-			message = userService.add(userDto);
+			UpdateProfileReponseDto message  = userService.add(userDto);
+			String token = "";
+			if (message.getMessage().equals("0")) {
+				token = authServive.login(new LoginDto(userDto.getEmail(), userDto.getPassword()));
+			}
+			message.setToken(token);
 			return new ResponseEntity<Object>(message, HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ResponseEntity<Object>(message, HttpStatus.BAD_REQUEST);	
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);	
 	}
 
 }

@@ -20,3 +20,7 @@ function notification(type, message){
 	toastr[type](message)
 }
 
+function logout() {
+	localStorage.removeItem("elearning-token");
+	location.reload();
+}

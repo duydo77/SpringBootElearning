@@ -36,7 +36,6 @@ public class CourseController {
 		try {
 			List<CourseDto> dtos = courseService.findAll();
 			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -75,6 +74,18 @@ public class CourseController {
 			return new ResponseEntity<Object>(dto, HttpStatus.OK);
 					
 		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@GetMapping("/mycourse")
+	public Object mycourse() {
+		try {
+			List<CourseDto> dtos = courseService.findAllOfUser();
+			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
+		
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);

@@ -3,7 +3,6 @@ package com.myclass.service;
 import java.io.IOException;
 import java.util.List;
 
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.myclass.dto.ImageDto;
@@ -22,7 +21,7 @@ public interface UserService {
 	
 	public String update(int id, UserDto dto);
 
-	public String add(UserDto dto);
+	public UpdateProfileReponseDto add(UserDto dto);
 
 	public void addTeacher(UserDto dto);
 	
@@ -32,7 +31,7 @@ public interface UserService {
 	
 	UserDto getProfile2();
 	
-	String changePassword(PasswordDto passwordDto);
+	UpdateProfileReponseDto changePassword(PasswordDto passwordDto);
 	
 	String updateAvatar(MultipartFile file) throws IOException;
 	
@@ -41,4 +40,6 @@ public interface UserService {
 	String changePassword2(PasswordDto passwordDto);
 	
 	public void update(UserDto dto);
+	
+	public String getRoleByEmail(String email);
 }

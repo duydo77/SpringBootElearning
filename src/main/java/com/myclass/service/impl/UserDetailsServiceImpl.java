@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.myclass.dto.UserDetailsDto;
 import com.myclass.entity.User;
+import com.myclass.repository.RoleRepository;
 import com.myclass.repository.UserRepository;
 
 @Service
@@ -21,19 +22,23 @@ import com.myclass.repository.UserRepository;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private UserRepository userRepository;
+	private RoleRepository roleRepository;
 
-	UserDetailsServiceImpl(UserRepository userRepository) {
+	UserDetailsServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
 		this.userRepository = userRepository;
+		this.roleRepository = roleRepository;
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		// Gọi hàm kiểm tra email
+		System.out.println("user detail service " + email);
 		User user = userRepository.findByEmail(email);
+		
 		if (user == null)
 			throw new UsernameNotFoundException("Email không tồn tại");
-		// Trả về đối tượng có kiểu dữ liệu UserDetails
-		String roleName = user.getRole().getName();
+		
+		String roleName = roleRepository.getOne(user.getRoleId()).getName();
 		List<GrantedAuthority> authotiries = new ArrayList<GrantedAuthority>();
 		authotiries.add(new SimpleGrantedAuthority(roleName));
 		UserDetails userDetails = new UserDetailsDto( user.getId(), 

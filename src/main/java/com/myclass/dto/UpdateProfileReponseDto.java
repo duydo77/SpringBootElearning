@@ -5,11 +5,10 @@ public class UpdateProfileReponseDto {
 	private String token;
 
 	public UpdateProfileReponseDto() {
-		super();
+	
 	}
 
 	public UpdateProfileReponseDto(String message, String token) {
-		super();
 		this.message = message;
 		this.token = token;
 	}

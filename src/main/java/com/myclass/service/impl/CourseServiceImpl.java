@@ -22,7 +22,6 @@ import com.myclass.entity.User;
 import com.myclass.entity.UserCourse;
 import com.myclass.entity.UserCourseKey;
 import com.myclass.entity.Video;
-import com.myclass.entity.User;
 import com.myclass.repository.CourseRepository;
 import com.myclass.repository.UserCourseRepository;
 import com.myclass.service.CourseService;
@@ -43,8 +42,7 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public List<CourseDto> findAll() {
 		List<CourseDto> courseDtos = courseRepository.findAllWithCate();
-		for (CourseDto courseDto: courseDtos) {
-			System.out.println(courseDto.getId());
+		for (CourseDto courseDto : courseDtos) {
 			User teacher = courseRepository.findTeacher(courseDto.getId());
 			courseDto.setTeacherId(teacher.getId());
 			courseDto.setTeacherName(teacher.getFullname());
@@ -54,11 +52,6 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	public CourseDto findById(int id) {
-//		Course entity = courseRepository.getOne(id);
-//		return new CourseDto(entity.getId(), entity.getTitle(), entity.getImage(), entity.getHourCount(),
-//				entity.getViewCount(), entity.getPrice(), entity.getDiscount(), entity.getPromotionPrice(),
-//				entity.getDesc(), entity.getContent(), entity.getCateId(), entity.getLastUpdate(), teacher.getId(), teacher.getFullname());
-		
 		CourseDto courseDto = courseRepository.findById(id);
 		User teacher = courseRepository.findTeacher(courseDto.getId());
 		courseDto.setTeacherId(teacher.getId());
@@ -68,7 +61,6 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	public void update(int id, CourseDto dto) {
-
 		Course entity = courseRepository.getOne(dto.getId());
 		if (entity == null)
 			return;
@@ -86,7 +78,7 @@ public class CourseServiceImpl implements CourseService {
 		entity.setLastUpdate(dto.getLastUpdate());
 		courseRepository.save(entity);
 	}
-	
+
 	@Override
 	public void update(CourseDto dto) {
 
@@ -111,19 +103,12 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public void add(CourseDto dto) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int userId = ((UserDetailsDto)principal).getId();
-		int roleId = ((UserDetailsDto)principal).getRoleId();
-		
-		Course entity = new Course(dto.getId(), 
-				dto.getTitle(), 
-				dto.getImage(), 
-				dto.getLectureCount(), 
-				dto.getHourCount(), 
-				dto.getViewCount(), 
-				dto.getPrice(), dto.getDiscount(), 
-				dto.getPromotionPrice(), dto.getDesc(), 
-				dto.getContent(), dto.getCateId(), 
-				dto.getLastUpdate());
+		int userId = ((UserDetailsDto) principal).getId();
+		int roleId = ((UserDetailsDto) principal).getRoleId();
+
+		Course entity = new Course(dto.getId(), dto.getTitle(), dto.getImage(), dto.getLectureCount(),
+				dto.getHourCount(), dto.getViewCount(), dto.getPrice(), dto.getDiscount(), dto.getPromotionPrice(),
+				dto.getDesc(), dto.getContent(), dto.getCateId(), dto.getLastUpdate());
 		System.out.println("asdsada");
 		int id = courseRepository.saveAndFlush(entity).getId();
 		System.out.println("Before nn table edeita");
@@ -138,84 +123,78 @@ public class CourseServiceImpl implements CourseService {
 		courseRepository.deleteById(id);
 		userCourseRepository.deleteById(id);
 	}
-	
+
 //	@Override
 //	public CourseDto findDetailById(int id) {
 //		CourseDto dto = courseRepository.findDetailById(id);
 //		return dto;
 //	}
-	
+
 	@Override
 	public CourseDetailsDto findDetailById(int courseId) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int userId = ((UserDetailsDto)principal).getId();
-		
+		int userId = ((UserDetailsDto) principal).getId();
+
 		Course entity = courseRepository.findDetailById(userId, courseId);
-			
+
 		List<VideoDto> listVideo = new ArrayList<VideoDto>();
 		for (Video video : entity.getVideos()) {
-			VideoDto dto = new VideoDto(
-					video.getId(),
-					video.getTitle(), 
-					video.getUrl(), 
-					video.getTimeCount());
+			VideoDto dto = new VideoDto(video.getId(), video.getTitle(), video.getUrl(), video.getTimeCount());
 			listVideo.add(dto);
 		}
-		
+
 		List<TargetDto> listTarget = new ArrayList<TargetDto>();
 		for (Target target : entity.getTargets()) {
-			TargetDto dto = new TargetDto(
-					target.getId(),
-					target.getTitle());
+			TargetDto dto = new TargetDto(target.getId(), target.getTitle());
 			listTarget.add(dto);
 		}
-		
-		
-		CourseDetailsDto dto = new CourseDetailsDto(
-				new CourseDto(entity.getId(),
-						entity.getTitle(),
-						entity.getImage(),
-						entity.getLectureCount(),
-						entity.getHourCount(),
-						entity.getViewCount(),
-						entity.getPrice(),
-						entity.getDiscount(),
-						entity.getPromotionPrice(),
-						entity.getDesc(),
-						entity.getContent(),
-						entity.getLastUpdate()),
 
-				listVideo,
-				listTarget,
-				new UserDto(
-						entity.getUserCourses().get(0).getUser().getId(), 
+		CourseDetailsDto dto = new CourseDetailsDto(
+				new CourseDto(entity.getId(), entity.getTitle(), entity.getImage(), entity.getLectureCount(),
+						entity.getHourCount(), entity.getViewCount(), entity.getPrice(), entity.getDiscount(),
+						entity.getPromotionPrice(), entity.getDesc(), entity.getContent(), entity.getLastUpdate()),
+
+				listVideo, listTarget,
+				new UserDto(entity.getUserCourses().get(0).getUser().getId(),
 						entity.getUserCourses().get(0).getUser().getFullname()),
-				new CategoryDto(entity.getCategory().getId(), 
-						entity.getCategory().getName(), 
-						entity.getCategory().getIcon())
-				);
+				new CategoryDto(entity.getCategory().getId(), entity.getCategory().getName(),
+						entity.getCategory().getIcon()));
 		return dto;
 	}
 
 	@Override
 	public List<CourseDto> findAllOfTeacher() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int id = ((UserDetailsDto)principal).getId();
+		int id = ((UserDetailsDto) principal).getId();
 		return courseRepository.findAllOfTeacher(id);
 	}
-	
+
+	@Override
+	public List<CourseDto> findAllOfUser() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int id = ((UserDetailsDto) principal).getId();
+		List<CourseDto> courseDtos = courseRepository.findAllOfTeacher(id);
+		for (CourseDto courseDto : courseDtos) {
+			User teacher = courseRepository.findTeacher(courseDto.getId());
+			courseDto.setTeacherId(teacher.getId());
+			courseDto.setTeacherName(teacher.getFullname());
+		}
+		return courseDtos;
+	}
+
 	@Override
 	public Course test(int courseId) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int id = ((UserDetailsDto)principal).getId();
+		int id = ((UserDetailsDto) principal).getId();
 		return courseRepository.test(id, courseId);
 	}
 
 	@Override
 	public List<CourseDto> findPromotion() {
 		List<CourseDto> courseDtos = courseRepository.findPromotion();
-		for (CourseDto courseDto: courseDtos) {
+		for (CourseDto courseDto : courseDtos) {
 			User teacher = courseRepository.findTeacher(courseDto.getId());
+			System.out.println(courseDto.getId());
 			courseDto.setTeacherId(teacher.getId());
 			courseDto.setTeacherName(teacher.getFullname());
 		}
@@ -225,7 +204,7 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public List<CourseDto> findPopular() {
 		List<CourseDto> courseDtos = courseRepository.findNormal();
-		for (CourseDto courseDto: courseDtos) {
+		for (CourseDto courseDto : courseDtos) {
 			User teacher = courseRepository.findTeacher(courseDto.getId());
 			courseDto.setTeacherId(teacher.getId());
 			courseDto.setTeacherName(teacher.getFullname());
