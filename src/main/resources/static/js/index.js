@@ -24,7 +24,7 @@ function init() {
 				$(selector).append("<div class='dropdown'>"
 					+ "<div class='dropdown-toggle font-weight-bold text-dark' data-toggle='dropdown'>"
 					+ data.fullname + " "
-					+ "<img style='border: 3px outset #ddd;' alt='#' width='35' height='35' class='avatar-title rounded-circle bg-warning' src='" + data.avatar + "'>"
+					+ "<img style='border: 3px outset #ddd;' width='35' height='35' class='avatar-title rounded-circle' src='" + data.avatar + "'>"
 					+ "</div>"
 					+ "<div class='dropdown-menu dropdown-menu-right'>"
 					+ "<a class='dropdown-item' href='http://localhost:8080/profile'>Thông tin cá nhân</a>"
