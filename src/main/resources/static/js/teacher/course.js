@@ -176,7 +176,7 @@ function init() {
 				$('section.mt-5 .container .row').append(
 					'<div class="col-md-3">' +
 					'<a href="http://localhost:8080/teacher/detail/' + d.id + '" class="my-course-item" >' +
-					'<img src="../img/html-css.jpg" alt="">' +
+					'<img src="' + d.image + '" alt="">' +
 					'<h6 class="my-course-title">' + d.title + '</h6>' +
 					'<div class="my-course-desc">' +
 					d.desc +

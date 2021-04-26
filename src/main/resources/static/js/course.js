@@ -98,7 +98,7 @@ function json2html(data) {
 	return "<div class='col-md-3'>"
 		// + "<a href='" + "http://localhost:8080/coursedetail/" + data.id + "' class='my-course-item'>"
 		+ "<a href='#' onclick='detail("+data.id+")'" + "' class='my-course-item'>"
-		+ "<img src='./img/html-css.jpg' alt=''>"
+		+ "<img src='" + data.image + "' alt=''>"
 		+ "<h6 class='my-course-title'> " + data.title + "</h6>"
 		+ "<div class='my-course-desc'>"
 		+ data.desc

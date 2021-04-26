@@ -3,8 +3,10 @@ package com.myclass.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ import com.myclass.entity.Video;
 import com.myclass.repository.CourseRepository;
 import com.myclass.repository.UserCourseRepository;
 import com.myclass.service.CourseService;
+import com.myclass.utils.DefaultPath;
 
 @Service
 @Scope("prototype")
@@ -34,6 +37,9 @@ public class CourseServiceImpl implements CourseService {
 	private CourseRepository courseRepository;
 	private UserCourseRepository userCourseRepository;
 
+	@Autowired
+	private ServletContext context;
+
 	CourseServiceImpl(CourseRepository courseRepository, UserCourseRepository userCourseRepository) {
 		this.courseRepository = courseRepository;
 		this.userCourseRepository = userCourseRepository;
@@ -42,6 +48,7 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public List<CourseDto> findAll() {
 		List<CourseDto> courseDtos = courseRepository.findAllWithCate();
+		System.out.println("sourse service impl " + context.getContextPath());
 		for (CourseDto courseDto : courseDtos) {
 			User teacher = courseRepository.findTeacher(courseDto.getId());
 			courseDto.setTeacherId(teacher.getId());
@@ -167,6 +174,9 @@ public class CourseServiceImpl implements CourseService {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int id = ((UserDetailsDto) principal).getId();
 		List<CourseDto> courseDtos = courseRepository.findAllOfTeacher(id);
+		for (CourseDto courseDto: courseDtos) {
+			courseDto.setImage(DefaultPath.imageCoursePath + courseDto.getImage());
+		}
 		return courseDtos;
 	}
 
@@ -194,6 +204,7 @@ public class CourseServiceImpl implements CourseService {
 	public List<CourseDto> findPromotion() {
 		List<CourseDto> courseDtos = courseRepository.findPromotion();
 		for (CourseDto courseDto : courseDtos) {
+			courseDto.setImage(DefaultPath.imageCoursePath + courseDto.getImage());
 			User teacher = courseRepository.findTeacher(courseDto.getId());
 			System.out.println(courseDto.getId());
 			courseDto.setTeacherId(teacher.getId());
@@ -206,11 +217,12 @@ public class CourseServiceImpl implements CourseService {
 	public List<CourseDto> findPopular() {
 		List<CourseDto> courseDtos = courseRepository.findNormal();
 		for (CourseDto courseDto : courseDtos) {
+			courseDto.setImage(DefaultPath.imageCoursePath + courseDto.getImage());
 			User teacher = courseRepository.findTeacher(courseDto.getId());
 			courseDto.setTeacherId(teacher.getId());
 			courseDto.setTeacherName(teacher.getFullname());
 		}
 		return courseDtos;
 	}
-	
+
 }

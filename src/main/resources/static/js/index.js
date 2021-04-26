@@ -1,5 +1,4 @@
-const path = "http://localhost:8080/api/";
-
+const path = "http://localhost:8080/";
 $(document).ready(() => {
 
 	init();
@@ -222,7 +221,7 @@ function logout() {
 function json2course_promotion(data) {
 	return "<div class='col-md-3'>"
 		+ "<div class='course'>"
-		+ "<img src='./img/html-css.jpg' />"
+		+ "<img src='" + data.image+ "' />"
 		+ "<h6 class='course-title'>" + data.title + "</h6>"
 		+ "<small class='course-content'>"
 		+ data.content
@@ -233,7 +232,7 @@ function json2course_promotion(data) {
 		+ "</div>"
 		+ "<div class='seller-label'>Sale" + data.discount + "%</div>"
 		+ "<div class='course-overlay'>"
-		+ "<a href='details.html'>"
+		+ "<a href='" + path + "coursedetail/" + data.id + "'>"
 		+ "<h6 class='course-title'>"
 		+ data.title
 		+ "</h6 >"
@@ -251,7 +250,7 @@ function json2course_promotion(data) {
 		+ data.content
 		+ "</small>"
 		+ "</a>"
-		+ "<a href = '#' class='btn btn-sm btn-danger text-white w-100'>" + "Chi tiết" + "</a>"
+		+ "<a href = '" + path + "coursedetail/" + data.id + "' class='btn btn-sm btn-danger text-white w-100'>" + "Chi tiết" + "</a>"
 		+ "</div >"
 		+ "</div >"
 		+ "</div >"
@@ -260,7 +259,7 @@ function json2course_promotion(data) {
 function json2course_popular(data) {
 	return "<div class='col-md-2'>"
 		+ "<div class='course'>"
-		+ "<img src='./img/html-css.jpg' />"
+		+ "<img src='" + data.image + "' />"
 		+ "<h6 class='course-title'>" + data.title + "</h6>"
 		+ "<small class='course-content'>"
 		+ data.content
@@ -269,7 +268,7 @@ function json2course_popular(data) {
 		+ "	<span>" + data.price + " đ</span>"
 		+ "</div>"
 		+ "<div class='course-overlay'>"
-		+ "<a href='details.html'>"
+		+ "<a href='" + path + "coursedetail/" + data.id + "'>"
 		+ "<h6 class='course-title'>"
 		+ data.title
 		+ "</h6 >"
@@ -287,7 +286,7 @@ function json2course_popular(data) {
 		+ data.content
 		+ "</small>"
 		+ "</a>"
-		+ "<a href = '#' class='btn btn-sm btn-danger text-white w-100'>" + "Chi tiết" + "</a>"
+		+ "<a href = '" + path + "coursedetail/" + data.id + "' class='btn btn-sm btn-danger text-white w-100'>" + "Chi tiết" + "</a>"
 		+ "</div >"
 		+ "</div >"
 		+ "</div >"
