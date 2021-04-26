@@ -1,4 +1,5 @@
 elearning_token = ""
+login_path = "http://localhost:8080/admin/page/login";
 $(document).ready(function() {
 	
 	elearning_token = localStorage.getItem("elearning-token");
@@ -22,7 +23,7 @@ function init() {
 		},
 		error: function(jqXhr, textStatus, errorThrown) {
 			if (jqXhr.status === 403) {
-				location.replace("http://localhost:8080/405");
+				location.replace("http://localhost:8080/admin/page/login");
 			}
 		}
 	});

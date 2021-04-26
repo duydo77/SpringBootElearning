@@ -21,25 +21,27 @@ import com.myclass.service.UserService;
 @RequestMapping("api/teacher/")
 @CrossOrigin("*")
 public class TeacherLoginController {
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private AuthService authService;
-	
+
 	@PostMapping(value = "login", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Object post(@RequestBody LoginDto loginDto) {
-		try {
-			String token = authService.login(loginDto);
+		if (userService.getRoleByEmail(loginDto.getEmail()).equals("ROLE_TEACHER")) {
+			try {
+				String token = authService.login(loginDto);
 
-			return new ResponseEntity<Object>(token, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
+				return new ResponseEntity<Object>(token, HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@PostMapping("resgister")
 	public Object post(@RequestBody UserDto userDto) {
 		try {

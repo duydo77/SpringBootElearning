@@ -12,7 +12,7 @@
     <link rel="stylesheet" th:href="@{/lib/font-awesome/css/font-awesome.min.css}">
     <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/course.css}">
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
 </head>
 
 <body>
@@ -25,48 +25,7 @@
             <div class="collapse navbar-collapse row" id="collapsibleNavId">
                 <div class="col-md-6">
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0 d-flex align-items-center justify-content-between">
-                        <li class="nav-item mr-3">
-                            <div class="dropdown">
-                                <a class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-th"></i>
-                                    <span class="ml-2">Categories</span>
-                                </a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-laptop mr-1"></i>
-                                        <span>Development</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-camera-retro mr-1"></i>
-                                        <span>Photography</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-bar-chart mr-1"></i>
-                                        <span>Business</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-desktop mr-1"></i>
-                                        <span>IT & Software</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-handshake-o mr-1"></i>
-                                        <span>Marketing</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-music mr-1"></i>
-                                        <span>Music</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-pencil-square-o mr-1"></i>
-                                        <span>Design</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-cutlery mr-1"></i>
-                                        <span>Cooking</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
+                        
                         <li class="nav-item w-100">
                             <form class="input-group nav-search">
                                 <input type="text" class="form-control" placeholder="Search courses">
@@ -78,18 +37,21 @@
                     </ul>
                 </div>
                 <div class="col-md-1 nav-cart">
-                    <i class="fa fa-shopping-basket"></i>
+                    <i class="fa "></i>
                 </div>
                 <div class="col-md-5 d-flex justify-content-end">
                     <div class="dropdown">
-                        <div class="dropdown-toggle font-weight-bold text-dark" data-toggle="dropdown">
-                            Cybersoft
-                        </div>
+                        <div class="dropdown-toggle font-weight-bold text-dark" data-toggle="dropdown" id="avatar-icon">
+							<div></div>
+							<img style='border: 3px outset #ddd;' alt='#' width='35'
+								height='35' class='avatar-title rounded-circle bg-warning'
+								src='#' >
+						</div>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="profile.html">Thông tin cá nhân</a>
-                            <a class="dropdown-item" href="course.html">Khóa học của tôi</a>
+                            <a class="dropdown-item" href="http://localhost:8080/teacher/profile">Thông tin cá nhân</a>
+                            <a class="dropdown-item" href="http://localhost:8080/teacher">Khóa học của tôi</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Đăng xuất</a>
+                            <a class="dropdown-item" onclick="logout()">Đăng xuất</a>
                         </div>
                     </div>
                 </div>
@@ -109,7 +71,7 @@
         <div class="container">
             <div class="banner-content">
                 <h1>My course</h1>
-                <h5>tienhoang1211@gmail.com</h5>
+                <h5 id="banner-email">teacher@gmail.com</h5>
             </div>
         </div>
         <button id="btn-create-course" style="float: right;" class="btn btn-primary">Create new</button>
@@ -200,7 +162,6 @@
     <script th:src="@{/lib/popper.js/popper.min.js}"></script>
     <script th:src="@{/lib/bootstrap/bootstrap.min.js}"></script>
     <script th:src="@{/js/teacher/course.js}"></script>
-    <script th:src="@{/js/custom.js}"></script>
     <footer class="py-4 mt-4 text-center border-top">
         <span>Copyright © 2019 Cybersoft, Inc.</span>
     </footer>

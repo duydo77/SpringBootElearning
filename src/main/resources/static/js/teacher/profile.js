@@ -12,7 +12,7 @@ $(document).ready(function() {
 function init() {
 
 	$.ajax({
-		url: "http://localhost:8080/api/admin/user/profile",
+		url: "http://localhost:8080/api/user/profile",
 		type: "GET",
 		dataType: "json",
 		headers: {
@@ -21,7 +21,6 @@ function init() {
 		contentType: 'text/html',
 		success: function(resp) {
 			let profile = resp;
-			$("#dropdownId").text(profile.fullname);
 			$("#avatar-icon").find('div').text(profile.fullname);
 			$("#avatar-icon").find('img').attr('src', profile.avatar);
 			document.getElementById('fullname').setAttribute("value", profile.fullname);
@@ -30,11 +29,11 @@ function init() {
 			document.getElementById('address').setAttribute("value", profile.address);
 			document.getElementById('imgAvatar').setAttribute("src", profile.avatar);
 			document.getElementById('security_email').setAttribute("value", profile.email);
+			document.getElementById('banner_email').innerHTML = profile.email;
+			document.getElementById('banner_fullname').innerHTML = profile.fullname;
 		},
 		error: function(jqXhr, textStatus, errorThrown) {
-			if (jqXhr.status === 403) {
-				location.replace("http://localhost:8080/admin/page/login");
-			}
+			console.log(jqXhr.responseText);
 		}
 	});
 }

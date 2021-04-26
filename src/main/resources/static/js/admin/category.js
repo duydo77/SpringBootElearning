@@ -22,7 +22,7 @@ function init() {
 		},
 		error: function(jqXhr, textStatus, errorThrown) {
 			if (jqXhr.status === 403) {
-				location.replace("http://localhost:8080/405");
+				location.replace("http://localhost:8080/admin/page/login");
 			}
 		}
 	});

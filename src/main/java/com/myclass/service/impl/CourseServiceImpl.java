@@ -166,7 +166,8 @@ public class CourseServiceImpl implements CourseService {
 	public List<CourseDto> findAllOfTeacher() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int id = ((UserDetailsDto) principal).getId();
-		return courseRepository.findAllOfTeacher(id);
+		List<CourseDto> courseDtos = courseRepository.findAllOfTeacher(id);
+		return courseDtos;
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("teacher")
 public class TeacherIndexController {
 
-	@GetMapping("course")
+	@GetMapping("")
 	public String course() {
 		return "teacher/course";
 	}
@@ -16,6 +16,16 @@ public class TeacherIndexController {
 	@GetMapping("index")
 	public String index() {
 		return "teacher/index";
+	}
+	
+	@GetMapping("login")
+	public String login() {
+		return "teacher/login";
+	}
+	
+	@GetMapping("profile")
+	public String profile() {
+		return "teacher/profile";
 	}
 	
 	@GetMapping("detail/{id}")
