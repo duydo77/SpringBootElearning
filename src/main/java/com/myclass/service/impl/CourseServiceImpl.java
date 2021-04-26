@@ -53,6 +53,7 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public CourseDto findById(int id) {
 		CourseDto courseDto = courseRepository.findById(id);
+		System.out.println(courseDto.getLectureCount());
 		User teacher = courseRepository.findTeacher(courseDto.getId());
 		courseDto.setTeacherId(teacher.getId());
 		courseDto.setTeacherName(teacher.getFullname());
