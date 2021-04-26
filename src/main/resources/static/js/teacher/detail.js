@@ -134,7 +134,7 @@ function detail(courseId) {
 					'</li>');
 				$("#right-course-desc-items").append(
 					'<li>' +
-					'<div style="float:right; height:24;"><span ><button class="btn btn-outline-secondary" onclick="openEditTargetModal(' + t.id + ')">Edit</button></span>' +
+					'<div style="float:right; height:24;`"><span ><button class="btn btn-outline-secondary" onclick="openEditTargetModal(' + t.id + ')">Edit</button></span>' +
 					'<span ><button class="btn btn-outline-secondary" onclick="deleteTarget(' + t.id + ')">Delete</button></span></div>' +
 					'</li>');
 			});
@@ -241,3 +241,49 @@ function logout() {
 	localStorage.removeItem("elearning-token");
 	location.reload();
 }
+
+$("#btnAddTarget").click(() => {
+	let formData = new FormData(document.getElementById("formAddTarget"));
+	let object = {};
+	formData.append('courseId', id);
+	formData.forEach((value, key) => object[key] = value);
+	let json = JSON.stringify(object);
+	console.log(json);
+	console.log(JSON.parse(json));
+	console.log(JSON.parse(json).id);
+	if (JSON.parse(json).id == undefined || JSON.parse(json).id == null | JSON.parse(json).id == "") {
+		$.ajax({
+			crossDomain: true,
+			type: 'POST',
+			url: 'http://localhost:8080/api/teacher/target',
+			data: json,
+			headers: {
+				'Authorization': 'Bearer ' + token,
+				'Content-Type': 'application/json',
+			},
+			dataType: 'json',
+			success: () => {
+			},
+			error: () => {
+			}
+		});
+	} else {
+		$.ajax({
+			crossDomain: true,
+			type: 'PUT',
+			url: 'http://localhost:8080/api/teacher/target',
+			data: json,
+			headers: {
+				'Authorization': 'Bearer ' + token,
+				'Content-Type': 'application/json',
+			},
+			dataType: 'json',
+			success: () => {
+			},
+			error: () => {
+				console.log('fail');
+			}
+		});
+	}
+	window.location.href = ('http://localhost:8080/detail/' + id);
+});
