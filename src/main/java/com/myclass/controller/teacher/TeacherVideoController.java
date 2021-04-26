@@ -74,20 +74,6 @@ public class TeacherVideoController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 	
-//	@PostMapping("/base64")
-//	public Object post(@RequestBody UploadVideoDto dto) {
-//		try {
-//			System.out.println("controller" + dto.getTitle());
-//			System.out.println("controller" + dto.getVideoAsBase64());
-//			videoService.add(dto);
-//			return new ResponseEntity<Object>(HttpStatus.OK);
-//		
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-//	}
-//	
 	@PutMapping
 	public Object put(@RequestBody VideoDto dto) {
 		try {
@@ -113,19 +99,6 @@ public class TeacherVideoController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 	
-//	@PostMapping(value = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//	public Object post(@RequestBody UploadVideoFileDto dto, HttpServletRequest req) {
-//		try {
-//			videoService.add(dto, req);
-//			return new ResponseEntity<Object>(HttpStatus.OK);
-//		
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-//	}
-	
-	// test
 	@PostMapping(value = "/file/{id}")
 	public Object post(@PathVariable("id") int id, @RequestBody MultipartFile file) {
 		try {
@@ -141,7 +114,6 @@ public class TeacherVideoController {
 	
 	@GetMapping("video/{videoName}")
     public Object getImage(@PathVariable String videoName) {
-		// Trả về ảnh avatar
 		try {
 			VideoFileDto dto = videoService.getVideoFile(videoName);
     		return ResponseEntity.ok()

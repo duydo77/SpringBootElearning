@@ -70,12 +70,13 @@ $('#btn-save-video').click(() => {
 				.catch((jqXhr, textStatus, errorThrown) => {
 					console.log(errorThrown);
 				});
-			window.location.href = ('http://localhost:8080/teacher/detail/' + id);
+			setTimeout(()=>{window.location.href = ('http://localhost:8080/teacher/detail/' + id)}, 200);
 		},
 		error: (jqXhr, textStatus, errorThrown) => {
 			console.log(errorThrown);
 		}
 	});
+	
 });
 
 function detail(courseId) {
@@ -108,6 +109,8 @@ function detail(courseId) {
 		dataType: 'text',
 		success: (dataa) => {
 			var data = JSON.parse(dataa);
+			console.log(data);
+			console.log(JSON.stringify(data));
 			$(".banner-content").append('<h1>' + data.course.title + '</h1>' +
 				'<h5>' +
 				data.course.content +
@@ -115,21 +118,24 @@ function detail(courseId) {
 				'<h6 class="mt-3">' +
 				'<span><i class="fa fa-user m-1"></i> Created by </span>' +
 				'<a href="#" class="text-white font-weight-bold mr-4">' + data.user.fullname + '</a>' +
-				'<span><i class="fa fa-calendar-check-o mr-1"></i> Last updated 04/2019</span>' +
+				'<span><i class="fa fa-calendar-check-o mr-1"></i> Last updated ' + String(data.course.lastUpdate).substring(0,10) + '</span>' +
 				'</h6>' +
 				'<h6 class="mt-3">' +
 				'<span><i class="fa fa-play-circle mr-1"></i> ' + data.course.lectureCount + ' lectures</span>' +
 				'<span class="mx-1"> | </span>' +
 				'<span><i class="fa fa-clock-o mr-1"></i> ' + data.course.hourCount + ' hours</span>' +
-				'<span class="ml-2">with <b class="mx-1">568,171</b> students enrolled</span>' +
+				'<span class="ml-2">with <b class="mx-1">' + data.course.viewCount + '</b> students enrolled</span>' +
 				'</h6>');
 			data.targets.map((t) => {
 				$("#left-course-desc-items").append(
 					'<li>' +
 					'<i class="fa fa-check"></i>' +
 					'<span>' + t.title + '</span>' +
-					'<span class="mr"><button class="btn btn-outline-secondary" onclick="openEditTargetModal(' + t.id + ')">Edit</button></span>' +
-					'<span class="mr"><button class="btn btn-outline-secondary" onclick="deleteTarget(' + t.id + ')">Delete</button></span>' +
+					'</li>');
+				$("#right-course-desc-items").append(
+					'<li>' +
+					'<div style="float:right; height:24;"><span ><button class="btn btn-outline-secondary" onclick="openEditTargetModal(' + t.id + ')">Edit</button></span>' +
+					'<span ><button class="btn btn-outline-secondary" onclick="deleteTarget(' + t.id + ')">Delete</button></span></div>' +
 					'</li>');
 			});
 			$("span.mr-3").append(data.course.lectureCount + ' lectures')
@@ -200,10 +206,15 @@ $("#btnOpenAddTargetModal").click(() => {
 
 
 function watchVideo(videoName) {
-	console.log(videoName);
-	$("#videoModal").modal();
-	let video = document.getElementById("video-iframe");
-	video.setAttribute("src", "http://localhost:8080/videos/" + videoName + ".mp4");
+	if(videoName !== null) {
+		console.log(videoName);
+		$("#videoModal").modal();
+		let video = document.getElementById("video-iframe");
+		video.setAttribute("src", "http://localhost:8080/videos/" + videoName + ".mp4");
+	} else {
+		alert("Lỗi")
+	}
+
 	// axios({
 	//     url: 'http://localhost:8080/api/teacher/video/video/'+ videoName,
 	//     method: 'GET',
@@ -225,3 +236,8 @@ function watchVideo(videoName) {
 $("#openAddVideoModal").click(() => {
 	$("#addVideoModal").modal();
 });
+
+function logout() {
+	localStorage.removeItem("elearning-token");
+	location.reload();
+}

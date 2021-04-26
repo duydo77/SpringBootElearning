@@ -33,9 +33,11 @@ import com.myclass.dto.UploadVideoFileDto;
 import com.myclass.dto.VideoDto;
 import com.myclass.dto.VideoFileDto;
 import com.myclass.dto.VideoDto;
+import com.myclass.entity.Course;
 import com.myclass.entity.User;
 import com.myclass.entity.Video;
 import com.myclass.entity.Video;
+import com.myclass.repository.CourseRepository;
 import com.myclass.repository.UserRepository;
 import com.myclass.repository.VideoRepository;
 import com.myclass.service.VideoService;
@@ -48,6 +50,9 @@ public class VideoServiceImpl implements VideoService{
 	
 	@Autowired
 	VideoRepository videoRepository;
+	
+	@Autowired
+	CourseRepository courseRepository;
 	
 	@Autowired
 	UserRepository userRepository;
@@ -152,6 +157,9 @@ public class VideoServiceImpl implements VideoService{
 			Video entity = videoRepository.getOne(videoId);
 			entity.setUrl(fileName);
 			System.out.println(entity.getUrl());
+			Course course = courseRepository.getOne(entity.getCourseId());
+			course.setLectureCount(course.getLectureCount() + 1);
+			courseRepository.save(course);
 			videoRepository.save(entity);
 		} catch (Exception e) {
 			e.printStackTrace();

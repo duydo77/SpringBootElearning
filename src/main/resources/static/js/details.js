@@ -58,8 +58,10 @@ function detail(courseId) {
 		},
 		dataType: 'text',
 		success: (dataa) => {
-			console.log(data)
+
 			var data = JSON.parse(dataa);
+			console.log(data)
+			console.log(JSON.stringify(data));
 			$(".banner-content").append('<h1>' + data.course.title + '</h1>' +
 				'<h5>' +
 				data.course.content +
@@ -67,13 +69,13 @@ function detail(courseId) {
 				'<h6 class="mt-3">' +
 				'<span><i class="fa fa-user m-1"></i> Created by </span>' +
 				'<a href="#" class="text-white font-weight-bold mr-4">' + data.course.teacherName + '</a>' +
-				'<span><i class="fa fa-calendar-check-o mr-1"></i> Last updated 04/2019</span>' +
+				'<span><i class="fa fa-calendar-check-o mr-1"></i> Last updated ' + String(data.course.lastUpdate).substring(0,10) + '</span>' +
 				'</h6>' +
 				'<h6 class="mt-3">' +
 				'<span><i class="fa fa-play-circle mr-1"></i> ' + data.course.lectureCount + ' lectures</span>' +
 				'<span class="mx-1"> | </span>' +
 				'<span><i class="fa fa-clock-o mr-1"></i> ' + data.course.hourCount + ' hours</span>' +
-				'<span class="ml-2">with <b class="mx-1">568,171</b> students enrolled</span>' +
+				'<span class="ml-2">with <b class="mx-1">' + data.course.viewCount + '</b> students enrolled</span>' +
 				'</h6>');
 			data.targets.map((t) => {
 				$("#left-course-desc-items").append(

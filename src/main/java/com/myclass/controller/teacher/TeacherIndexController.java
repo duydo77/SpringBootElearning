@@ -13,10 +13,10 @@ public class TeacherIndexController {
 		return "teacher/course";
 	}
 	
-	@GetMapping("index")
-	public String index() {
-		return "teacher/index";
-	}
+//	@GetMapping("")
+//	public String index() {
+//		return "teacher/index";
+//	}
 	
 	@GetMapping("login")
 	public String login() {
