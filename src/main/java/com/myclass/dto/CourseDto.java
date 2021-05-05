@@ -42,11 +42,6 @@ public class CourseDto {
 
 	}
 
-	// CourseDto(c.id, c.title, c.image, c.lectureCount, c.hourCount, c.viewCount,
-	// c.price, c.discount,"
-	// + " c.promotionPrice, c.desc, c.content, c.cateId, c.lastUpdate, ca.name,"
-	// + " ca.icon, u.id, u.fullname) "
-
 	public CourseDto(
 			int id, 
 			String title, 

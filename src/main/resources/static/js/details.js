@@ -4,6 +4,11 @@ const id = urlParams.substring((urlParams.lastIndexOf('/') + 1), urlParams.lengt
 
 let token = localStorage.getItem("elearning-token");
 
+if (!localStorage.getItem("list-cart")) {
+	let cartList = [];
+	localStorage.setItem("list-cart", JSON.stringify(cartList));
+}
+
 detail(id);
 init();
 
@@ -94,6 +99,14 @@ function detail(courseId) {
 			$(".course-buy-info.mt-2").append('<small><i class="fa fa-empire"></i> Full lifetime access</small><br>');
 			$(".course-buy-info.mt-2").append('<small><i class="fa fa-tablet"></i> Access on mobile and TV</small><br>');
 			$(".course-buy-info.mt-2").append('<small><i class="fa fa-recycle"></i> Certificate of Completion</small><br>');
+			$(".course-buy").append('<button onclick="addToCart(' + data.course.id + ')" class="btn btn-danger w-100">Add to cart</button>');
+			$(".course-buy").append('<button class="btn btn-outline-secondary w-100">Buy now</button>');
+			$(".course-buy").append('<div class="course-buy-info mt-2"> ' +
+											'<span>This course includes</span>	 ' +											
+											'</div> ' +
+											'<a class="course-buy-share border-top" href="#"> ' +
+												'<i class="fa fa-share"></i> Share ' +
+											'</a>');
 			data.videos.map((v) => {
 				$("#list-content").append(
 					'<li>' +
@@ -241,4 +254,38 @@ function watchVideo(videoName) {
 	// .catch((jqXhr, textStatus, errorThrown) => {
 	//     console.log(errorThrown);
 	// });
+}
+
+function addToCart(courseId) {
+
+	$.ajax({
+		url: 'http://localhost:8080/api/course/' + courseId,
+		type: 'GET',
+		contentType: 'application/json',
+		success: (data) => {
+			
+			let course = {
+				"id": data.course.id,
+				"image": "hinh1.jpg",
+				"title": data.course.title,
+				"teacherName": data.course.teacherName,
+				"price": data.course.price,
+				"promotionPrice": data.course.promotionPrice
+			}
+			console.log(course);
+			if (localStorage.getItem('list-cart') == '') {
+				let cartList = [];
+				cartList.push(course);
+				localStorage.setItem('list-cart', JSON.stringify(cartList));
+			} else {
+				
+				console.log('local storage' + localStorage.getItem('list-cart'));
+				let cartList = JSON.parse(localStorage.getItem('list-cart'));
+				cartList.push(course);
+				localStorage.setItem('list-cart', JSON.stringify(cartList));
+			}
+		},
+		error: () => {
+		}
+	});
 }

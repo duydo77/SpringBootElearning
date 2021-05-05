@@ -1,5 +1,10 @@
 const path = "http://localhost:8080/api/";
 
+if (!localStorage.getItem("list-cart")) {
+	let cartList = [];
+	localStorage.setItem("list-cart", JSON.stringify(cartList));
+}
+
 $(document).ready(() => {
 
 	init();
@@ -251,7 +256,7 @@ function json2course_promotion(data) {
 		+ data.content
 		+ "</small>"
 		+ "</a>"
-		+ "<a href = '#' class='btn btn-sm btn-danger text-white w-100'>" + "Chi tiết" + "</a>"
+		+ "<a href = 'http://localhost:8080/coursedetail/" + data.id + "' class='btn btn-sm btn-danger text-white w-100'>" + "Chi tiết" + "</a>"
 		+ "</div >"
 		+ "</div >"
 		+ "</div >"
@@ -287,8 +292,9 @@ function json2course_popular(data) {
 		+ data.content
 		+ "</small>"
 		+ "</a>"
-		+ "<a href = '#' class='btn btn-sm btn-danger text-white w-100'>" + "Chi tiết" + "</a>"
+		+ "<a href = 'http://localhost:8080/coursedetail/" + data.id +"'  class='btn btn-sm btn-danger text-white w-100'>" + "Chi tiết" + "</a>"
 		+ "</div >"
 		+ "</div >"
 		+ "</div >"
 }
+

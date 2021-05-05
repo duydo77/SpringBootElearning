@@ -30,6 +30,11 @@ public class IndexController {
 		return "details";
 	}
 	
+	@GetMapping("/cart")
+	public String cart() {
+		return "cart";
+	}
+	
 	@GetMapping("/405")
 	public String e405() {
 		return "error/405";

@@ -1,19 +1,13 @@
 const urlParams = window.location.href;
-console.log(urlParams.substring((urlParams.lastIndexOf('/') + 1), urlParams.length));
 const id = urlParams.substring((urlParams.lastIndexOf('/') + 1), urlParams.length);
-
 let token = localStorage.getItem("elearning-token");
-
-// let base64File = '';
 let file;
-
+let obUrl;
+let inputVideo = document.getElementById("input-video");
+let duration;
 detail(id);
-// let element = convertHtmlToJQueryObject($("#addVideoModal").html());
-// console.log(element);
 
-// $("footer").append(element);
-
-$("#video-file").change(() => {
+$("#video-file").change((event) => {
 	let inputFile = document.getElementById("video-file");
 	if (inputFile.files && inputFile.files[0]) {
 		const reader = new FileReader();
@@ -21,24 +15,33 @@ $("#video-file").change(() => {
 			e.target.result;
 		};
 		reader.readAsDataURL(inputFile.files[0]);
+		
 	}
+	file = event.target.files[0]; 
+		console.log(file);
+		obUrl = URL.createObjectURL(file);
+		console.log(obUrl);
+		// inputVideo.append('<source src="' + obUrl + '" type="video/mp4">');
+		inputVideo.setAttribute('src', obUrl);
 });
 
-// function convertHtmlToJQueryObject(html){
-//     var htmlDOMObject = new DOMParser().parseFromString(html, "text/html");
-//     return $(htmlDOMObject.documentElement);
-// }
+inputVideo.onloadedmetadata = function(e) {
+	duration = e.target.duration;
+	console.log(e.target.duration);
+	URL.revokeObjectURL(obUrl);
+};
 
 $('#btn-save-video').click(() => {
 	let inputFile = document.getElementById("video-file");
-
+		
 	if (inputFile.files.length === 0) {
 		alert("Vui lòng chọn file!");
 		return;
 	};
 	let data = {
 		courseId: id,
-		title: $("#video-title").val()
+		title: $("#video-title").val(),
+		timeCount: duration
 	};
 
 	data = JSON.stringify(data);
@@ -51,9 +54,10 @@ $('#btn-save-video').click(() => {
 		headers: { 'Authorization': 'Bearer ' + token },
 		contentType: 'application/json',
 		success: (videoId) => {
-			console.log(videoId);
-			let formData = new FormData();
 
+			
+			let formData = new FormData();
+			
 			formData.append('file', inputFile.files[0]);
 			console.log(formData);
 			console.log(formData.get('file'))
@@ -70,7 +74,7 @@ $('#btn-save-video').click(() => {
 				.catch((jqXhr, textStatus, errorThrown) => {
 					console.log(errorThrown);
 				});
-			setTimeout(()=>{window.location.href = ('http://localhost:8080/teacher/detail/' + id)}, 200);
+			setTimeout(()=>{window.location.href = ('http://localhost:8080/teacher/detail/' + id)}, 5000);
 		},
 		error: (jqXhr, textStatus, errorThrown) => {
 			console.log(errorThrown);
@@ -109,8 +113,6 @@ function detail(courseId) {
 		dataType: 'text',
 		success: (dataa) => {
 			var data = JSON.parse(dataa);
-			console.log(data);
-			console.log(JSON.stringify(data));
 			$(".banner-content").append('<h1>' + data.course.title + '</h1>' +
 				'<h5>' +
 				data.course.content +
@@ -139,15 +141,16 @@ function detail(courseId) {
 					'</li>');
 			});
 			$("span.mr-3").append(data.course.lectureCount + ' lectures')
-			$(".mb-4.font-weight-bold").html(data.course.promotionPrice);
-			$(".mb-4.font-weight-bold").append('<small>' + data.course.price + '</small>')
+			$(".mb-4.font-weight-bold").html(data.course.promotionPrice + ' vnđ');
+			$(".mb-4.font-weight-bold").append('<small>' + data.course.price + ' vnđ</small>')
 			$("#txtDesc").append(data.course.desc);
-			$(".course-buy-info.mt-2").append('<small><i class="fa fa-play-circle-o"></i> ' + data.course.hourCount + ' hours on-demand video</small><br>');
+			$(".course-buy-info.mt-2").append('<small><i class="fa fa-play-circle-o"></i> ' + Math.round(data.course.hourCount / 60) + ':' + Math.round(data.course.hourCount % 60) + ' hours on-demand video</small><br>');
 			$(".course-buy-info.mt-2").append('<small><i class="fa fa-file-o"></i> ' + data.course.lectureCount + ' articles</small><br>');
 			$(".course-buy-info.mt-2").append('<small><i class="fa fa-code"></i> ' + data.course.lectureCount + ' coding exercises</small><br>');
 			$(".course-buy-info.mt-2").append('<small><i class="fa fa-empire"></i> Full lifetime access</small><br>');
 			$(".course-buy-info.mt-2").append('<small><i class="fa fa-tablet"></i> Access on mobile and TV</small><br>');
 			$(".course-buy-info.mt-2").append('<small><i class="fa fa-recycle"></i> Certificate of Completion</small><br>');
+			$("#course-list").append('<span>' + Math.round(data.course.hourCount / 60) + ':' + Math.round(data.course.hourCount % 60) + '</span>')
 			data.videos.map((v) => {
 				$("#list-content").append(
 					'<li>' +
@@ -155,7 +158,7 @@ function detail(courseId) {
 					'<span> <i class="fa fa-play-circle mr-1"></i>' +
 					v.title +
 					'</span>' +
-					'<span>' + v.timeCount + '</span>' +
+					'<span>' + Math.round(v.timeCount / 60) + ':' + Math.round(v.timeCount % 60) + '</span>' +
 					'</a>' +
 					'</li>');
 			});
@@ -204,7 +207,6 @@ $("#btnOpenAddTargetModal").click(() => {
 	$("#addTargetModal").modal();
 });
 
-
 function watchVideo(videoName) {
 	if(videoName !== null) {
 		console.log(videoName);
@@ -214,23 +216,6 @@ function watchVideo(videoName) {
 	} else {
 		alert("Lỗi")
 	}
-
-	// axios({
-	//     url: 'http://localhost:8080/api/teacher/video/video/'+ videoName,
-	//     method: 'GET',
-	//     headers: { 
-	//         'Authorization': 'Bearer ' + token ,
-	//     }
-	// })
-	// .then((data) => {
-	//     let video = document.getElementById("watch-video-modal");
-	//     video.setAttribute('src', data);
-	//     // $("#watch-video-modal").(data);
-	// })
-	// .catch((jqXhr, textStatus, errorThrown) => {
-	//     console.log(errorThrown);
-	// });
-	// window.location.href = ('http://localhost:8080/teacher/detail/' + id);
 }
 
 $("#openAddVideoModal").click(() => {
@@ -287,3 +272,12 @@ $("#btnAddTarget").click(() => {
 	}
 	window.location.href = ('http://localhost:8080/detail/' + id);
 });
+
+// let element = convertHtmlToJQueryObject($("#addVideoModal").html());
+// console.log(element);
+
+// $("footer").append(element);
+// function convertHtmlToJQueryObject(html){
+//     var htmlDOMObject = new DOMParser().parseFromString(html, "text/html");
+//     return $(htmlDOMObject.documentElement);
+// }
