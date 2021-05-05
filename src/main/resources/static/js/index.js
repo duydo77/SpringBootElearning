@@ -1,4 +1,10 @@
 const path = "http://localhost:8080/";
+
+if (!localStorage.getItem("list-cart")) {
+	let cartList = [];
+	localStorage.setItem("list-cart", JSON.stringify(cartList));
+}
+
 $(document).ready(() => {
 	init();
 });
@@ -325,3 +331,4 @@ function json2course_popular(data) {
 		+ "</div >"
 		+ "</div >"
 }
+

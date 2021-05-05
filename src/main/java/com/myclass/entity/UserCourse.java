@@ -7,7 +7,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -15,24 +14,18 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name = "user_courses")
 public class UserCourse implements Serializable{
-
-	/**
-	 * 
-	 */
+ 
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
 	private UserCourseKey id;
 
 	@ManyToOne
-//	@JsonBackReference
-//	@MapsId("userId")
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
 	private User user;
 
 	@ManyToOne
 	@JsonBackReference
-//	@MapsId("courseId")
 	@JoinColumn(name = "course_id", insertable = false, updatable = false)
 	private Course course;
 

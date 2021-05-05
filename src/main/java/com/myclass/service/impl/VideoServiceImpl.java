@@ -193,7 +193,11 @@ public class VideoServiceImpl implements VideoService{
 
 	@Override
 	public int addAndReturnId(VideoDto dto) {
+		System.out.println("videoservice addAndReturnId: " + dto.getUrl());
 		Video entity = new Video(dto.getTitle(), dto.getUrl(), dto.getTimeCount(), dto.getCourseId());
+		Course course = courseRepository.getOne(dto.getCourseId());
+		course.setHourCount(course.getHourCount() + dto.getTimeCount());
+		courseRepository.save(course);
 		return videoRepository.saveAndFlush(entity).getId();
 	}
 

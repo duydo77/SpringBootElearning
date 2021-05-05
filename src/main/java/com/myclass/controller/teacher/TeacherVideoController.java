@@ -102,7 +102,7 @@ public class TeacherVideoController {
 	@PostMapping(value = "/file/{id}")
 	public Object post(@PathVariable("id") int id, @RequestBody MultipartFile file) {
 		try {
-			System.out.println(file);
+			System.out.println("controller " + file);
 			videoService.update(id, file);
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		

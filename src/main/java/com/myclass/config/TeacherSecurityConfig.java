@@ -45,8 +45,7 @@ public class TeacherSecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/api/teacher/**")
 		.hasAnyRole("TEACHER")
 		.anyRequest()
-		.authenticated()
-		.and().formLogin().loginPage("/teacher/index");
+		.authenticated();
 
 		http.addFilter(new AuthFilter(authenticationManager(), userDetailsService));
 
