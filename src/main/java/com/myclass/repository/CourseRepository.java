@@ -82,7 +82,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 			+ "c.id, c.title, c.image, c.hourCount, c.viewCount, c.price, c.discount, "
 			+ "c.promotionPrice, c.desc, c.content, c.cateId, c.lastUpdate) "
 			+ "FROM Course c "
-			+ "JOIN UserCourse uc ON (uc.id.courseId = c.id AND uc.role_id=2) "
+			+ "JOIN UserCourse uc ON (uc.id.courseId = c.id AND uc.roleId=2) "
 			+ "JOIN User u On u.id = uc.id.userId "
 			+ "WHERE c.cateId = :cateId")
 	public List<CourseDto> findbyCateId(@Param("cateId") int cateId);
