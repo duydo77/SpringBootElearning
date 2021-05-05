@@ -73,7 +73,7 @@ function detail(courseId) {
 				'<h6 class="mt-3">' +
 				'<span><i class="fa fa-user m-1"></i> Created by </span>' +
 				'<a href="#" class="text-white font-weight-bold mr-4">' + data.course.teacherName + '</a>' +
-				'<span><i class="fa fa-calendar-check-o mr-1"></i> Last updated ' + String(data.course.lastUpdate).substring(0,10) + '</span>' +
+				'<span><i class="fa fa-calendar-check-o mr-1"></i> Last updated ' + String(data.course.lastUpdate).substring(0, 10) + '</span>' +
 				'</h6>' +
 				'<h6 class="mt-3">' +
 				'<span><i class="fa fa-play-circle mr-1"></i> ' + data.course.lectureCount + ' lectures</span>' +
@@ -101,11 +101,11 @@ function detail(courseId) {
 			$(".course-buy").append('<button onclick="addToCart(' + data.course.id + ')" class="btn btn-danger w-100">Add to cart</button>');
 			$(".course-buy").append('<button class="btn btn-outline-secondary w-100">Buy now</button>');
 			$(".course-buy").append('<div class="course-buy-info mt-2"> ' +
-											'<span>This course includes</span>	 ' +											
-											'</div> ' +
-											'<a class="course-buy-share border-top" href="#"> ' +
-												'<i class="fa fa-share"></i> Share ' +
-											'</a>');
+				'<span>This course includes</span>	 ' +
+				'</div> ' +
+				'<a class="course-buy-share border-top" href="#"> ' +
+				'<i class="fa fa-share"></i> Share ' +
+				'</a>');
 			data.videos.map((v) => {
 				$("#list-content").append(
 					'<li>' +
@@ -288,43 +288,43 @@ function register() {
 	let rg_fullname = $("#rg-fullname").val();
 	let rg_password = $("#rg-password").val();
 	let rg_confim = $("#rg-confirm").val();
-	
+
 	console.log(rg_password !== rg_confim);
-	
-	if (rg_email === ""){
+
+	if (rg_email === "") {
 		$("#rg-message").text("Chưa nhập email!!!");
 		return 0;
 	}
-	if (rg_fullname === ""){
+	if (rg_fullname === "") {
 		$("#rg-message").text("Chưa nhập fullname!!!");
 		return 0;
 	}
-	if (rg_password === ""){
+	if (rg_password === "") {
 		$("#rg-message").text("Chưa nhập mật khẩu!!!");
 		return 0;
 	}
-	if (rg_password !== rg_confim){
+	if (rg_password !== rg_confim) {
 		$("#rg-message").text("Nhập lại mật khẩu không đúng!!!");
 		return 0;
 	}
-	
+
 	let newdata = {
-		"fullname" : rg_fullname,
-		"email" : rg_email,
-		"password" : rg_password	
+		"fullname": rg_fullname,
+		"email": rg_email,
+		"password": rg_password
 	}
-	
+
 	newdata = JSON.stringify(newdata);
-	
+
 	console.log(newdata);
-	
+
 	$.ajax({
 		url: "http://localhost:8080/api/auth/register",
 		type: 'POST',
 		contentType: 'application/json',
 		data: newdata,
 		success: function(data) {
-			switch (data.message){
+			switch (data.message) {
 				case "0":
 					$("#rg-message").text("");
 					localStorage.setItem("elearning-token", data.token);
@@ -337,11 +337,15 @@ function register() {
 					$("#rg-message").text("Tài khoản đã tồn tại!!!");
 					break;
 				default:
-					$("#rg-message").text("Đăng ký thất bại!!!");	
+					$("#rg-message").text("Đăng ký thất bại!!!");
 			}
 		},
 		error: function(jqXhr, textStatus, errorThrown) {
 			$("#rg-message").text("Đăng ký thất bại haha !!!");
+		}
+	});
+}
+
 function addToCart(courseId) {
 
 	$.ajax({
@@ -349,7 +353,7 @@ function addToCart(courseId) {
 		type: 'GET',
 		contentType: 'application/json',
 		success: (data) => {
-			
+
 			let course = {
 				"id": data.course.id,
 				"image": "hinh1.jpg",
@@ -364,7 +368,7 @@ function addToCart(courseId) {
 				cartList.push(course);
 				localStorage.setItem('list-cart', JSON.stringify(cartList));
 			} else {
-				
+
 				console.log('local storage' + localStorage.getItem('list-cart'));
 				let cartList = JSON.parse(localStorage.getItem('list-cart'));
 				cartList.push(course);
