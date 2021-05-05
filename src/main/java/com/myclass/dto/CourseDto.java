@@ -42,11 +42,6 @@ public class CourseDto {
 
 	}
 
-	// CourseDto(c.id, c.title, c.image, c.lectureCount, c.hourCount, c.viewCount,
-	// c.price, c.discount,"
-	// + " c.promotionPrice, c.desc, c.content, c.cateId, c.lastUpdate, ca.name,"
-	// + " ca.icon, u.id, u.fullname) "
-
 	public CourseDto(
 			int id, 
 			String title, 
@@ -110,12 +105,6 @@ public class CourseDto {
 		this.promotionPrice = promotionPrice;
 		this.desc = desc;
 		this.content = content;
-		this.cateId = cateId;
-		this.lastUpdate = lastUpdate;
-		this.cateName = cateName;
-		this.icon = icon;
-		this.teacherId = teacherId;
-		this.teacherName = teacherName;
 	}
 	
 	public CourseDto(
@@ -187,6 +176,36 @@ public class CourseDto {
 		this.cateName = cateName;
 		this.icon = icon;
 	}
+	
+	public CourseDto(
+			int id, 
+			String title, 
+			String image, 
+			int lectureCount, 
+			int hourCount, 
+			int viewCount, 
+			double price,
+			int discount, 
+			double promotionPrice, 
+			String desc, 
+			String content, 
+			int cateId, 
+			Date lastUpdate) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.image = image;
+		this.lectureCount = lectureCount;
+		this.hourCount = hourCount;
+		this.viewCount = viewCount;
+		this.price = price;
+		this.discount = discount;
+		this.promotionPrice = promotionPrice;
+		this.desc = desc;
+		this.content = content;
+		this.cateId = cateId;
+		this.lastUpdate = lastUpdate;
+	}
 
 	// int, java.lang.String, java.lang.String, java.lang.String, java.lang.String,
 	// int, java.lang.String, java.lang.String, java.lang.String, java.lang.String,
@@ -221,6 +240,27 @@ public class CourseDto {
 		this.lastUpdate = lastUpdate;
 		this.cateName = cateName;
 		this.icon = icon;
+	}
+	
+	public CourseDto(int id, String title, String image, int lectureCount, int hourCount, int viewCount, double price,
+			int discount, double promotionPrice, String desc, String content, int cateId, Date lastUpdate,
+			int teacherId, String teacherName) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.image = image;
+		this.lectureCount = lectureCount;
+		this.hourCount = hourCount;
+		this.viewCount = viewCount;
+		this.price = price;
+		this.discount = discount;
+		this.promotionPrice = promotionPrice;
+		this.desc = desc;
+		this.content = content;
+		this.cateId = cateId;
+		this.lastUpdate = lastUpdate;
+		this.teacherId = teacherId;
+		this.teacherName = teacherName;
 	}
 
 	public CourseDto(

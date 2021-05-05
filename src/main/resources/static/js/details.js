@@ -53,7 +53,6 @@ function detail(courseId) {
 		type: 'GET',
 		url: 'http://localhost:8080/api/course/' + courseId,
 		headers: {
-			'Authorization': 'Bearer ' + token,
 			'Content-Type': 'application/json',
 		},
 		dataType: 'text',
@@ -241,4 +240,95 @@ function watchVideo(videoName) {
 	// .catch((jqXhr, textStatus, errorThrown) => {
 	//     console.log(errorThrown);
 	// });
+}
+
+function login() {
+	let newdata = {}
+	newdata.email = $("#lgEmail").val();
+	newdata.password = $("#lgPassword").val();
+	newdata = JSON.stringify(newdata);
+	console.log(newdata);
+	$.ajax({
+		url: "http://localhost:8080/api/auth/login",
+		type: 'POST',
+		contentType: 'application/json',
+		data: newdata,
+		success: function(data) {
+			if (data === null) {
+				$('#message').text("email hoặc mật khẩu không đúng");
+			} else {
+				console.log(data);
+				localStorage.setItem("elearning-token", data);
+				location.reload();
+			}
+			console.log(localStorage.getItem("elearning-token"));
+		},
+		error: function(jqXhr, textStatus, errorThrown) {
+			$('#message').text("email hoặc mật khẩu không đúng");
+		}
+	});
+}
+
+function register() {
+	$("#rg-message").text("")
+	let rg_email = $("#rg-email").val();
+	let rg_fullname = $("#rg-fullname").val();
+	let rg_password = $("#rg-password").val();
+	let rg_confim = $("#rg-confirm").val();
+	
+	console.log(rg_password !== rg_confim);
+	
+	if (rg_email === ""){
+		$("#rg-message").text("Chưa nhập email!!!");
+		return 0;
+	}
+	if (rg_fullname === ""){
+		$("#rg-message").text("Chưa nhập fullname!!!");
+		return 0;
+	}
+	if (rg_password === ""){
+		$("#rg-message").text("Chưa nhập mật khẩu!!!");
+		return 0;
+	}
+	if (rg_password !== rg_confim){
+		$("#rg-message").text("Nhập lại mật khẩu không đúng!!!");
+		return 0;
+	}
+	
+	let newdata = {
+		"fullname" : rg_fullname,
+		"email" : rg_email,
+		"password" : rg_password	
+	}
+	
+	newdata = JSON.stringify(newdata);
+	
+	console.log(newdata);
+	
+	$.ajax({
+		url: "http://localhost:8080/api/auth/register",
+		type: 'POST',
+		contentType: 'application/json',
+		data: newdata,
+		success: function(data) {
+			switch (data.message){
+				case "0":
+					$("#rg-message").text("");
+					localStorage.setItem("elearning-token", data.token);
+					location.reload();
+					break;
+				case "1":
+					$("#rg-message").text("Chưa nhập đủ thông tin!!!");
+					break;
+				case "2":
+					$("#rg-message").text("Tài khoản đã tồn tại!!!");
+					break;
+				default:
+					$("#rg-message").text("Đăng ký thất bại!!!");	
+			}
+		},
+		error: function(jqXhr, textStatus, errorThrown) {
+			$("#rg-message").text("Đăng ký thất bại haha !!!");
+		}
+	});
 }

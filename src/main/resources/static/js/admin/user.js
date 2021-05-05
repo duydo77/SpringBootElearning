@@ -1,13 +1,13 @@
-elearning_token="";
+elearning_token = "";
 login_path = "http://localhost:8080/admin/page/login";
 $(document).ready(function() {
-	
+
 	elearning_token = localStorage.getItem("elearning-token");
 
-	if (elearning_token === null || elearning_token === ""){
+	if (elearning_token === null || elearning_token === "") {
 		location.replace("http://localhost:8080/admin/page/login");
 	}
-	
+
 	$.ajax({
 		url: "http://localhost:8080/api/admin/role",
 		dataType: 'json',
@@ -24,8 +24,8 @@ $(document).ready(function() {
 
 		},
 		error: function(jqXhr, textStatus, errorThrown) {
-			if(jqXhr.status === 403){
-				location.replace(login_path);	
+			if (jqXhr.status === 403) {
+				location.replace(login_path);
 			}
 		}
 	});
@@ -178,12 +178,20 @@ function add() {
 		data: newdata,
 		success: function(data) {
 			console.log(data);
-			if (data === "0") {
-				$("#userModal").modal('toggle');
-				notification("success", "Thêm mới thành công");
-				init();
-			} else {
-				notification("error", data);
+			switch (data) {
+				case "0":
+					$("#userModal").modal('toggle');
+					notification("success", "Thêm mới thành công");
+					init();
+					break;
+				case "1":
+					notification("error", "Chưa nhập eamail hoặc mật khẩu");
+					break;
+				case "2":
+					notification("error", "Tài khoản đã tồn tại");
+					break;
+				default:
+					notification("error", "Thêm mới thất bại");
 			}
 
 		},
@@ -222,12 +230,12 @@ function getFormData(data) {
 	return indexed_array;
 }
 
-function logout(){
+function logout() {
 	localStorage.removeItem("elearning-token");
 	location.reload();
 }
 
 window.onunload = () => {
-   // Clear the local storage
-   window.MyStorage.clear()
+	// Clear the local storage
+	window.MyStorage.clear()
 }

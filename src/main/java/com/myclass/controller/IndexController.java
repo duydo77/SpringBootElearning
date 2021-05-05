@@ -1,11 +1,9 @@
 package com.myclass.controller;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class IndexController {
@@ -23,6 +21,16 @@ public class IndexController {
 	@GetMapping("/mycourse")
 	public String mycouse() {
 		return "course";
+	}
+	
+	@GetMapping("/search")
+	public String mycouse(@RequestParam String key, @RequestParam String p) {
+		return "search";
+	}
+	
+	@GetMapping("/search/cate/{cateId}")
+	public String mycouse(@PathVariable("cateId") int cateId) {
+		return "cate";
 	}
 	
 	@GetMapping("/coursedetail/{courseId}")

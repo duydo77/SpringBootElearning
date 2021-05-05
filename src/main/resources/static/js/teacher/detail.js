@@ -285,5 +285,5 @@ $("#btnAddTarget").click(() => {
 			}
 		});
 	}
-	window.location.href = ('http://localhost:8080/detail/' + id);
+	window.location.href = ('http://localhost:8080/teacher/detail/' + id);
 });

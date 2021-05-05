@@ -187,6 +187,7 @@ public class CourseServiceImpl implements CourseService {
 		int id = ((UserDetailsDto) principal).getId();
 		List<CourseDto> courseDtos = courseRepository.findAllOfTeacher(id);
 		for (CourseDto courseDto : courseDtos) {
+			courseDto.setImage(DefaultPath.imageCoursePath + courseDto.getImage());
 			User teacher = courseRepository.findTeacher(courseDto.getId());
 			courseDto.setTeacherId(teacher.getId());
 			courseDto.setTeacherName(teacher.getFullname());
@@ -226,4 +227,21 @@ public class CourseServiceImpl implements CourseService {
 		return courseDtos;
 	}
 
+	@Override
+	public List<CourseDto> findByCateId(int cateId) {
+		List<CourseDto> dtos = courseRepository.findbyCateId(cateId);
+		for(CourseDto dto: dtos) {
+			dto.setImage(DefaultPath.imageCoursePath + dto.getImage());
+		}
+		return dtos;
+	}
+	
+	@Override
+	public List<CourseDto> search(String key) {
+		List<CourseDto> dtos = courseRepository.search("%" + key + "%");
+		for(CourseDto dto: dtos) {
+			dto.setImage(DefaultPath.imageCoursePath + dto.getImage());
+		}
+		return dtos;
+	}
 }

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Title</title>
+    <title>Category</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,7 +10,7 @@
     <link rel="stylesheet" th:href="@{/lib/bootstrap/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/lib/font-awesome/css/font-awesome.min.css}">
     <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/profile.css}">
 </head>
 
@@ -52,8 +52,8 @@
                             <img style='border: 3px outset #ddd;' width='35' height='35' class='avatar-title rounded-circle'>
                         </div>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="http://localhost:8080/profile">Thông
-                                tin cá nhân</a> <a class="dropdown-item" href="http://localhost:8080/mycourse">Khóa học của tôi</a>
+                            <a class="dropdown-item" href="http://localhost:8080/profile">Thông tin cá nhân</a> 
+                            <a class="dropdown-item" href="http://localhost:8080/mycourse">Khóa học của tôi</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" onclick="logout()">Đăng xuất</a>
                         </div>
@@ -62,19 +62,11 @@
             </div>
         </nav>
     </header>
-    <nav aria-label="breadcrumb">
-        <div class="container-fluid">
-            <ol class="breadcrumb bg-white mb-0 py-2">
-                <li class="breadcrumb-item"><a href="#"><i class="fa fa-home mr-1"></i> Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">My course</li>
-            </ol>
-        </div>
-    </nav>
     <!-- BEGIN BANNER -->
     <section class="course-banner">
         <div class="container">
             <div class="banner-content">
-                <h1>My course</h1>
+                <h2 id="cate-name"></h2>
             </div>
         </div>
     </section>
@@ -110,11 +102,10 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script th:src="@{/lib/jquery/jquery.slim.min.js}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jqu
-    ery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script th:src="@{/lib/popper.js/popper.min.js}"></script>
     <script th:src="@{/lib/bootstrap/bootstrap.min.js}"></script>
-    <script th:src="@{/js/course.js}"></script>
+    <script th:src="@{/js/cate.js}"></script>
 </body>
 
 </html>

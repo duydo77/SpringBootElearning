@@ -1,5 +1,6 @@
 package com.myclass.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myclass.dto.CourseDetailsDto;
@@ -85,6 +87,29 @@ public class CourseController {
 			List<CourseDto> dtos = courseService.findAllOfUser();
 			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
 		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@GetMapping("/search")
+	public Object search(@RequestParam String key) {
+		try {
+			System.out.println("=== " + key);
+			List<CourseDto> dtos = courseService.search(key);
+			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@GetMapping("/cate/{cateId}")
+	public Object searchCategory(@PathVariable("cateId") int cateId) {
+		try {
+			List<CourseDto> dtos = courseService.findByCateId(cateId);
+			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

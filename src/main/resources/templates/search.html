@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Title</title>
+    <title>Search result</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" th:href="@{/css/profile.css}">
+    <link rel="stylesheet" th:href="@{/css/course.css}">
 </head>
 
 <body>
@@ -62,19 +63,12 @@
             </div>
         </nav>
     </header>
-    <nav aria-label="breadcrumb">
-        <div class="container-fluid">
-            <ol class="breadcrumb bg-white mb-0 py-2">
-                <li class="breadcrumb-item"><a href="#"><i class="fa fa-home mr-1"></i> Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">My course</li>
-            </ol>
-        </div>
-    </nav>
+ 
     <!-- BEGIN BANNER -->
-    <section class="course-banner">
+    <section style="background: #aaa" class="course-banner">
         <div class="container">
             <div class="banner-content">
-                <h1>My course</h1>
+              <h2 id="result-count"></h2>
             </div>
         </div>
     </section>
@@ -114,7 +108,7 @@
     ery.min.js"></script>
     <script th:src="@{/lib/popper.js/popper.min.js}"></script>
     <script th:src="@{/lib/bootstrap/bootstrap.min.js}"></script>
-    <script th:src="@{/js/course.js}"></script>
+    <script th:src="@{/js/search.js}"></script>
 </body>
 
 </html>

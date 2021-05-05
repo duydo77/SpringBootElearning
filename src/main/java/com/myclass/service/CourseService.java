@@ -32,4 +32,8 @@ public interface CourseService {
 	public List<CourseDto> findPopular();
 
 	List<CourseDto> findAllOfUser();
+
+	public List<CourseDto> findByCateId(int cateId);
+	
+	public List<CourseDto> search(String key);
 }

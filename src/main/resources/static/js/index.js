@@ -1,13 +1,11 @@
 const path = "http://localhost:8080/";
 $(document).ready(() => {
-
 	init();
-
 });
 
 
 function init() {
-	
+
 	elearning_token = localStorage.getItem("elearning-token");
 	console.log(elearning_token !== null);
 	if (elearning_token !== null) {
@@ -55,7 +53,7 @@ function init() {
 			let selector = "#list-category";
 			for (var i = 0; i < data.length; i++) {
 				let content =
-					"<a class='dropdown-item' href='" + data[i].id + "'>"
+					"<a class='dropdown-item' href='" + path + 'search/cate/' + data[i].id + "'>"
 					+ "<i class='fa " + data[i].icon + " mr-1'></i>"
 					+ "<span> " + data[i].name + "</span>"
 					+ "</a >";
@@ -155,43 +153,43 @@ function register() {
 	let rg_fullname = $("#rg-fullname").val();
 	let rg_password = $("#rg-password").val();
 	let rg_confim = $("#rg-confirm").val();
-	
+
 	console.log(rg_password !== rg_confim);
-	
-	if (rg_email === ""){
+
+	if (rg_email === "") {
 		$("#rg-message").text("Chưa nhập email!!!");
 		return 0;
 	}
-	if (rg_fullname === ""){
+	if (rg_fullname === "") {
 		$("#rg-message").text("Chưa nhập fullname!!!");
 		return 0;
 	}
-	if (rg_password === ""){
+	if (rg_password === "") {
 		$("#rg-message").text("Chưa nhập mật khẩu!!!");
 		return 0;
 	}
-	if (rg_password !== rg_confim){
+	if (rg_password !== rg_confim) {
 		$("#rg-message").text("Nhập lại mật khẩu không đúng!!!");
 		return 0;
 	}
-	
+
 	let newdata = {
-		"fullname" : rg_fullname,
-		"email" : rg_email,
-		"password" : rg_password	
+		"fullname": rg_fullname,
+		"email": rg_email,
+		"password": rg_password
 	}
-	
+
 	newdata = JSON.stringify(newdata);
-	
+
 	console.log(newdata);
-	
+
 	$.ajax({
 		url: "http://localhost:8080/api/auth/register",
 		type: 'POST',
 		contentType: 'application/json',
 		data: newdata,
 		success: function(data) {
-			switch (data.message){
+			switch (data.message) {
 				case "0":
 					$("#rg-message").text("");
 					localStorage.setItem("elearning-token", data.token);
@@ -204,7 +202,7 @@ function register() {
 					$("#rg-message").text("Tài khoản đã tồn tại!!!");
 					break;
 				default:
-					$("#rg-message").text("Đăng ký thất bại!!!");	
+					$("#rg-message").text("Đăng ký thất bại!!!");
 			}
 		},
 		error: function(jqXhr, textStatus, errorThrown) {
@@ -215,13 +213,49 @@ function register() {
 
 function logout() {
 	localStorage.removeItem("elearning-token");
-	location.reload();
+	location.replace("http://localhost:8080/");
 }
+
+function search() {
+	let key = $("#search-input").val()
+	if (key === "") {
+		$("#search-result").removeClass('show');
+	} else {
+		$.ajax({
+			url: "http://localhost:8080/api/course/search?key=" + key,
+			type: "GET",
+			dataType: "json",
+			contentType: "application/json",
+			success: function(data) {
+				let content = '';
+				for (var i = 0; i < data.length; i++) {
+					content += 	'<div>' 
+								+ '<a style="color: #000" href="' + path + 'coursedetail/' + data[i].id + '">' + data[i].title + '<a>'
+								+ '</div>'
+				}
+				$('#search-result').html(content);
+			},
+
+			error: function(jqXhr, textStatus, errorThrown) {
+				console.log(errorThrown);
+			}
+		});
+		$("#search-result").addClass('show');
+	}
+}
+
+$('#btn-search').click(function() {
+	console.log('haha');
+	let key = $("#search-input").val()
+	if (key !== ""){
+		location.replace(path + 'search?key=' + key + '&p=1');
+	}
+})
 
 function json2course_promotion(data) {
 	return "<div class='col-md-3'>"
 		+ "<div class='course'>"
-		+ "<img src='" + data.image+ "' />"
+		+ "<img src='" + data.image + "' />"
 		+ "<h6 class='course-title'>" + data.title + "</h6>"
 		+ "<small class='course-content'>"
 		+ data.content
