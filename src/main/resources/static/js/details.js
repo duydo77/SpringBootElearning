@@ -49,7 +49,7 @@ function init() {
 			+ "<button class='btn btn-danger ml-2' data-toggle='modal'"
 			+ "data-target='#signUpModal'>Sign up</button>");
 	}
-	
+
 	$.ajax({
 		url: "http://localhost:8080/api/category",
 		type: "GET",
@@ -122,15 +122,15 @@ function detail(courseId) {
 			$(".course-buy-info.mt-2").append('<small><i class="fa fa-empire"></i> Full lifetime access</small><br>');
 			$(".course-buy-info.mt-2").append('<small><i class="fa fa-tablet"></i> Access on mobile and TV</small><br>');
 			$(".course-buy-info.mt-2").append('<small><i class="fa fa-recycle"></i> Certificate of Completion</small><br>');
-			$(".course-buy").append('<button onclick="addToCart(' + data.course.id + ')" class="btn btn-danger w-100">Add to cart</button>');
-			$(".course-buy").append('<button class="btn btn-outline-secondary w-100">Buy now</button>');
-			// if(data.bought == false) {
-			// 	$(".course-buy").append('<button onclick="addToCart(' + data.course.id + ')" class="btn btn-danger w-100">Add to cart</button>');
-			// 	$(".course-buy").append('<button class="btn btn-outline-secondary w-100">Buy now</button>');
-			// } else {
-			// 	$(".course-buy").append('<button class="btn btn-danger w-100">Bought</button>');
-			//}
-			
+			// $(".course-buy").append('<button onclick="addToCart(' + data.course.id + ')" class="btn btn-danger w-100">Add to cart</button>');
+			// $(".course-buy").append('<button class="btn btn-outline-secondary w-100">Buy now</button>');
+			if (data.bought == false) {
+				$(".course-buy").append('<button onclick="addToCart(' + data.course.id + ')" class="btn btn-danger w-100">Add to cart</button>');
+				$(".course-buy").append('<button class="btn btn-outline-secondary w-100">Buy now</button>');
+			} else {
+				$(".course-buy").append('<button class="btn btn-danger w-100">Bought</button>');
+			}
+
 			$(".course-buy").append('<div class="course-buy-info mt-2"> ' +
 				'<span>This course includes</span>	 ' +
 				'</div> ' +
