@@ -158,3 +158,23 @@ function getFormData(data) {
 
 	return indexed_array;
 }
+
+$('#search').keyup(function() {
+	search_table($(this).val());
+});
+
+function search_table(value) {
+	$('#role-table tbody tr').each(function() {
+		let found = 'false';
+		$(this).each(function () {
+			if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+				found = 'true';
+			}
+		});
+		if (found == 'true') {
+			$(this).show();
+		}else{
+			$(this).hide();
+		}
+	})
+}

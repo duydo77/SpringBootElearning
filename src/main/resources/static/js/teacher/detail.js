@@ -6,6 +6,7 @@ let obUrl;
 let inputVideo = document.getElementById("input-video");
 let duration;
 detail(id);
+new FroalaEditor('textarea#froala-editor')
 
 $("#video-file").change((event) => {
 	let inputFile = document.getElementById("video-file");
@@ -272,6 +273,11 @@ $("#btnAddTarget").click(() => {
 	}
 	window.location.href = ('http://localhost:8080/detail/' + id);
 });
+
+function second2duration(second){
+	second
+	Math.round(second / 60) + ':' + Math.round(second % 60)
+}
 
 // let element = convertHtmlToJQueryObject($("#addVideoModal").html());
 // console.log(element);

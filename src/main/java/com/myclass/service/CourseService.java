@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.myclass.dto.CourseDetailsDto;
 import com.myclass.dto.CourseDto;
+import com.myclass.dto.SearchDto;
 import com.myclass.entity.Course;
 
 public interface CourseService {
@@ -36,4 +37,6 @@ public interface CourseService {
 	public List<CourseDto> findByCateId(int cateId);
 	
 	public List<CourseDto> search(String key);
+
+	List<CourseDto> searchFilter(SearchDto dto);
 }

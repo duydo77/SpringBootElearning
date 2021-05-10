@@ -1,9 +1,5 @@
 package com.myclass.dto;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-
 import com.myclass.entity.Course;
 import com.myclass.entity.User;
 import com.myclass.entity.UserCourseKey;

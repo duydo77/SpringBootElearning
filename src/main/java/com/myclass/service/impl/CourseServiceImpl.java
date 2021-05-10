@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.myclass.dto.CategoryDto;
 import com.myclass.dto.CourseDetailsDto;
 import com.myclass.dto.CourseDto;
+import com.myclass.dto.SearchDto;
 import com.myclass.dto.TargetDto;
 import com.myclass.dto.UserDetailsDto;
 import com.myclass.dto.UserDto;
@@ -244,4 +245,14 @@ public class CourseServiceImpl implements CourseService {
 		}
 		return dtos;
 	}
+	
+	@Override
+	public List<CourseDto> searchFilter(SearchDto searchDto) {
+		List<CourseDto> dtos = courseRepository.searchCourse(searchDto);
+		for(CourseDto dto: dtos) {
+			dto.setImage(DefaultPath.imageCoursePath + dto.getImage());
+		}
+		return dtos;
+	}
+	
 }

@@ -12,7 +12,7 @@ import com.myclass.entity.Course;
 import com.myclass.entity.User;
  
 @Repository
-public interface CourseRepository extends JpaRepository<Course, Integer> {
+public interface CourseRepository extends JpaRepository<Course, Integer>, CourseRepositoryCustom {
 
 	@Query("SELECT new com.myclass.dto.CourseDto(c.id, c.title, c.image, c.hourCount, c.viewCount, c.price, c.discount,"
 			+ " c.promotionPrice, c.desc, c.content, c.cateId, c.lastUpdate, ca.name,"
@@ -79,8 +79,9 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 	public Course findDetailById(@Param("userId") Integer userId, @Param("courseId") Integer courseId);
 
 	@Query("SELECT new com.myclass.dto.CourseDto("
-			+ "c.id, c.title, c.image, c.hourCount, c.viewCount, c.price, c.discount, "
-			+ "c.promotionPrice, c.desc, c.content, c.cateId, c.lastUpdate) "
+			+ "c.id, c.title, c.image, c.lectureCount, c.hourCount, c.viewCount, c.price, c.discount, "
+			+ "c.promotionPrice, c.desc, c.content, c.cateId, c.lastUpdate, "
+			+ "uc.id.userId, u.fullname) "
 			+ "FROM Course c "
 			+ "JOIN UserCourse uc ON (uc.id.courseId = c.id AND uc.roleId=2) "
 			+ "JOIN User u On u.id = uc.id.userId "
@@ -89,7 +90,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 	
 	@Query("SELECT new com.myclass.dto.CourseDto( "
 			+ "c.id, c.title, c.image, c.lectureCount, c.hourCount, c.viewCount, c.price, c.discount, "
-			+ "c.promotionPrice, c.desc, c.content, c.cateId, c.lastUpdate, u.id, u.fullname ) "
+			+ "c.promotionPrice, c.desc, c.content, c.cateId, c.lastUpdate, ca.name, ca.icon, u.id, u.fullname ) "
 			+ "FROM Course c "
 			+ "JOIN UserCourse uc ON uc.id.courseId = c.id AND uc.roleId = 2 "
 			+ "JOIN User u ON u.id = uc.id.userId "
@@ -102,9 +103,10 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 	
 	@Query("SELECT new com.myclass.dto.CourseDto( "
 			+ "c.id, c.title, c.image, c.lectureCount, c.hourCount, c.viewCount, c.price, c.discount, "
-			+ "c.promotionPrice, c.desc, c.content, c.cateId, c.lastUpdate, u.id, u.fullname ) "
+			+ "c.promotionPrice, c.desc, c.content, c.cateId, c.lastUpdate, ca.name, ca.icon, u.id, u.fullname ) "
 			+ "FROM User u "
 			+ "JOIN UserCourse uc ON uc.id.userId = u.id AND uc.roleId = 2 AND (u.fullname LIKE :teacherName)"
-			+ "JOIN Course c ON c.id = uc.id.courseId ")
+			+ "JOIN Course c ON c.id = uc.id.courseId "
+			+ "JOIN Category ca ON ca.id = c.cateId")
 	public List<CourseDto> searchByTeacherName(@Param("teacherName") String teacherName);
 }

@@ -284,7 +284,7 @@ function json2course_promotion(data) {
 		+ "<div class='course-info'>"
 		+ "<span><i class='fa fa-play-circle'></i> " + data.lectureCount + " lectures</span>"
 		+ "<span class='mx-1'> | </span>"
-		+ "<span><i class='fa fa-clock-o'></i>" + data.hourCount + " hours</span >"
+		+ "<span><i class='fa fa-clock-o'> </i> " + data.hourCount + " hours</span >"
 		+ "</div >"
 		+ "<small class='course-content'>"
 		+ data.content

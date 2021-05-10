@@ -9,9 +9,43 @@ $(document).ready(function() {
 function init() {
 
 	token = localStorage.getItem("elearning-token");
-	if (token === null) {
-		location.replace(path);
+	console.log(token !== null);
+	if (token !== null) {
+		$.ajax({
+			url: path + "api/user/profile",
+			type: "GET",
+			dataType: "json",
+			headers: { "Authorization": token },
+			contentType: 'text/html',
+			success: function(data) {
+				let selector = "#info";
+				console.log(data)
+				$(selector).append("<div class='dropdown'>"
+					+ "<div class='dropdown-toggle font-weight-bold text-dark' data-toggle='dropdown'>"
+					+ data.fullname + " "
+					+ "<img style='border: 3px outset #ddd;' width='35' height='35' class='avatar-title rounded-circle' src='" + data.avatar + "'>"
+					+ "</div>"
+					+ "<div class='dropdown-menu dropdown-menu-right'>"
+					+ "<a class='dropdown-item' href='" + path + "profile'>Thông tin cá nhân</a>"
+					+ "<a class='dropdown-item' href='" + path + "mycourse'>Khóa học của tôi</a>"
+					+ "<div class='dropdown-divider'></div>"
+					+ "<a class='dropdown-item' onclick='logout()'>Đăng xuất</a>"
+					+ "</div>"
+					+ "</div>");
+			},
+
+			error: function(jqXhr, textStatus, errorThrown) {
+				console.log(jqXhr.responseText);
+			}
+		});
+
+	} else {
+		$("#info").append("<button class='btn btn-outline-secondary' data-toggle='modal'"
+			+ "data-target='#loginModal'>Login</button>"
+			+ "<button class='btn btn-danger ml-2' data-toggle='modal'"
+			+ "data-target='#signUpModal'>Sign up</button>");
 	}
+
 
 	$.ajax({
 		url: path + "api/category",
@@ -37,30 +71,9 @@ function init() {
 	});
 
 	$.ajax({
-		url: path + 'api/user/profile',
-		type: "GET",
-		dataType: "json",
-		headers: {
-			'Authorization': token
-		},
-		contentType: 'text/html',
-		success: function(data) {
-			$("#avatar-icon").find('div').text(data.fullname);
-			$("#avatar-icon").find('img').attr('src', data.avatar);
-		},
-
-		error: function(jqXhr, textStatus, errorThrown) {
-			console.log(jqXhr.responseText);
-		}
-	});
-
-	$.ajax({
 		url: path + 'api/course/cate/' + cateId,
 		type: "GET",
 		dataType: "json",
-		headers: {
-			'Authorization': token
-		},
 		contentType: 'text/html',
 		success: function(data) {
 			let selector = "#list-course";

@@ -1,6 +1,10 @@
 package com.myclass.dto;
 
+import javax.validation.constraints.Email;
+
 public class LoginDto {
+	
+	@Email
 	private String email;
 	private String password;
 

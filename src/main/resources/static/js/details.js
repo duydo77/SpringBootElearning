@@ -1,3 +1,4 @@
+path = 'http://localhost:8080/'
 const urlParams = window.location.href;
 console.log(urlParams.substring((urlParams.lastIndexOf('/') + 1), urlParams.length));
 const id = urlParams.substring((urlParams.lastIndexOf('/') + 1), urlParams.length);
@@ -29,15 +30,15 @@ function init() {
 					+ "<img style='border: 3px outset #ddd;' width='35' height='35' class='avatar-title rounded-circle' src='" + data.avatar + "'>"
 					+ "</div>"
 					+ "<div class='dropdown-menu dropdown-menu-right'>"
-					+ "<a class='dropdown-item' href='http://localhost:8080/profile'>Thông tin cá nhân</a>"
-					+ "<a class='dropdown-item' href='http://localhost:8080/mycourse'>Khóa học của tôi</a>"
+					+ "<a class='dropdown-item' href='" + path + "profile'>Thông tin cá nhân</a>"
+					+ "<a class='dropdown-item' href='" + path + "mycourse'>Khóa học của tôi</a>"
 					+ "<div class='dropdown-divider'></div>"
 					+ "<a class='dropdown-item' onclick='logout()'>Đăng xuất</a>"
 					+ "</div>"
 					+ "</div>");
 			},
 
-			error: function(jqXhr, textStatus, errorThrown) {
+			error: function(jqXhr) {
 				console.log(jqXhr.responseText);
 			}
 		});
@@ -48,6 +49,28 @@ function init() {
 			+ "<button class='btn btn-danger ml-2' data-toggle='modal'"
 			+ "data-target='#signUpModal'>Sign up</button>");
 	}
+	
+	$.ajax({
+		url: "http://localhost:8080/api/category",
+		type: "GET",
+		dataType: "json",
+		contentType: 'text/html',
+		success: function(data) {
+			let selector = "#list-category";
+			for (var i = 0; i < data.length; i++) {
+				let content =
+					"<a class='dropdown-item' href='" + path + 'search/cate/' + data[i].id + "'>"
+					+ "<i class='fa " + data[i].icon + " mr-1'></i>"
+					+ "<span> " + data[i].name + "</span>"
+					+ "</a >";
+				$(selector).append(content);
+			}
+		},
+
+		error: function(jqXhr, textStatus, errorThrown) {
+			console.log(jqXhr.responseText);
+		}
+	});
 
 }
 
