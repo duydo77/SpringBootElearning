@@ -23,6 +23,7 @@ import com.myclass.dto.TargetDto;
 import com.myclass.dto.VideoDto;
 import com.myclass.service.CourseService;
 import com.myclass.service.TargetService;
+import com.myclass.service.UserCourseService;
 import com.myclass.service.VideoService;
 
 @RestController
@@ -32,11 +33,13 @@ public class CourseController {
 	private CourseService courseService;
 	private TargetService targetService;
 	private VideoService videoService;
+	private UserCourseService userCourseService;
 	
-	CourseController(CourseService courseService, TargetService targetService, VideoService videoService){
+	CourseController(CourseService courseService, TargetService targetService, VideoService videoService, UserCourseService userCourseService){
 		this.courseService = courseService;
 		this.targetService = targetService;
 		this.videoService = videoService;
+		this.userCourseService = userCourseService;
 	}
 	
 	@GetMapping
@@ -79,6 +82,24 @@ public class CourseController {
 			List<TargetDto> targetDtos = targetService.findByCourseId(courseDto.getId());
 			List<VideoDto> videoDtos = videoService.findByCourseId(courseDto.getId());
 			CourseDetailsDto dto = new CourseDetailsDto(courseDto, videoDtos, targetDtos); 
+			return new ResponseEntity<Object>(dto, HttpStatus.OK);
+					
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+	}
+	
+	// thêm token để check khóa học đã đk chưa
+	@GetMapping("check/{id}")
+	public Object getAndCheck(@PathVariable int id) {
+		try {
+			CourseDto courseDto = courseService.findById(id);
+			List<TargetDto> targetDtos = targetService.findByCourseId(courseDto.getId());
+			List<VideoDto> videoDtos = videoService.findByCourseId(courseDto.getId());
+			boolean isBought = userCourseService.isBoughtCheck(id);
+			CourseDetailsDto dto = new CourseDetailsDto(courseDto, videoDtos, targetDtos, isBought); 
+
 			return new ResponseEntity<Object>(dto, HttpStatus.OK);
 					
 		}catch (Exception e) {

@@ -25,8 +25,8 @@ public class UserCourseServiceImpl implements UserCourseService{
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int userId = ((UserDetailsDto) principal).getId();
 		int roleId = ((UserDetailsDto) principal).getRoleId();
-		
 		UserCourseKey userCoursePK = new UserCourseKey(userId, courseId);
+		
 		UserCourse userCourse = new UserCourse(userCoursePK, roleId);
 		userCourseRepository.save(userCourse);
 	}
@@ -42,6 +42,17 @@ public class UserCourseServiceImpl implements UserCourseService{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	@Override
+	public boolean isBoughtCheck(int courseId) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int userId = ((UserDetailsDto) principal).getId();
+		
+		if(userCourseRepository.findByCourseIdAndUserId(courseId, userId) ==  null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 	
 }
