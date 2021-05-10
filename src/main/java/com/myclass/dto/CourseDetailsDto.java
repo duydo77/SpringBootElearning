@@ -6,13 +6,14 @@ import com.myclass.entity.Category;
 
 public class CourseDetailsDto {
 
-	private CourseDto course;
-	private List<VideoDto> videos;
+	private CourseDto 		course;
+	private List<VideoDto> 	videos;
 	private List<TargetDto> targets;
-	private UserCourseDto userCourse;
-	private UserDto user;
-	private Category category;
-	private CategoryDto categoryDto;
+	private UserCourseDto 	userCourse;
+	private UserDto 		user;
+	private Category 		category;
+	private CategoryDto 	categoryDto;
+	private boolean 		isBought;
 	
 	public CourseDetailsDto() {}
 	
@@ -20,6 +21,13 @@ public class CourseDetailsDto {
 		this.course = course;
 		this.videos = videos;
 		this.targets = targets;
+	}
+	
+	public CourseDetailsDto(CourseDto course, List<VideoDto> videos, List<TargetDto> targets, boolean isBought) {
+		this.course = course;
+		this.videos = videos;
+		this.targets = targets;
+		this.isBought = isBought;
 	}
 
 	public CourseDetailsDto(CourseDto course, List<VideoDto> videos, List<TargetDto> targets, UserDto user, CategoryDto category) {
@@ -110,6 +118,14 @@ public class CourseDetailsDto {
 
 	public void setCategoryDto(CategoryDto categoryDto) {
 		this.categoryDto = categoryDto;
+	}
+
+	public boolean isBought() {
+		return isBought;
+	}
+
+	public void setBought(boolean isBought) {
+		this.isBought = isBought;
 	}
 	
 	

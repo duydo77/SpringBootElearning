@@ -4,24 +4,24 @@ let listCart = localStorage.getItem("list-cart");
 init();
 
 function init() {
-    console.log(1);
-    $.ajax({
-		url: 'http://localhost:8080/api/user/profile',
-		type: "GET",
-		dataType: "json",
-		headers: {
-			'Authorization': token
-		},
-		contentType: 'text/html',
-		success: function(data) {
-			$("#avatar-icon").find('div').text(data.fullname);
-			$("#avatar-icon").find('img').attr('src', data.avatar);
-		},
+ 
+    // $.ajax({
+	// 	url: 'http://localhost:8080/api/user/profile',
+	// 	type: "GET",
+	// 	dataType: "json",
+	// 	headers: {
+	// 		'Authorization': token
+	// 	},
+	// 	contentType: 'text/html',
+	// 	success: function(data) {
+	// 		$("#avatar-icon").find('div').text(data.fullname);
+	// 		$("#avatar-icon").find('img').attr('src', data.avatar);
+	// 	},
 
-		error: function(jqXhr, textStatus, errorThrown) {
-			location.replace("http://localhost:8080/teacher/login");
-		}
-	});
+	// 	error: function(jqXhr, textStatus, errorThrown) {
+	// 		location.replace("http://localhost:8080/teacher/login");
+	// 	}
+	// });
 
     $.ajax({
 		url: "http://localhost:8080/api/category",
@@ -60,32 +60,32 @@ function init() {
 			totalPrice += d.price;
 			totalPromotionPrice += d.promotionPrice;
 			$("#course-content-cart div#list-cart-box").append('<div class="row list-cart-item"> ' +
-												'<div class="col-md-4"> ' +
-													'<img src="./img/html-css.jpg" alt="" style="height: 100px;"> ' +
-												'</div> ' +
-												'<div class="col-md-5"> ' +
-													'<div><a href="http://localhost:8080/coursedetail/' + d.id + '"><h3>' + d.title + '</h3></a></div> ' +
-													'<div>' + d.teacherName + '</div> ' +
-												'</div> ' +
-												'<div class="col-md-2">' +
-													'<h1>' + d.promotionPrice + '</h1> ' +
-													'<div><h3 class="line-through-text">' + d.price + '</h3></div> ' +
-												'</div> ' +
-												'<div class="col-md-1">' +
-													'<button class="btn btn-danger" onclick="removeCartItem(' + d.id + ')">X</button>' +
-												'</div> ' +
-											'</div>');
+																'<div class="col-md-4"> ' +
+																'<img src="./img/html-css.jpg" alt="" style="height: 100px;"> ' +
+																'</div> ' +
+																'<div class="col-md-5"> ' +
+																'<div><a href="http://localhost:8080/coursedetail/' + d.id + '"><h3>' + d.title + '</h3></a></div> ' +
+																'<div>' + d.teacherName + '</div> ' +
+																'</div> ' +
+																'<div class="col-md-2">' +
+																'<h1>' + d.promotionPrice + '</h1> ' +
+																'<div><h3 class="line-through-text">' + d.price + '</h3></div> ' +
+																'</div> ' +
+																'<div class="col-md-1">' +
+																'<button class="btn btn-danger" onclick="removeCartItem(' + d.id + ')">X</button>' +
+																'</div> ' +
+																'</div>');
 		});
 
 		$("div#checkout-box").append('<div class="course-buy">' +
-											'<h2 class="mb-4 font-weight-bold">  ' +
-												'Total: ' + totalPromotionPrice +
-											'</h2>' +
-											'<h4><h3 class="line-through-text">' + totalPrice + '</h3></h4>' +
-											'<button onclick="checkout()" class="btn btn-success w-100">Check out</button>' +
-											'<div class="course-buy-info mt-2">' +
-											'</div>' +
-										'</div>');
+									'<h2 class="mb-4 font-weight-bold">  ' +
+									'Total: ' + totalPromotionPrice +
+									'</h2>' +
+									'<h4><h3 class="line-through-text">' + totalPrice + '</h3></h4>' +
+									'<button onclick="checkout()" class="btn btn-success w-100">Check out</button>' +
+									'<div class="course-buy-info mt-2">' +
+									'</div>' +
+									'</div>');
                 
 	}   
 }

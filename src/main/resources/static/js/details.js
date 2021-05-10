@@ -58,7 +58,7 @@ function detail(courseId) {
 		type: 'GET',
 		url: 'http://localhost:8080/api/course/' + courseId,
 		headers: {
-			'Authorization': 'Bearer ' + token,
+			//'Authorization': 'Bearer ' + token,
 			'Content-Type': 'application/json',
 		},
 		dataType: 'text',
@@ -101,6 +101,13 @@ function detail(courseId) {
 			$(".course-buy-info.mt-2").append('<small><i class="fa fa-recycle"></i> Certificate of Completion</small><br>');
 			$(".course-buy").append('<button onclick="addToCart(' + data.course.id + ')" class="btn btn-danger w-100">Add to cart</button>');
 			$(".course-buy").append('<button class="btn btn-outline-secondary w-100">Buy now</button>');
+			// if(data.bought == false) {
+			// 	$(".course-buy").append('<button onclick="addToCart(' + data.course.id + ')" class="btn btn-danger w-100">Add to cart</button>');
+			// 	$(".course-buy").append('<button class="btn btn-outline-secondary w-100">Buy now</button>');
+			// } else {
+			// 	$(".course-buy").append('<button class="btn btn-danger w-100">Bought</button>');
+			//}
+			
 			$(".course-buy").append('<div class="course-buy-info mt-2"> ' +
 											'<span>This course includes</span>	 ' +											
 											'</div> ' +
@@ -239,21 +246,6 @@ function watchVideo(videoName) {
 	$("#videoModal").modal();
 	let video = document.getElementById("video-iframe");
 	video.setAttribute("src", "http://localhost:8080/videos/" + videoName + ".mp4");
-	// axios({
-	//     url: 'http://localhost:8080/api/teacher/video/video/'+ videoName,
-	//     method: 'GET',
-	//     headers: { 
-	//         'Authorization': 'Bearer ' + token ,
-	//     }
-	// })
-	// .then((data) => {
-	//     let video = document.getElementById("watch-video-modal");
-	//     video.setAttribute('src', data);
-	//     // $("#watch-video-modal").(data);
-	// })
-	// .catch((jqXhr, textStatus, errorThrown) => {
-	//     console.log(errorThrown);
-	// });
 }
 
 function addToCart(courseId) {
