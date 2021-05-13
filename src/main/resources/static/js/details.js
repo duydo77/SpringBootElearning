@@ -3,13 +3,23 @@ console.log(urlParams.substring((urlParams.lastIndexOf('/') + 1), urlParams.leng
 const id = urlParams.substring((urlParams.lastIndexOf('/') + 1), urlParams.length);
 
 let token = localStorage.getItem("elearning-token");
+let listcart = localStorage.getItem("list-cart");
 
-if (!localStorage.getItem("list-cart")) {
+let test = JSON.parse(listcart);
+test.forEach(element => {
+	console.log(element);
+});
+if (!listcart) {
 	let cartList = [];
 	localStorage.setItem("list-cart", JSON.stringify(cartList));
 }
 
-detail(id);
+if (token != null) {
+	detailAndCheck(id);
+} else {
+	detail(id);
+}
+
 init();
 
 function init() {
@@ -51,22 +61,18 @@ function init() {
 
 }
 
-
 function detail(courseId) {
 	$.ajax({
 		crossDomain: true,
 		type: 'GET',
 		url: 'http://localhost:8080/api/course/' + courseId,
 		headers: {
-			//'Authorization': 'Bearer ' + token,
 			'Content-Type': 'application/json',
 		},
 		dataType: 'text',
 		success: (dataa) => {
 
-			var data = JSON.parse(dataa);
-			console.log(data)
-			console.log(JSON.stringify(data));
+			let data = JSON.parse(dataa);
 			$(".banner-content").append('<h1>' + data.course.title + '</h1>' +
 				'<h5>' +
 				data.course.content +
@@ -106,7 +112,7 @@ function detail(courseId) {
 			// 	$(".course-buy").append('<button class="btn btn-outline-secondary w-100">Buy now</button>');
 			// } else {
 			// 	$(".course-buy").append('<button class="btn btn-danger w-100">Bought</button>');
-			//}
+			// }
 			
 			$(".course-buy").append('<div class="course-buy-info mt-2"> ' +
 											'<span>This course includes</span>	 ' +											
@@ -114,6 +120,85 @@ function detail(courseId) {
 											'<a class="course-buy-share border-top" href="#"> ' +
 												'<i class="fa fa-share"></i> Share ' +
 											'</a>');
+			data.videos.map((v) => {
+				$("#list-content").append(
+					'<li>' +
+					'<a href="#" onclick="watchVideo(' + "'" + v.url + "'" + ')" class="btn-video" >' +
+					'<span> <i class="fa fa-play-circle mr-1"></i>' +
+					v.title +
+					'</span>' +
+					'<span>' + v.timeCount + '</span>' +
+					'</a>' +
+					'</li>');
+			});
+		},
+		error: () => {
+
+		}
+	});
+};
+
+function detailAndCheck(courseId) {
+	$.ajax({
+		crossDomain: true,
+		type: 'GET',
+		url: 'http://localhost:8080/api/course/check/' + courseId,
+		headers: {
+			'Authorization': 'Bearer ' + token,
+			'Content-Type': 'application/json',
+		},
+		dataType: 'text',
+		success: (dataa) => {
+
+			let data = JSON.parse(dataa);
+			console.log(data.bought);
+			$(".banner-content").append('<h1>' + data.course.title + '</h1>' +
+				'<h5>' +
+				data.course.content +
+				'</h5>' +
+				'<h6 class="mt-3">' +
+				'<span><i class="fa fa-user m-1"></i> Created by </span>' +
+				'<a href="#" class="text-white font-weight-bold mr-4">' + data.course.teacherName + '</a>' +
+				'<span><i class="fa fa-calendar-check-o mr-1"></i> Last updated ' + String(data.course.lastUpdate).substring(0,10) + '</span>' +
+				'</h6>' +
+				'<h6 class="mt-3">' +
+				'<span><i class="fa fa-play-circle mr-1"></i> ' + data.course.lectureCount + ' lectures</span>' +
+				'<span class="mx-1"> | </span>' +
+				'<span><i class="fa fa-clock-o mr-1"></i> ' + data.course.hourCount + ' hours</span>' +
+				'<span class="ml-2">with <b class="mx-1">' + data.course.viewCount + '</b> students enrolled</span>' +
+				'</h6>');
+			data.targets.map((t) => {
+				$("#left-course-desc-items").append(
+					'<li>' +
+					'<i class="fa fa-check"></i>' +
+					'<span>' + t.title + '</span>' +
+					'</li>');
+			});
+			$("span.mr-3").append(data.course.lectureCount + ' lectures')
+			$(".mb-4.font-weight-bold").html(data.course.promotionPrice);
+			$(".mb-4.font-weight-bold").append('<small>' + data.course.price + '</small>')
+			$("#txtDesc").append(data.course.desc);
+			$(".course-buy-info.mt-2").append('<small><i class="fa fa-play-circle-o"></i> ' + data.course.hourCount + ' hours on-demand video</small><br>');
+			$(".course-buy-info.mt-2").append('<small><i class="fa fa-file-o"></i> ' + data.course.lectureCount + ' articles</small><br>');
+			$(".course-buy-info.mt-2").append('<small><i class="fa fa-code"></i> ' + data.course.lectureCount + ' coding exercises</small><br>');
+			$(".course-buy-info.mt-2").append('<small><i class="fa fa-empire"></i> Full lifetime access</small><br>');
+			$(".course-buy-info.mt-2").append('<small><i class="fa fa-tablet"></i> Access on mobile and TV</small><br>');
+			$(".course-buy-info.mt-2").append('<small><i class="fa fa-recycle"></i> Certificate of Completion</small><br>');
+			// $(".course-buy").append('<button onclick="addToCart(' + data.course.id + ')" class="btn btn-danger w-100">Add to cart</button>');
+			// $(".course-buy").append('<button class="btn btn-outline-secondary w-100">Buy now</button>');
+			if(data.bought == false) {
+				$(".course-buy").append('<button onclick="addToCart(' + data.course.id + ')" class="btn btn-danger w-100">Add to cart</button>');
+				$(".course-buy").append('<button class="btn btn-outline-secondary w-100">Buy now</button>');
+			} else {
+				$(".course-buy").append('<button class="btn btn-danger w-100">Bought</button>');
+			}
+			
+			$(".course-buy").append('<div class="course-buy-info mt-2"> ' +
+									'<span>This course includes</span>	 ' +											
+									'</div> ' +
+									'<a class="course-buy-share border-top" href="#"> ' +
+									'<i class="fa fa-share"></i> Share ' +
+									'</a>');
 			data.videos.map((v) => {
 				$("#list-content").append(
 					'<li>' +
@@ -235,8 +320,6 @@ $("#btnOpenAddTargetModal").click(() => {
 	$("#addTargetModal").modal();
 });
 
-
-
 $("#openAddVideoModal").click(() => {
 	$("#addVideoModal").modal();
 });
@@ -250,34 +333,47 @@ function watchVideo(videoName) {
 
 function addToCart(courseId) {
 
-	$.ajax({
-		url: 'http://localhost:8080/api/course/' + courseId,
-		type: 'GET',
-		contentType: 'application/json',
-		success: (data) => {
-			
-			let course = {
-				"id": data.course.id,
-				"image": "hinh1.jpg",
-				"title": data.course.title,
-				"teacherName": data.course.teacherName,
-				"price": data.course.price,
-				"promotionPrice": data.course.promotionPrice
-			}
-			console.log(course);
-			if (localStorage.getItem('list-cart') == '') {
-				let cartList = [];
-				cartList.push(course);
-				localStorage.setItem('list-cart', JSON.stringify(cartList));
-			} else {
-				
-				console.log('local storage' + localStorage.getItem('list-cart'));
-				let cartList = JSON.parse(localStorage.getItem('list-cart'));
-				cartList.push(course);
-				localStorage.setItem('list-cart', JSON.stringify(cartList));
-			}
-		},
-		error: () => {
+	let data = JSON.parse(listcart);
+	let flag = true;
+
+	data.forEach(element => {
+		if(element.id == courseId) {
+			flag = false;
 		}
-	});
+	});	
+
+	if(flag == true) {
+		$.ajax({
+			url: 'http://localhost:8080/api/course/' + courseId,
+			type: 'GET',
+			contentType: 'application/json',
+			success: (data) => {
+				
+				let course = {
+					"id": data.course.id,
+					"image": "hinh1.jpg",
+					"title": data.course.title,
+					"teacherName": data.course.teacherName,
+					"price": data.course.price,
+					"promotionPrice": data.course.promotionPrice
+				}
+				console.log(course);
+				if (localStorage.getItem('list-cart') == '') {
+					let cartList = [];
+					cartList.push(course);
+					localStorage.setItem('list-cart', JSON.stringify(cartList));
+				} else {
+					console.log('local storage' + localStorage.getItem('list-cart'));
+					let cartList = JSON.parse(localStorage.getItem('list-cart'));
+					cartList.push(course);
+					localStorage.setItem('list-cart', JSON.stringify(cartList));
+				}
+				listcart = localStorage.getItem("list-cart");
+			},
+			error: () => {
+			}
+		});
+	} else {
+		console.log('da ton tai');
+	}
 }
