@@ -44,18 +44,23 @@
                             </div>
                         </li>
                         <li class="nav-item w-100">
-                            <form class="input-group nav-search">
-                                <input type="text" class="form-control" placeholder="Search courses">
-                                <div class="input-group-append">
-                                    <button class="btn bg-white text-danger"><i class="fa fa-search"></i></button>
-                                </div>
-                            </form>
-                        </li>
+							<div class="search-container nav-search input-group nav-search">
+								<input onkeyup="search()" type="search" class="form-control"
+									placeholder="Search by courses or teachers name" id="search-input">
+								<div class="input-group-append">
+									<button class="btn bg-white text-danger rounded" id="btn-search">
+										<i class="fa fa-search"></i>
+									</button>
+								</div>
+								<div id="search-result" class="dropdown-menu">
+								</div>
+							</div>
+						</li>
                     </ul>
                 </div>
                 <div class="col-md-1 nav-cart">
-                    <i class="fa fa-shopping-basket"></i>
-                </div>
+					<a href="http://localhost:8080/cart"><div><i class="fa fa-shopping-basket"></i></div></a>
+				</div>
                 <div class="col-md-5 d-flex justify-content-end" id ="info">
 
 				</div>
@@ -396,6 +401,7 @@
     <script th:src="@{/lib/modal-video/js/jquery-modal-video.min.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script th:src="@{/js/details.js}"></script>
+    <script th:src="@{/js/header.js}"></script>
     
     <!-- <script>
         $(".btn-video").modalVideo({ channel: 'youtube' });

@@ -62,17 +62,17 @@
 							</div>
 						</li>
 						<li class="nav-item w-100">
-							<form class="input-group nav-search">
-								<input
-									type="text"
-									class="form-control"
-									placeholder="Search courses">
+							<div class="search-container nav-search input-group nav-search">
+								<input onkeyup="search()" type="search" class="form-control"
+									placeholder="Search by courses or teachers name" id="search-input">
 								<div class="input-group-append">
-									<button class="btn bg-white text-danger">
+									<button class="btn bg-white text-danger rounded" id="btn-search">
 										<i class="fa fa-search"></i>
 									</button>
 								</div>
-							</form>
+								<div id="search-result" class="dropdown-menu">
+								</div>
+							</div>
 						</li>
 					</ul>
 				</div>
@@ -210,6 +210,7 @@
 	<script th:src="@{/lib/popper.js/popper.min.js}"></script>
 	<script th:src="@{/lib/bootstrap/bootstrap.min.js}"></script>
 	<script th:src="@{/js/search.js}"></script>
+	<script th:src="@{/js/header.js}"></script>
 </body>
 
 </html>

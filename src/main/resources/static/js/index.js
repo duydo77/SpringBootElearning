@@ -50,7 +50,7 @@ function init() {
 			+ "data-target='#signUpModal'>Sign up</button>");
 	}
 
-	$.ajax({
+	$.ajax({ // tai danh sach phan loai
 		url: "http://localhost:8080/api/category",
 		type: "GET",
 		dataType: "json",
@@ -72,7 +72,7 @@ function init() {
 		}
 	});
 
-	$.ajax({
+	$.ajax({ // tai danh sach cac khoa hoc co khuyen mai
 		url: "http://localhost:8080/api/course/promotion",
 		type: "GET",
 		dataType: "json",
@@ -94,7 +94,7 @@ function init() {
 		}
 	});
 
-	$.ajax({
+	$.ajax({ // tai danh sach cac khoa hoc pho bien
 		url: "http://localhost:8080/api/course/popular",
 		type: "GET",
 		dataType: "json",
@@ -221,42 +221,6 @@ function logout() {
 	localStorage.removeItem("elearning-token");
 	location.replace("http://localhost:8080/");
 }
-
-function search() {
-	let key = $("#search-input").val()
-	if (key === "") {
-		$("#search-result").removeClass('show');
-	} else {
-		$.ajax({
-			url: "http://localhost:8080/api/course/search?key=" + key,
-			type: "GET",
-			dataType: "json",
-			contentType: "application/json",
-			success: function(data) {
-				let content = '';
-				for (var i = 0; i < data.length; i++) {
-					content += 	'<div>' 
-								+ '<a style="color: #000" href="' + path + 'coursedetail/' + data[i].id + '">' + data[i].title + '<a>'
-								+ '</div>'
-				}
-				$('#search-result').html(content);
-			},
-
-			error: function(jqXhr, textStatus, errorThrown) {
-				console.log(errorThrown);
-			}
-		});
-		$("#search-result").addClass('show');
-	}
-}
-
-$('#btn-search').click(function() {
-	console.log('haha');
-	let key = $("#search-input").val()
-	if (key !== ""){
-		location.replace(path + 'search?key=' + key + '&p=1');
-	}
-})
 
 function json2course_promotion(data) {
 	return "<div class='col-md-3'>"

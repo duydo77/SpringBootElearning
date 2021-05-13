@@ -98,7 +98,8 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, Course
 			+ "WHERE (c.title LIKE :key "
 			+ "OR c.content LIKE :key "
 			+ "OR u.fullname LIKE :key "
-			+ ")")
+			+ ") "
+			+ "ORDER BY c.viewCount")
 	public List<CourseDto> search(@Param("key") String key);
 	
 	@Query("SELECT new com.myclass.dto.CourseDto( "

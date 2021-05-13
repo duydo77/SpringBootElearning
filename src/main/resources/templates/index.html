@@ -31,20 +31,10 @@
 <body>
 	<header class="border-bottom">
 		<nav class="navbar navbar-expand-sm navbar-light bg-light">
-			<a
-				class="navbar-brand"
-				href="https://localhost8080">Elearning</a>
-			<button
-				class="navbar-toggler d-lg-none"
-				type="button"
-				data-toggle="collapse"
-				data-target="#collapsibleNavId"
-				aria-controls="collapsibleNavId"
-				aria-expanded="false"
-				aria-label="Toggle navigation"></button>
-			<div
-				class="collapse navbar-collapse row"
-				id="collapsibleNavId">
+			<a class="navbar-brand" href="https://localhost8080">Elearning</a>
+			<button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+				aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"></button>
+			<div class="collapse navbar-collapse row" id="collapsibleNavId">
 				<div class="col-md-6">
 					<ul class="navbar-nav mr-auto mt-2 mt-lg-0 d-flex align-items-center justify-content-between">
 						<li class="nav-item mr-3">
@@ -55,8 +45,7 @@
 									<i class="fa fa-th"></i>
 									<span class="ml-2">Categories</span>
 								</a>
-								<div
-									class="dropdown-menu"
+								<div class="dropdown-menu"
 									id="list-category">
 									<!--  <a class="dropdown-item" href="#">
                                         <i class="fa fa-laptop mr-1"></i>
@@ -67,30 +56,23 @@
 						</li>
 						<li class="nav-item w-100">
 							<div class="search-container nav-search input-group nav-search">
-								<input
-									onkeyup="search()"
-									type="search"
-									class="form-control"
-									placeholder="Search by courses or teachers name"
-									id="search-input">
+								<input onkeyup="search()" type="search" class="form-control"
+									placeholder="Search by courses or teachers name" id="search-input">
 								<div class="input-group-append">
 									<button class="btn bg-white text-danger rounded" id="btn-search">
 										<i class="fa fa-search"></i>
 									</button>
 								</div>
 								<div id="search-result" class="dropdown-menu">
-									
 								</div>
 							</div>
-							
 						</li>
 					</ul>
 				</div>
 				<div class="col-md-1 nav-cart">
 					<a href="http://localhost:8080/cart"><div><i class="fa fa-shopping-basket"></i></div></a>
 				</div>
-				<div
-					class="col-md-5 d-flex justify-content-end" id="info">
+				<div class="col-md-5 d-flex justify-content-end" id="info">
 				</div>
 			</div>
 		</nav>
@@ -197,7 +179,7 @@
 							<b>Borivoje</b>
 						</div>
 						<div class="feedback-content">Elearning is a life saver. I don't have the time or money
-							for a college education. My goal is to become a freelance web developer, and thanks to Udemy,
+							for a college education. My goal is to become a freelance web developer, and thanks to Elearning,
 							I'm really close.</div>
 					</div>
 				</div>
@@ -212,7 +194,7 @@
 							<b>Borivoje</b>
 						</div>
 						<div class="feedback-content">Elearning is a life saver. I don't have the time or money
-							for a college education. My goal is to become a freelance web developer, and thanks to Udemy,
+							for a college education. My goal is to become a freelance web developer, and thanks to Elearning,
 							I'm really close.</div>
 					</div>
 				</div>
@@ -227,7 +209,7 @@
 							<b>Borivoje</b>
 						</div>
 						<div class="feedback-content">Elearning is a life saver. I don't have the time or money
-							for a college education. My goal is to become a freelance web developer, and thanks to Udemy,
+							for a college education. My goal is to become a freelance web developer, and thanks to Elearning,
 							I'm really close.</div>
 					</div>
 				</div>
@@ -256,31 +238,18 @@
 					<form>
 						<div class="form-group">
 							<label for="emailgEmaill">Email</label>
-							<input
-								type="email"
-								class="form-control"
-								id="lgEmail">
+							<input type="email" class="form-control" id="lgEmail">
 						</div>
 						<div class="form-group">
 							<label for="lgPassword">Password</label>
-							<input
-								type="password"
-								class="form-control"
-								id="lgPassword">
+							<input type="password" class="form-control" id="lgPassword">
 						</div>
 					</form>
 				</div>
 				<!-- Modal footer -->
 				<div class="modal-footer">
-					<button
-						type="button"
-						id="btn-login"
-						class="btn btn-primary"
-						onclick="login()">Đăng nhập</button>
-					<button
-						type="button"
-						class="btn btn-danger"
-						data-dismiss="modal">Thoát</button>
+					<button type="button" id="btn-login" class="btn btn-primary" onclick="login()">Đăng nhập</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Thoát</button>
 				</div>
 			</div>
 		</div>
@@ -358,6 +327,7 @@
 	<script src="./lib/popper.js/popper.min.js"></script>
 	<script src="./lib/bootstrap/bootstrap.min.js"></script>
 	<script src="./js/index.js"></script>
+	<script th:src="@{/js/header.js}"></script>
 </body>
 
 </html>
