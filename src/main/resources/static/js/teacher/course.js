@@ -12,8 +12,22 @@ $(document).ready(() => {
 })
 
 $("#btn-create-course").click(() => {
-	$("#create-course-modal").modal();
 
+	$("#create-course-modal").modal();
+	$.ajax({
+		url: "http://localhost:8080/api/category",
+		type: 'GET',
+		contentType: 'application/json',
+		success: (data) => {
+			console.log(data);
+			$('#course-category-id').html('');
+			data.map((d) => {
+				$('#course-category-id').append('<option value="' + d.id + '">' + d.name + '</option>');
+			});		
+		},
+		error: () => {
+		}
+	});
 });
 
 $("#btn-save-course").click(() => {

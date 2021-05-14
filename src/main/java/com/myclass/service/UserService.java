@@ -10,6 +10,7 @@ import com.myclass.dto.PasswordDto;
 import com.myclass.dto.UpdateProfileReponseDto;
 import com.myclass.dto.UserDto;
 import com.myclass.dto.UserUpdateDto;
+import com.myclass.entity.User;
 
 public interface UserService {
 
@@ -42,4 +43,6 @@ public interface UserService {
 	public void update(UserDto dto);
 	
 	public String getRoleByEmail(String email);
+	
+	List<User> findAllByCourseId(int courseId);
 }

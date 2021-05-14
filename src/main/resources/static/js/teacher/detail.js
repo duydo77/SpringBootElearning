@@ -126,7 +126,7 @@ function detail(courseId) {
 				'<span><i class="fa fa-play-circle mr-1"></i> ' + data.course.lectureCount + ' lectures</span>' +
 				'<span class="mx-1"> | </span>' +
 				'<span><i class="fa fa-clock-o mr-1"></i> ' + data.course.hourCount + ' hours</span>' +
-				'<span class="ml-2">with <b class="mx-1">' + data.course.viewCount + '</b> students enrolled</span>' +
+				'<span class="ml-2">with <b class="mx-1">' + data.course.viewCount + '</b> <a href="#" onclick="viewStudent('+data.course.id+')">students</a> enrolled</span>' +
 				'</h6>');
 			data.targets.map((t) => {
 				$("#left-course-desc-items").append(
@@ -272,6 +272,49 @@ $("#btnAddTarget").click(() => {
 	}
 	window.location.href = ('http://localhost:8080/detail/' + id);
 });
+
+function viewStudent(courseId) {
+
+	$.ajax({
+		type: 'GET',
+		headers: {
+			'Authorization': 'Bearer ' + token,
+			'Content-Type': 'application/json',
+		},
+		url: 'http://localhost:8080/api/teacher/profile/' + courseId,
+		success: (data) => {
+			$('.course-content .container').html('');
+			$('.course-content .container').html('<table class="table table-bordered table-hover mt-3" id="user-table"> ' +
+											'<thead> ' +
+												'<tr> ' +
+													'<th>Id</th> ' +
+													'<th>Email</th> ' +
+													'<th>Fullname</th> ' +
+													'<th>Phone</th> ' +
+													'<th>Address</th> ' +
+
+												'</tr> ' +
+											'</thead> ' +
+										'</table>');
+			data.map(d => {
+				let content = "<tr>"
+				+ "<td>" + d.id + "</td>"
+				+ "<td>" + d.email + "</td>"
+				+ "<td>" + d.fullname + "</td>"
+				+ "<td>" + d.phone + "</td>"
+				+ "<td>" + d.address + "</td>"
+				+ "</tr>";
+				$('#user-table').append(content);
+			});
+			
+		},
+		error: () => {
+		}
+	});
+
+	
+								
+};
 
 // let element = convertHtmlToJQueryObject($("#addVideoModal").html());
 // console.log(element);
