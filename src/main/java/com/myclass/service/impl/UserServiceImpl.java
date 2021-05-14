@@ -59,6 +59,14 @@ public class UserServiceImpl implements UserService {
 	public List<UserDto> findAll() {
 		return userRepository.findAllWithDesc();
 	}
+	
+	@Override
+	public List<User> findAllByCourseId(int courseId) {
+		userRepository.findAllByCourseId(courseId).forEach(e -> {
+			System.out.println(e.getId());
+			});
+		return userRepository.findAllByCourseId(courseId);
+	}
 
 	@Override
 	public UserDto findById(int id) {

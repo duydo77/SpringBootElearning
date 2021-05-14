@@ -1,5 +1,7 @@
 package com.myclass.controller.teacher;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import com.myclass.dto.CategoryDto;
 import com.myclass.dto.LoginDto;
 import com.myclass.dto.PasswordDto;
 import com.myclass.dto.UserDto;
+import com.myclass.entity.User;
 import com.myclass.service.AuthService;
 import com.myclass.service.UserService;
 
@@ -24,6 +27,18 @@ import com.myclass.service.UserService;
 public class TeacherUserController {
 	@Autowired
 	private UserService userService ;
+	
+	@GetMapping("/{courseId}")
+	public Object getAllByCourseId(@PathVariable("courseId") int courseId) {
+		// lấy full danh sách người dùng có cả tên quyền
+		try {
+			List<User> dtos = userService.findAllByCourseId(courseId);
+			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+	}
 	
 	@GetMapping("")
 	public Object get() {
