@@ -5,23 +5,41 @@ init();
 
 function init() {
  
-    // $.ajax({
-	// 	url: 'http://localhost:8080/api/user/profile',
-	// 	type: "GET",
-	// 	dataType: "json",
-	// 	headers: {
-	// 		'Authorization': token
-	// 	},
-	// 	contentType: 'text/html',
-	// 	success: function(data) {
-	// 		$("#avatar-icon").find('div').text(data.fullname);
-	// 		$("#avatar-icon").find('img').attr('src', data.avatar);
-	// 	},
+	if (token !== null) {
+		$.ajax({
+			url: "http://localhost:8080/api/user/profile",
+			type: "GET",
+			dataType: "json",
+			headers: { "Authorization": "Bearer " + token },
+			contentType: 'text/html',
+			success: function(data) {
+				let selector = "#info";
+				console.log(data)
+				$(selector).append("<div class='dropdown'>"
+					+ "<div class='dropdown-toggle font-weight-bold text-dark' data-toggle='dropdown'>"
+					+ data.fullname + " "
+					+ "<img style='border: 3px outset #ddd;' width='35' height='35' class='avatar-title rounded-circle' src='" + data.avatar + "'>"
+					+ "</div>"
+					+ "<div class='dropdown-menu dropdown-menu-right'>"
+					+ "<a class='dropdown-item' href='http://localhost:8080/profile'>Thông tin cá nhân</a>"
+					+ "<a class='dropdown-item' href='http://localhost:8080/mycourse'>Khóa học của tôi</a>"
+					+ "<div class='dropdown-divider'></div>"
+					+ "<a class='dropdown-item' onclick='logout()'>Đăng xuất</a>"
+					+ "</div>"
+					+ "</div>");
+			},
 
-	// 	error: function(jqXhr, textStatus, errorThrown) {
-	// 		location.replace("http://localhost:8080/teacher/login");
-	// 	}
-	// });
+			error: function(jqXhr, textStatus, errorThrown) {
+				console.log(jqXhr.responseText);
+			}
+		});
+
+	} else {
+		$("#info").append("<button class='btn btn-outline-secondary' data-toggle='modal'"
+			+ "data-target='#loginModal'>Login</button>"
+			+ "<button class='btn btn-danger ml-2' data-toggle='modal'"
+			+ "data-target='#signUpModal'>Sign up</button>");
+	}
 
     $.ajax({
 		url: "http://localhost:8080/api/category",
@@ -45,12 +63,8 @@ function init() {
 		}
 	});
 
-	console.log(Array.isArray(listCart))
-	console.log('debug 1...');
-	console.log('listCart ' + listCart.length);
 	if (JSON.parse(listCart) == "") {
-		console.log('debug..');
-		$("#course-content-cart").append('<h1>Your cart is empty. Keep shopping to find a course!</h1>');
+		$("#course-content-cart").append('<h2>Your cart is empty. Keep shopping to find a course!</h2>');
 	} else {
 		let data = JSON.parse(listCart);
 		let totalPrice = 0;
@@ -94,35 +108,113 @@ function removeCartItem(itemId) {
 	let data = JSON.parse(listCart);
 	data.forEach(element => {
 		if (element.id == itemId) {
-		console.log(data.indexOf(element));
 		data.splice(data.indexOf(element), 1);
 		}
 	});
-	console.log(data);
 	
 	localStorage.setItem('list-cart', JSON.stringify(data));
 	window.location.href = 'http://localhost:8080/cart';
 }
 
 function checkout() {
-	let data = JSON.parse(listCart);
-	data.forEach(element => {
-		console.log(element.id)
-		$.ajax({
-			url: "http://localhost:8080/api/usercourse/" + element.id,
-			type: "POST",
-			headers: { "Authorization": token },
-			dataType: "json",
-			contentType: 'text/html',
-			success: function(data) {
-				
-			},
-	
-			error: function(jqXhr, textStatus, errorThrown) {
-				console.log(jqXhr.responseText);
-			}
+
+	if(localStorage.getItem("elearning-token") != null) {
+		let data = JSON.parse(listCart);
+		data.forEach(element => {
+			console.log(element.id)
+			$.ajax({
+				url: "http://localhost:8080/api/usercourse/" + element.id,
+				type: "POST",
+				headers: { "Authorization": token },
+				dataType: "json",
+				contentType: 'text/html',
+				success: function(data) {
+					
+				},
+				error: function(jqXhr, textStatus, errorThrown) {
+					console.log(jqXhr.responseText);
+				}
+			});
 		});
+		localStorage.setItem('list-cart', "[]");
+		window.location.href = 'http://localhost:8080/cart';
+	} else {
+		$('#loginModal').modal();
+	}
+}
+
+function login() {
+	let newdata = {}
+	newdata.email = $("#lgEmail").val();
+	newdata.password = $("#lgPassword").val();
+	newdata = JSON.stringify(newdata);
+	$.ajax({
+		url: "http://localhost:8080/api/auth/login",
+		type: 'POST',
+		contentType: 'application/json',
+		data: newdata,
+		success: function(data) {
+			if (data === null) {
+				$('#message').text("email hoặc mật khẩu không đúng");
+			} else {
+				localStorage.setItem("elearning-token", data);
+				$("#info").html('');
+				$.ajax({
+					url: "http://localhost:8080/api/user/profile",
+					type: "GET",
+					dataType: "json",
+					headers: { "Authorization": "Bearer " + localStorage.getItem('elearning-token') },
+					contentType: 'text/html',
+					success: function(data) {
+						$("#info").append("<div class='dropdown'>"
+							+ "<div class='dropdown-toggle font-weight-bold text-dark' data-toggle='dropdown'>"
+							+ data.fullname + " "
+							+ "<img style='border: 3px outset #ddd;' width='35' height='35' class='avatar-title rounded-circle' src='" + data.avatar + "'>"
+							+ "</div>"
+							+ "<div class='dropdown-menu dropdown-menu-right'>"
+							+ "<a class='dropdown-item' href='http://localhost:8080/profile'>Thông tin cá nhân</a>"
+							+ "<a class='dropdown-item' href='http://localhost:8080/mycourse'>Khóa học của tôi</a>"
+							+ "<div class='dropdown-divider'></div>"
+							+ "<a class='dropdown-item' onclick='logout()'>Đăng xuất</a>"
+							+ "</div>"
+							+ "</div>");
+					},
+		
+					error: function(jqXhr, textStatus, errorThrown) {
+						console.log(jqXhr.responseText);
+					}
+				});
+			}
+			if(localStorage.getItem('list-cart') != '') {
+				$.ajax({
+					url: "http://localhost:8080/api/course/mycourse",
+					type: 'GET',
+					contentType: 'application/json',
+					headers: { "Authorization": "Bearer " + localStorage.getItem('elearning-token') },
+					success: function(data) {
+						let cartList = JSON.parse(localStorage.getItem('list-cart'));
+						data.map(d => {
+							cartList.map(c => {
+								if(d.id == c.id) {
+									removeCartItem(c.id);
+								} 
+							})
+						});
+					},
+					error: function(jqXhr, textStatus, errorThrown) {
+						
+					}
+				});
+			}
+		},
+		error: function(jqXhr, textStatus, errorThrown) {
+			$('#message').text("email hoặc mật khẩu không đúng");
+		}
 	});
-	localStorage.setItem('list-cart', "[]");
-	window.location.href = 'http://localhost:8080/cart';
+	
+}
+
+function logout() {
+	localStorage.removeItem("elearning-token");
+	location.reload();
 }
