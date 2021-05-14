@@ -6,7 +6,7 @@ let obUrl;
 let inputVideo = document.getElementById("input-video");
 let duration;
 detail(id);
-new FroalaEditor('textarea#froala-editor')
+//new FroalaEditor('textarea#froala-editor')
 
 $("#video-file").change((event) => {
 	let inputFile = document.getElementById("video-file");
@@ -131,15 +131,27 @@ function detail(courseId) {
 				'</h6>');
 			data.targets.map((t) => {
 				$("#left-course-desc-items").append(
-					'<li>' +
-					'<i class="fa fa-check"></i>' +
-					'<span>' + t.title + '</span>' +
-					'</li>');
-				$("#right-course-desc-items").append(
-					'<li>' +
-					'<div style="float:right; height:24;`"><span ><button class="btn btn-outline-secondary" onclick="openEditTargetModal(' + t.id + ')">Edit</button></span>' +
-					'<span ><button class="btn btn-outline-secondary" onclick="deleteTarget(' + t.id + ')">Delete</button></span></div>' +
-					'</li>');
+					'<li>'
+					+ '<i class="fa fa-check"></i>'
+					+ '<span>' 
+					+ t.title
+					+ ' <<small class="edit-target" onclick="openEditTargetModal(' + t.id + ')">Edit</small>' 
+					+ " | "
+					+ '<small class="edit-target" onclick="deleteTarget(' + t.id + ')">Delete</small>>'
+					+ '</span>'
+					+ '</li>');
+				/*$("#right-course-desc-items").append(
+					'<li>'
+					+ '<div style="float:right; height:24;">'
+					//+ '<span >'
+					+ '<small class="edit-target" onclick="openEditTargetModal(' + t.id + ')">Edit</small>' 
+					+ " | "
+					//+ '</span>'
+					//+ '<span>' 
+					+ '<small class="edit-target" onclick="deleteTarget(' + t.id + ')">Delete</small>' 
+					//+ '</span>' 
+					+ '</div>'
+					+ '</li>');*/
 			});
 			$("span.mr-3").append(data.course.lectureCount + ' lectures')
 			$(".mb-4.font-weight-bold").html(data.course.promotionPrice + ' vnđ');
@@ -271,7 +283,7 @@ $("#btnAddTarget").click(() => {
 			}
 		});
 	}
-	window.location.href = ('http://localhost:8080/detail/' + id);
+	window.location.href = ('http://localhost:8080/teacher/detail/' + id);
 });
 
 function second2duration(second){

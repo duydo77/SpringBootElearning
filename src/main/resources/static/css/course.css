@@ -120,3 +120,11 @@
     color: #007791;
 }
 /* END BY NOW */
+
+.edit-target:hover {
+	color: red;
+}
+
+.edit-target {
+	color: blue;
+}
